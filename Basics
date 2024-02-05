@@ -1,0 +1,2426 @@
+BASICS
+
+###################
+-> yeh (int), (byte) type conversions imp hai....MAX_VALUE and MIN_VALUE
+-> scanner ka hasNext() imp function hai to end End of file
+-> String.valueOf()......Integer.toString().......String.format()
+
+->
+public static String findDay(int month, int day, int year) {
+        LocalDate localDate = LocalDate.of(year, month, day);
+        java.time.DayOfWeek dayOfWeek = localDate.getDayOfWeek();
+        return dayOfWeek.toString().toUpperCase();
+    }
+
+-> array ko print karne ke liye....SOP(Arrays.toString(arr_name));
+
+
+
+
+######
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner input =new Scanner(System.in);
+        //input taken from keyboard
+
+        //to take input from file system
+        // =new Scanner(FileInputStream);
+
+        String n = input.next(); //just a single string
+        int a = input.nextInt(); //integer input
+        String b = input.nextLine(); //to read entire line
+    }
+}
+
+
+########
+
+Primitive data types cannot be broken down further
+ex: integer,char,long,float,double
+float = 98.99f
+long = 3746373L
+
+=>adding "f" and "L" in the end is mandatory
+=>String is not a primitive data type as it can be broken down to further characters
+
+=> to print 234000000
+int num = 234000000 or int num = 234_000_000
+don't use comma use underscore
+
+
+########
+TYPECASTING
+int a = 257;
+byte b = (byte)(a);
+
+=> it will return 1 because the max size of byte is 256, since 257>256 it returns 257%256
+
+=> byte b = 50;
+b = b*2;       This cannot be done as b*2 will be performed by converting it into integer and integer result cannot be stored in byte
+
+=>int num = 'A';  This returns 65 as teh ASCII code of A
+=>if we are performing any operations on diff data types each data type gets converted to the largest
+
+
+#########
+CONDITIONS AND LOOP
+
+=> char ch = input.next().trim().charAt('index_value');
+returns the specific character value at that index position
+
+SWITCH STATEMENTS
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String fruits = input.next();
+        switch(fruits)
+        {
+            case "Mango" -> System.out.println("KING");
+            case "Orange" -> System.out.println("Round");
+            default -> System.out.println("Enter a valid name");
+        }
+    }
+}
+
+==> advanced for loop
+
+for (int num : arr){
+   System.out.println(nums);
+}
+
+Here nums is the individual element of the array
+
+
+#################
+FUNCTION/METHOD
+static return_type fuction_name(args)
+{
+    _body_
+}
+
+SHADOWING
+public class Main {
+    static int x = 90;
+    public static void main(String[] args){
+        System.out.println(x); //prints 90
+        int x= 30;
+        System.out.println(x); //prints 30
+    }
+}
+
+=> when the argument is not known
+static return_type function_name(data_type...v);
+
+
+####################
+ARRAYS
+
+syntax --- datatype[] variable_name = new datatype[size]
+
+int[] arr = new int[5];
+
+==> objects are stored in heap , since heap objects may or may not be continous hence the array objects may or may not be stored in continous block of memory
+==> JVM is responsible for storing the array objects
+==> for an integer array , by default all values are 0
+==> for strinh its null by default
+
+==>  Taking input and printing it
+
+public class hello {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int[] arr = new int[5];
+        for(int i = 0;i < arr.length; i++){
+            arr[i] = input.nextInt();
+        }
+        for(int i = 0;i < arr.length; i++){
+            System.out.println(arr[i]);
+        }
+    }
+}
+
+==> alternatively one can also print by
+ System.out.println(Arrays.toString(arr));
+
+
+==> creating a string array
+
+public class hello {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+
+        String[] arr = new String[5];
+        for(int i = 0; i < arr.length;i++){
+            arr[i] = input.next();
+        }
+
+        System.out.println(Arrays.toString(arr));
+    }
+}
+
+##############
+STRING AND STRINGBUILDER
+
+==> we cannot modify strings --- they are immutable
+
+public class hello {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+
+        String a ="neha";
+        String b = neha";
+        System.out.println(a==b);
+    }
+}
+==> here it will give "true" due to string pool
+
+
+
+public class hello {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+
+        String a = new String("neha");
+        String b = new String("neha");
+        System.out.println(a==b);
+    }
+}
+
+Here a == b gives "false" as a and b are pointing towards 2 diff values
+
+
+==> to check if string are same --- use .equals
+
+System.out.println(name1.equals(name2));
+
+
+
+#####################
+PRETTY PRINTING
+public class hello {
+    public static void main(String[] args){
+        float num = 43.234f;
+        System.out.printf("Formatted no is %.2f",num);
+        // Somthing similar to c
+        System.out.printf("I am %s and i am cool","neha","cool");
+    }
+}
+
+==> this prints 43.23 as the output .....just type %.2 ---dot ke baad wala numbr specifies ki decimal ke aage kitne numbers chahiye
+
+
+######################
+GCD AND LCM
+public static void main(String[] args) {
+        int n1 = 250;
+        int n2=15;
+        
+        int copy_n1 = n1;
+        int copy_n2 = n2;
+        
+        while(n1%n2!=0){
+            int rem = n1%n2;
+            n1=n2;
+            n2=rem;
+        }
+        
+        int gcd = n2;
+        int lcm = (copy_n1+copy_n2)/gcd;
+
+
+#####################
+OPERATORS
+
+==> System.out.println('a' + 'b');
+Here a and b are converted to ASCII values and 195 is printed
+
+==>  System.out.println("a" + "b");
+Here it prints ab
+
+==>  System.out.println('a' + 3);
+here it prints 100
+
+==> System.out.println((char)('a' + 3));
+here it prints d as char value for 100 is d
+
+==> System.out.println("a" + 3);
+here it prints a3
+
+
+#####################
+PRINTING SEQUENCE OF ALPHABETS
+
+public class hello {
+    public static void main(String[] args){
+       String series = "";
+       for(int i = 0; i<26; i++){
+           System.out.print((char)('a'+i));
+       }
+    }
+}
+
+
+
+
+#####################
+OBJECT ORIENTED PROGRAMMING
+
+==> class is like struct in C++
+syntax 
+ class class_name{
+    variables and their datatypes
+}
+==> After creating an object , you cant mention any extra property apart from whatever is there in the class
+    ex class students has got rollno, marks and name and neha is an object of the class students
+    i cant write neha.salary as salary is not mentioned ...as its dynamatically allocated in java
+    but in python one can
+
+==> constructors
+are special methods called suring object creation
+
+class Student{
+   int rno;
+   String name;
+   float marks;
+   
+   Student(){
+      this.rno = 13
+   }
+   
+   Student( Student other){
+      this.name = other.name;
+      this.rno = other.rno;
+   }
+   
+   Student(int rno, String name){
+      this.rno = rno;
+      this.name = name;
+   }
+   
+   // to call a constructor from another constructor
+   Student(){
+      this(13,"Neha");
+   }
+}
+
+##############
+FINAL KEYWORD
+
+final int no = 3;
+// you cannot change the value of final variables if its primitive data types
+
+class A{
+   final int num = 10;
+   String name;
+}
+
+final A neha = new A("Neha Ragesh");
+neha.name = "naya naam";
+
+neha = new A("aur naya naam");
+// this is not allowed...as once its finalised ...an object value cannot be changed
+
+
+##################
+PACKAGES
+
+==> import statement
+
+import static package_name_path.class_name.method_name
+
+we got a package a
+
+package a;
+import static b.greet.mssg;
+
+public class greet {
+    public static void main(String[] args){
+        System.out.println("bahut khoob");
+        mssg();
+    }
+}
+
+
+we got a package b
+
+package b;
+
+public class greet {
+    public static void main(String[] args){
+
+    }
+
+    public static void mssg(){
+        System.out.println("BHAGUTE ZYADA KHOOB");
+    }
+}
+
+
+==> static keyword makes the particular variable common for all
+    to access a static variable....class_name.static_variable_name
+
+import java.util.*;
+
+public class practise {
+    public static void main(String[] args){
+        humans mem1 = new humans(20,"Neha",2);
+        humans mem2 = new humans(21,"Rishin",3);
+        System.out.println(humans.population);
+    }
+}
+
+class humans{
+    int age;
+    String name;
+    static int population;
+
+    humans(int age, String name, int population){
+        this.age = age;
+        this.name = name;
+        humans.population +=1;
+    }
+}
+
+this will return 2 as the answer
+
+
+==> a static method can only excess static data
+    inside the static main function...if you want to call a method...make sure the method is static as well.....static return_type method_name
+
+import java.util.*;
+
+public class practise {
+    public static void main(String[] args){
+        greet();
+
+    }
+
+    //static methods ke andar sirf static cheeze call hoto hai
+    static void greet(){
+        System.out.println("hello");
+        //fun();
+        //this gives an error because fun is not static...non-static things require an object to run
+
+        practise obj = new practise();
+        obj.fun();
+        // now fun() can be called because ek object ke through call hua hai
+    }
+
+    void fun(){
+        System.out.println("hello 123");
+    }
+}
+
+
+==> one cannot use this keyword inside any static method as this is associated with an object and static doesn't require any object
+
+==>
+import java.util.*;
+
+public class practise {
+    static int a = 4;
+    static int b;
+
+    // a static block can be used for initialising a static variable
+    // this block only runs once
+    static{
+        b = a * 4;
+    }
+
+    public static void main(String[] args){
+        System.out.println(a + " " + b);
+        // prints 4 16
+        b +=3;
+        System.out.println(a + " " + b);
+        // prints 4 19
+    }
+}
+
+
+==> outer classes cannot be static, inner classes can be
+
+public class A{
+    static class B{
+    }
+}
+
+import java.util.*;
+
+public class practise {
+    class A{
+        String name;
+        
+        public A(String name){
+            this.name = name;
+        }
+    }
+    
+    public static void main(String[] args){
+        A mem1 = new A("neha");
+        // this gives error as inside static main ...we are calling non static things
+    }
+}
+
+
+
+==> static variables final value is the last updated value
+import java.util.*;
+
+public class practise {
+    static String name;
+
+    public practise(String name){
+        this.name = name;
+    }
+
+    public static void main(String[] args){
+        practise mem1 = new practise("Neha");
+        practise mem2 = new practise("Ragesh");
+        System.out.println(mem1.name);
+        System.out.println(mem2.name);
+    }
+
+    // since name is static..first name variable gets neha as the value
+    // later it gets changed to ragesh
+    // so now it will print ragesh for both the print statements
+}
+
+
+
+
+==> inner class being static
+
+import java.util.*;
+
+public class practise {
+    static class A{
+        String name;
+
+        public A(String name){
+            this.name = name;
+        }
+    }
+
+    public static void main(String[] args){
+        A mem1 = new A("Neha");
+        A mem2 = new A("Ragesh");
+        System.out.println(mem1.name);
+        System.out.println(mem2.name);
+    }
+
+    // now the inner class is static hence we can have objects having different values for the same variable
+    // here it will print neha and then ragesh
+}
+
+
+###############
+SINGLETON CLASS
+
+==> to create only 1 object in a class
+
+package a;
+
+public class Singleton {
+
+    private Singleton(){
+
+    }
+    // private constructors can only be called in this file
+
+    public static Singleton instance;
+
+    public static Singleton getInstance(){
+        if (instance == null){
+            instance = new Singleton();
+        }
+
+        return instance;
+    }
+}
+
+// when this singleton class will be called in some other file like
+// Singleton obj = Singleton.getInstance();
+// an obj will be created
+// if again we call it Singleton obj1 = Singleton.getInstance();
+// now it point to the already created object
+
+
+
+#############
+INHERITANCE, POLYMORPHISM, ENCAPSULATION, ABSTRACTION
+
+==> inheritance ... child class is inheriting properties from a base class and can also have properties of its own
+
+...Syntax ==>    class Child extends Base{
+                 }
+==> the child class cannot inherit 'private' property of the parent class
+==> parent cannot access child's properties
+
+==>
+public class practise {
+    public static void main(String[] args){
+        boxweight mem1 = new boxweight(1,2,3,4);
+        System.out.println(mem1.h);
+
+        mem1.mssg();
+
+        box mem = new boxweight(1,2,3,4);
+        System.out.println(mem.w);
+        // parents can refer to the child but vice versa not allowed
+    }
+}
+
+class box{
+    int h;
+    int w;
+    int l;
+    int common = 3;
+
+    box(box other){
+        this.h = other.h;
+        this.w = other.w;
+        this.l = other.l;
+    }
+
+    public box(int h, int w, int l){
+        this.h = h;
+        this.w = w;
+        this.l = l;
+    }
+
+    public box(int h, int w){
+        this.h = h;
+        this.w = w;
+    }
+}
+
+class boxweight extends box{
+    int weight;
+    int common = 9;
+
+    public boxweight(int h, int w, int l, int weight){
+        super(h,w,l);
+        this.weight = weight;
+    }
+
+    public void mssg(){
+        System.out.println(this.common);
+        System.out.println(super.common);
+        //super keyword is used to refer to the variables of the parent class
+    }
+
+    boxweight(boxweight other){
+        super(other);
+        weight = other.weight;
+    }
+    // this thing is similar to
+    // box mem = new boxweight(1,2,3,4);
+    // System.out.println(mem.w);
+}
+
+
+==> inheritence
+
+public class practise {
+    public static void main(String[] args){
+        box mem  = new box();
+    }
+}
+
+class box{
+    double l;
+    double h;
+    double w;
+
+    //types of constructors we can make
+
+    box(){
+        this.h = -1;
+        this.l = -1;
+        this.w = -1;
+    }
+
+    box(double side){
+        this.h = side;
+        this.l = side;
+        this.w = side;
+    }
+
+    box(double l, double h, double w){
+        this.h = h;
+        this.l = l;
+        this.w = w;
+    }
+
+    box(box other){
+        this.h = other.h;
+        this.l = other.l;
+        this.w = other.w;
+    }
+}
+
+class boxweight extends box{
+    double weight;
+
+    public boxweight(){
+        this.weight = 2;
+    }
+
+    public boxweight(double h, double l, double w, double weight){
+        super(h,l,w);
+        this.weight = weight;
+    }
+
+    public boxweight(double side, double weight){
+        super(side);
+        // takes the constructor from the parent having one constructor
+        this.weight = weight;
+    }
+    boxweight(boxweight other){
+        super(other);
+        weight = other.weight;
+    }
+}
+
+class boxprice extends boxweight{
+    double cost;
+
+    public boxprice(){
+        super();
+        this.cost = 2;
+    }
+
+    public boxprice(boxprice other){
+        super(other);
+        this.cost = other.cost;
+    }
+
+    public boxprice(double h, double l ,double w, double weight, double cost){
+        super(h,l,w,weight);
+        // this will find for a constructor in the parent class having 4 such arguments
+        this.cost = cost;
+    }
+
+    public boxprice(double side, double weight, double cost){
+        super(side,weight);
+        this.cost = cost;
+    }
+}
+
+
+##################
+POLYMORPHISM
+
+==> types
+a. compile time/ static polymorphism .... achieved via method overloading
+b. runtime or dynamic polymorphism....achieved by method overriding
+
+==> final keyword can be used to prevent polymorphism
+==> static things cannot be overriden as for overriding we need objects
+
+
+
+
+############
+ACCESS MODIFIER
+
+==> private variables can be accessed by initialising public methods such as getters and setters
+==> if we dont mention any access modifier ...then by default those variables and methods can only be accessed inside the same package
+
+==> public ...can be accesses in the class, package, subclass(Same pkg, diff pkg), world
+==> protected...can be accesses in the class, package, subclass(Same pkg, diff pkg)
+==> no modifier...can be accesses in the class, package, subclass(Same pkg)
+==> private...can be accesed in the same class
+
+
+
+############
+ABSTRACT CLASSES
+
+syntax .... abstract return_type function_name(arguments);
+==> abstract methods got no body
+==> child classes must override them as in the parent class, no body is given
+==> any class containing one or more abstract methods, must also be declared abstract
+==> one cannot create objects of an abstract class
+==> constructors cannot be abstract
+==> abstract stings are made for overriding ..static things cannot be overriden ...hence static cannot be abstract
+==> one can create static things inside an abstract class
+
+
+==>
+import java.util.*;
+
+public class chommu {
+    public static void main(String[] args){
+        son obj = new son();
+        obj.career("data analytist");
+        //prints hello
+
+        daughter obj1 = new daughter();
+        obj1.career("data analytist");
+        //prints hello2
+    }
+}
+abstract class parent{
+
+    int age;
+    public parent(int age){
+        this.age = age;
+    }
+
+    abstract void career(String name);
+    abstract void partner(String name,int age);
+}
+
+class son extends parent{
+
+    public son(int age){
+        super(age);
+    }
+
+    @Override
+    void career(String name){
+        System.out.println("hello");
+    }
+
+    @Override
+    void partner(String name, int age){
+        System.out.println("hello" + age);
+    }
+
+}
+
+class daughter extends parent{
+    public daughter(int age){
+        super(age);
+    }
+
+    @Override
+    void career(String name){
+        System.out.println("hello2");
+    }
+
+    @Override
+    void partner(String name, int age){
+        System.out.println("hello" + age);
+    }
+}
+
+
+
+###############
+INTERFACES
+
+==> contains abstracts methods and classes
+==> use the implements keyword
+
+
+
+############
+NOTES
+
+==> if a method's return type is void ...u can simply call it as function_name()
+    but if you type System.out.println(function_name())....you need to make sure to change the return type to boolean 
+
+
+
+
+
+
+
+
+
+##################
+BASIC PROGRAM
+
+import java.util.*;
+
+public class hello {
+    public static void main(String[] args){
+       System.out.println("Type in your option");
+       do{
+           System.out.println("\n 1.Factorial \n 2.Reverse \n 3.Palindrome \n 4.Decimal to Binary \n 5.Decimal to Octal \n 6.Decimal to Hexadecimal \n 7.Permutation and Combination \n 8.KVP no \n 9.Exit");
+           Scanner input = new Scanner(System.in);
+           int option = input.nextInt();
+           switch(option){
+               case 1:
+                   System.out.println("Enter the number for which you want to find the factorial");
+                   int no1 = input.nextInt();
+                   System.out.println(fact(no1));
+                   break;
+               case 2:
+                   System.out.println("Enter the number you wish to reverse");
+                   int no2 = input.nextInt();
+                   System.out.println(reverse(no2));
+                   break;
+               case 3:
+                   System.out.println("Enter the number to see if its a palindrome");
+                   int no3 = input.nextInt();
+                   System.out.println(Palindrome(no3));
+                   break;
+               case 4:
+                   System.out.println("Enter the number to convert it to binary");
+                   int no4 = input.nextInt();
+                   System.out.println(binary(no4));
+                   break;
+
+               case 5:
+                   System.out.println("Enter the number to convert it to octal");
+                   int no5 = input.nextInt();
+                   System.out.println(octal(no5));
+                   break;
+
+               case 6:
+                   System.out.println("Enter the number to convert it to hexadecimal");
+                   int no6 = input.nextInt();
+                   System.out.println(hexa(no6));
+                   break;
+
+               case 7:
+                   System.out.println("Enter the number 'n' to calculate P && C");
+                   int no7 = input.nextInt();
+                   System.out.println("Enter the number 'r' to calculate P && C");
+                   int no8 = input.nextInt();
+                   System.out.println(perm(no7,no8));
+                   break;
+
+               case 8:
+                   System.out.println("Enter the number to check if its a KVP no");
+                   int no9 = input.nextInt();
+                   System.out.println(kvp(no9));
+                   break;
+           }
+       }
+       while(false);
+    }
+
+    static int fact(int x){
+        if(x == 1){
+            return 1;
+        }
+        else{
+            int factor = 1;
+            for(int i =1;i<=x;i++){
+                factor = factor * i;
+            }
+            return factor;
+        }
+    }
+
+    static String reverse(int x){
+        String num = Integer.toString(x);
+        char arr[] = num.toCharArray();
+        String str = "";
+
+        for(int i = num.length()-1 ; i>= 0;i--){
+            str = str + arr[i];
+        }
+        return str;
+    }
+
+
+
+    static String Palindrome(int x){
+        int comp = x;
+        String comp1 = Integer.toString(x);
+
+        System.out.println("The reverse is: ");
+        String val = reverse(x);
+        System.out.println(val);
+        if(comp1.equals(val)){
+            System.out.println("Its a palindrome");
+        }
+        else{
+            System.out.println("Its not a palindrome");
+        }
+        return "";
+    }
+
+    static String binary(int x){
+        String num = Integer.toString(x);
+        int[] arr = new int[10];
+        int sum = 0;
+
+        int i = 0;
+
+        while(x > 0){
+            int last = x % 2;
+            arr[i] = last;
+            x = x / 2;
+            i++;
+        }
+
+        for(int j = i-1;j >= 0;j--){
+          System.out.print(arr[j]);
+        }
+
+        return "";
+
+    }
+
+    static String octal(int x){
+        String num = Integer.toString(x);
+        int[] arr = new int[10];
+        int sum = 0;
+
+        int i = 0;
+
+        while(x > 0){
+            int last = x % 8;
+            arr[i] = last;
+            x = x / 8;
+            i++;
+        }
+
+        for(int j = i-1;j >= 0;j--){
+            System.out.print(arr[j]);
+        }
+
+        return "";
+
+    }
+
+    static String hexa(int x){
+        String num = Integer.toString(x);
+        String[] arr = new String[10];
+        int sum = 0;
+
+        int i = 0;
+        String str ="";
+
+        while(x > 0){
+            int last = x % 16;
+            str = Integer.toString(last);
+            arr[i] = str;
+            x = x / 16;
+            i++;
+        }
+
+        for(int j = i-1;j >= 0;j--){
+            switch(arr[j]){
+                case "10" -> arr[j] = "A";
+                case "11" -> arr[j] = "B";
+                case "12" -> arr[j] = "C";
+                case "13" -> arr[j] = "D";
+                case "14" -> arr[j] = "E";
+                case "15" -> arr[j] = "G";
+                case "16" -> arr[j] = "F";
+            }
+            System.out.print(arr[j]);
+        }
+        return "";
+    }
+
+    static String perm(int n,int r){
+        int n1 = fact(n);
+        int n2 = fact(r);
+        int n3 = fact(n-r);
+        int comb = n1/(n2*n3);
+        int perm = n1/n3;
+        System.out.printf("The permutation is %d and the combination is %d",perm,comb);
+        return "";
+    }
+
+
+    static String kvp(int x){
+        int comp = x;
+        int sum = 0;
+        while (x > 0){
+            int last = x % 10;
+            sum += fact(last);
+            x = x / 10;
+        }
+        if(sum == comp){
+            System.out.println("On adding the factorial of the individual digits we get : " + sum);
+            System.out.println("Hence the no is a KVP no");
+        }
+        else{
+            System.out.println("On adding the individual digits we get : " + sum);
+            System.out.println("Hence the no is not a KVP no");
+        }
+        return "";
+    }
+}
+
+##################
+EXCEPTION HANDLING
+
+==> Object class is the parent class od all classes in java
+==> Throwable is the parent class of exception and error
+==> exceptions take place during runtime only
+==> JVM creates the main thread automatically
+
+
+
+==> Exceptions
+are caused by our programs
+are recoverable
+are of 2 types : - 1) compiled time exception(checked)  2) runtime exception(unchecked)
+
+==> error
+occurs because of lack of system resources
+are not recoverable
+is of 1 type :- 1)runtime exception(unchecked)
+
+5 keywords....try, catch, throw, throws, finally
+
+
+
+==> try_catch
+syntax
+try{
+  //risky code
+}
+catch(ExceptionClassName ref.var.name){
+   //handling code
+}
+
+public class random {
+    public static void main(String[] args){
+
+        try{
+            FileInputStream fs = new FileInputStream("abc.txt");
+            Class.forName("com.mysql.jdbc.Driver");
+        }
+        catch(Exception e) {
+            System.out.println("wrong");
+        }
+    }
+}
+
+catch block will only be executed if any exception was caught by the JVM
+
+
+we can have mutiple catch blocks under try or a single catch block calling the parent exception class
+try{
+  //risky code
+}
+catch(ArithmeticException ae){
+   //handling code
+}
+catch(FileNotFoundException fe){
+  // code
+}
+
+or
+try{
+  //risky code
+}
+catch(Exception e){
+   //handling code
+}
+
+
+
+==> Methods to Print Exception Information
+1. exception_var_name.printStackTrace()
+2. System.out.println(exception_var_name)
+3. System.out.println(exception_var_name.toString())
+4. System.out.println(exception_var_name.getMessage())
+
+
+
+==>finally block
+it will execute even if exception occurs or not
+
+syntax
+try{
+  //risky code
+}
+catch(ExceptionClassName ref.var.name){
+   //handling code
+}
+finally{
+  // clean up code
+}
+
+
+==> difference between
+
+final
+-> is a keyword
+-> used with variable, method and class
+
+
+finally
+-> is a block
+-> used with either try or try-catch block
+
+
+finalize
+-> is a method
+-> method is overriden for an object
+-> protected void finalize() throws Throwable
+
+
+
+==> throw
+syntax -- throw new ExceptionClassName("any mssg")
+it should be for custom exception which is user defined
+try..catch should be used for proper exception handling as throw will abnormally end the program 
+
+public class random{
+    public static void main(String[] args){
+        int age = 16;
+        if(age < 18){
+            throw new YoungAge("you are underage");
+        }
+    }
+}
+
+class YoungAge extends RuntimeException{
+    YoungAge(String mssg){
+        super(mssg);
+    }
+}
+
+
+
+
+==> throws
+just gives an indication but use try ..catch block..in the main() method
+always for checked exceptions
+
+
+==> custom exception
+
+for unchecked -- inherit RuntineException class
+for checked -- inherit Exception class
+
+
+//check -- use try..catch or throws
+
+class UnderAgeException extends Exception{
+   UnderAgeException()
+   {
+     super("you are underage");
+   }
+   
+   UnderAgeException(String mssg)
+   {
+      super(mssg);
+   }
+}
+
+class voting{
+  public static void main(String[] args){
+      int age = 17;
+      try{
+          if(age < 18){
+             throw new UnderAgeException();
+           }
+       }
+       catch(UnderAgeException e)
+       { 
+          e.printStackTrace();
+       }
+  }
+}
+
+or
+
+class voting{
+  public static void main(String[] args) throws UnderAgeException{
+      int age = 17;
+      if(age < 18){
+            throw new UnderAgeException();
+       }
+  }
+}
+
+
+
+// for unchecked
+
+class UnderAgeException extends RuntimeException{
+   UnderAgeException()
+   {
+     super("you are underage");
+   }
+   
+   UnderAgeException(String mssg)
+   {
+      super(mssg);
+   }
+}
+
+class voting{
+  public static void main(String[] args){
+      int age = 17;
+      try{
+          if(age < 18){
+             throw new UnderAgeException();
+           }
+       }
+       catch(UnderAgeException e)
+       { 
+          e.printStackTrace();
+       }
+  }
+}
+
+or
+
+class voting{
+  public static void main(String[] args){
+      int age = 17;
+      if(age < 18){
+            throw new UnderAgeException();
+       }
+  }
+}
+
+
+
+
+
+
+
+##############
+MULTITHREADING
+==> inside java.lang
+==> create -> runnable -> running -> dead
+==> after runnable the thread can also go to non-runnable state
+
+==> JVM allocates the processor... thread scheduler is a part of the JVM
+
+==> ways of creating threads
+1. using thread class
+
+// create a class and extend "Thread" class...override the run method...
+// then create an object of the class...use start method
+
+public class NehRagNam_20BRS1110 extends Thread {
+    public static void main(String[] args){
+        NehRagNam_20BRS1110 neh = new NehRagNam_20BRS1110();
+        neh.start();
+    }
+    
+    public void run(){
+        // task to be performed by the thread
+    }
+}
+
+
+2. using runnable interface
+
+public class NehRagNam_20BRS1110 implements Runnable {
+    public static void main(String[] args){
+        NehRagNam_20BRS1110 neh = new NehRagNam_20BRS1110();
+        Thread neh1 = new Thread(neh);
+    }
+
+    public void run(){
+        // task to be performed by the thread
+    }
+}
+
+
+public class Thread implements Runnable{
+    public Thread();
+    public Thread(Runnable target);
+    public Thread(Runnable target, String name);
+    public Thread(ThreadGroup group, Runnable target);
+    public Thread(ThreadGroup group, String name);
+    public Thread(ThreadGroup group, String name, Runnable target);
+    public Thread(ThreadGroup group,Runnable target, String name,long stackSize);
+}
+
+public class Thread implements Runnable{
+    
+    // naming methods
+    
+    public void run();
+    public synchronized void start();
+    public static native Thread currentThread();
+    public final native boolean isAlive();
+    
+    // naming methods
+    
+    public final String getName();
+    public final synchronized void setName(String name);
+    
+    // Daemon Thread Methods
+    
+    public final boolean isDaemon();
+    public final void setDaemon(boolean on);
+    
+    // priority based methods
+    
+    public final int getPriority();
+    public final void setPriority(int newPriority);
+    
+    // prevent Thread Execution methods
+    
+    public static native void sleep(long millis);
+    public static native void yield();
+    public final void join() throws InterruptedException();
+    public final void suspend();      ]
+    public final void resume();       ]
+    public final void stop();          ]     These are removed from java
+    public void destroy();            ]
+    
+    // interrupting a thread method
+
+    public void interrupt();
+    public boolean isinterrupted ();
+    public static boolean interrupted();
+}
+
+
+==> performing single task using single thread
+
+public class NehRagNam_20BRS1110 extends Thread {
+    public static void main(String[] args){
+        NehRagNam_20BRS1110 neh = new NehRagNam_20BRS1110();
+        neh.start();
+    }
+    
+    public void run(){
+        System.out.println("Task-1");
+    }
+}
+
+
+==> performing single task using multiple thread
+
+public class NehRagNam_20BRS1110 extends Thread {
+    public static void main(String[] args){
+        NehRagNam_20BRS1110 neh = new NehRagNam_20BRS1110();
+        neh.start();
+        NehRagNam_20BRS1110 neh1 = new NehRagNam_20BRS1110();
+        neh1.start();
+    }
+    
+    public void run(){
+        System.out.println("Task-1");
+    }
+}
+
+
+==> performing multiple task using single thread
+not possible 
+
+
+==> performing multiple task using multiple thread
+
+class mythread1 extends Thread{
+   public void run(){
+      System.out.println("task-1");
+   }
+}
+
+class mythread2 extends Thread{
+   public void run(){
+      System.out.println("task-2");
+   }
+}
+
+public class NehRagNam_20BRS1110 {
+    public static void main(String[] args){
+        mythread1 neh = new mythread1();
+        neh.start();
+        mythread2 neh1 = new mythread2();
+        neh1.start();
+    }
+}
+
+
+==> inter thread communication
+Use the "Object"
+
+class Object{
+    wait()
+    notify()
+    notifyAll()    
+}
+
+
+==> name of the current thread
+Thread.currentThread().getName()     
+Thread.currentThread().setName()   
+
+
+
+==> 
+
+public class NehRagNam_20BRS1110 extends Thread {
+    public static void main(String[] args){
+        NehRagNam_20BRS1110 neh1 = new NehRagNam_20BRS1110();
+        neh1.start();
+        NehRagNam_20BRS1110 neh2 = new NehRagNam_20BRS1110();
+        neh2.start();
+        System.out.println("hi is executed by :" + Thread.currentThread().getName());
+    }
+
+    public void run(){
+        System.out.println("hello is executed by :" + Thread.currentThread().getName());
+    }
+}
+
+hello is executed by :Thread-1
+hi is executed by :main
+hello is executed by :Thread-0
+
+by default the name of the threads are thread-0,thread-1 etc etc
+names can be changed by setName()
+main thread is the default thread
+all threads start processing at the same time but the ending cn happen in any sequence
+
+
+
+
+==> Daemon Threads
+Which run in the background of another thread
+it provides service to the threads
+ex: garbage collector, finalizer, attach listener, signal dispatchers
+
+Daemon Thread Methods
+public final boolean isDaemon();
+public final void setDaemon(boolean on);
+
+
+public class NehRagNam_20BRS1110 extends Thread {
+    public static void main(String[] args){
+        System.out.println("hello MAIN");
+        NehRagNam_20BRS1110 neh1 = new NehRagNam_20BRS1110();
+        neh1.setDaemon(true);
+        neh1.start();
+    }
+
+    public void run(){
+        System.out.println("hello");
+    }
+}
+
+hello MAIN
+hello
+
+Daemon threads should be made before starting it else it is going to throw exception IllegalThreadStatexception
+we cannot create main thread as daemon thread
+
+
+public class NehRagNam_20BRS1110 extends Thread {
+    public static void main(String[] args){
+        NehRagNam_20BRS1110 neh1 = new NehRagNam_20BRS1110();
+        neh1.setDaemon(true);
+        neh1.start();
+    }
+
+    public void run(){
+        System.out.println("hello");
+    }
+}
+
+here the main() is not performing any function hence the daemon thread will not execute anything so output will be nothing in this case as we removed the 
+System.out.println statement
+
+Daemon threads inherits the properties of the parent thread
+
+
+
+==> Priority threads
+
+priority based methods  
+public final int getPriority();
+public final void setPriority(int newPriority);
+
+
+JVM gives priorities to the threads and allocates the processor accordingly
+Priorities are represented in the form of numbers ranging from 1(MIN_PRIORITY) to 10(MAX_PRIORITY) and 5 is NORM_PRIORITY
+
+
+
+
+==> sleep method
+
+whenever we want to use the sleep() method we also need to handle the "InterruptedException" 
+
+
+public static native void sleep(long milli) throws InterruptedException
+public static void sleep(long millis, int name) throws InterruptedException
+
+public class NehRagNam_20BRS1110 extends Thread {
+    public static void main(String[] args) throws Exception {
+        for (int i = 0; i < 5; i++) {
+            Thread.sleep(1000);
+            System.out.println(i);
+        }
+    }
+}
+
+
+public class NehRagNam_20BRS1110{
+    public static void main(String[] args){
+        test t = new test();
+        t.start();
+    }
+}
+
+class test extends Thread{
+    public void run(){
+        for (int i = 0; i < 5; i++) {
+            try{
+                Thread.sleep(1000);
+            }
+            catch(Exception e){
+                System.out.println(e);
+            }
+            System.out.println(i);
+        }
+    }
+}
+
+
+
+
+
+==> yield method
+
+stops the current executing threads and give chance to other threads having same priority
+
+public static native void yield();
+
+
+
+
+public class NehRagNam_20BRS1110{
+    public static void main(String[] args){
+        test t = new test();
+        t.start();
+        // te main thread is executing the tasks
+
+        Thread.yield();
+        // now the main thread provides a hint to the thread scheduler to either accept
+        // or ignore the hint
+        
+        for(int i = 0;i<5;i++){
+            System.out.println("hello");
+        }
+    }
+}
+
+class test extends Thread{
+    public void run(){
+        for (int i = 0; i < 5; i++) {
+            System.out.println(i);
+        }
+    }
+}
+
+
+
+==> join
+
+if a thread wants to wait for another thread for completing its task
+
+public final void join() throws InterruptedException
+public final synchronized void join(long millis) throws InterruptedException
+public final synchronized void join(long millis, int nanosec) throws InterruptedException
+
+
+
+// whenever u r using yield,sleep or join remember to throw the exception
+// when u want the child thread to complete first and then the main thread
+public class NehRagNam_20BRS1110{
+    public static void main(String[] args) throws InterruptedException{
+        test t = new test();
+        t.start();
+        t.join();
+        try{
+            for (int i = 0; i < 5; i++){
+                System.out.println("main thread" + i);
+            }
+        }
+        catch(Exception e){
+            System.out.println("Wrong");
+        }
+    }
+}
+
+class test extends Thread{
+    public void run(){
+        try{
+            for (int i = 0; i < 5; i++) {
+                System.out.println("child thread" + i);
+                Thread.sleep(1000);
+            }
+        }
+        catch(Exception e){
+            System.out.println("Wrong");
+        }
+    }
+}
+
+
+// whenever u r using sleep or join remember to throw the exception
+// when u want the main thread to complete first and then the child thread
+public class NehRagNam_20BRS1110 extends Thread{
+    static Thread mains = Thread.currentThread();
+
+    public void run(){
+        try{
+            mains.join();
+            for (int i = 0; i < 5; i++) {
+                System.out.println("child thread" + i);
+                Thread.sleep(1000);
+            }
+        }
+        catch(Exception e){
+            System.out.println("Wrong");
+        }
+    }
+    public static void main(String[] args) throws InterruptedException{
+        NehRagNam_20BRS1110 t = new NehRagNam_20BRS1110();
+        t.start();
+        try{
+            for (int i = 0; i < 5; i++){
+                System.out.println("main thread" + i);
+            }
+        }
+        catch(Exception e){
+            System.out.println("Wrong");
+        }
+    }
+}
+
+
+
+==> thread interrupt
+
+interrupt() will only work if the thread is in sleeping or waiting state
+throws InterruptedException
+syntax -- public void interrupt()
+
+public class random extends Thread{
+
+    public void run(){
+        try
+        {
+            for(int i = 0;i<=5;i++){
+                System.out.println(i);
+                Thread.sleep(1000);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        // sleep should always be written under try catch block
+    }
+
+    public static void main(String[] args) throws InterruptedException{
+        random t = new random();
+        t.start();
+        t.interrupt();
+    }
+}
+
+
+
+// interrupting a thread method
+
+    public void interrupt(); 
+    public boolean isInterrupted ();  -- does not change the status of interruption
+    public static boolean interrupted();   -- if thread is interuppted it changes from true to false and changes the status on calling again from false to true
+
+
+Thread.interuppted()
+Thread.currentThread().isInteruppted()
+
+
+==> synchronization
+import java.io.*;
+import java.util.*;
+
+public class random extends Thread{
+
+    int seats;
+    BookTheatre b = new BookTheatre();
+
+    public void run(){
+        b.book(seats);
+    }
+
+    public static void main(String[] args){
+
+        random neha = new random();
+        neha.seats = 6;
+        neha.start();
+
+        random rishin = new random();
+        rishin.seats = 7;
+        rishin.start();
+
+    }
+}
+
+class BookTheatre{
+    int total_seats = 10;
+
+    void book(int seats){
+        if(total_seats >= seats){
+            System.out.println("Seats booked");
+            total_seats = total_seats - seats;
+        }
+        else{
+            System.out.println("not booked");
+        }
+    }
+}
+
+
+here the data inconsistency is there as both the threads are running simultaneously so the answer will not be same
+so using synchronization we can control accessibility of multiple threads for a particular resource
+
+
+==> using Synchronized method
+simply write "synchronized" infront of the method name
+
+==> using Synchronized Block
+if we just want a particular code to be synchronised rather than an entire method
+synchronized(this)
+{
+   // write the code
+}
+
+==> using Static Synchronization
+whenever there is interference between threads of different objects
+simply write "static synchronized" infront of the method name
+since its static make sure to make all variales and methods static as only static things work under static
+
+
+==> InterThread Communication
+these are not methods of "Thread" class they are methods of "Object" class
+
+wait() -- it causes the current thread to release the lock and wait until another thread invoked the notify() or notifyAll() method for this
+            objet or a specified amount of time has elasped
+            public final void wait(long timeout) throws InterruptedException
+            
+notify() -- used to wake up a single thread and release the object lock 
+            public final void notify()
+            
+notifyAll() -- used to wake up all the threads
+             public final void notigyAll()
+
+
+to call these methods the thread has to be under synchronized area
+
+public class random extends Thread{
+    static int total = 0;
+
+    public void run(){
+        synchronized(this){
+            for(int i = 0;i<=4;i++){
+                total = total + 100;
+            }
+            this.notify();
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException{
+        random t = new random();
+        t.start();
+
+        synchronized(t){
+            t.wait();
+            System.out.println("total earnings:" + total);
+        }
+
+
+    }
+
+}
+
+
+
+
+
+###############
+COLLECTION FRAMEWORKS
+
+1. Collection Framewoek -> API -> contains predefined classes and interfaces
+2. Collection -> interface -> is the root interface (present in java.util package) of all the collection objects
+3. Collections -> utility class -> contains only static methods
+
+==> Set
+set s = new HashSet()
+not an index based data structure
+does not allow duplicate elements, does not follow insertion order
+
+==> Cursors
+
+Iterator
+can be used with any collection Object
+hasNext(), next(), remove()
+forward direction retrieval only
+
+List l = new ArrayList();
+l.add("neha");
+l.add("ragesh")
+Iterator itr = l.iterator();
+while(itr.hasNext()){
+  System.out.println(itr.next());
+ }
+ 
+ 
+
+listIterator
+can be used only with list implemented classes -- ArrayList, LinkedList, vector and Stack
+hasNext(), next(),hasPrevious(),previous(),remove(),set()
+both direction retrieval possible
+
+List l = new ArrayList();
+l.add("neha");
+l.add("ragesh")
+ListIterator itr = l.ListIterator();
+while(itr.hasPrevious()){
+  System.out.println(itr.previous());
+ }
+
+
+
+Enumerations
+
+used only for legacy classes
+hasMoreElements(), nextElement(),
+
+Vector v = new Vector();
+v.add("Neha");
+v.add("ragesh");
+Enumeration e = v.elements();
+while(e.hasMoreElements()){
+  System.out.println(e.nextElement());
+}
+
+
+
+==> ArrayList
+
+package java.util.*;
+class ArrayList implements list
+does not follow sorting order
+non synchronized...supports parallel execution
+
+methods -> add...addAll...remove....contains...isEmpty().....size()...removeAll()....clear()....containsAll...get(index_no)...set(index_no,new_value)...
+           indexOf(object)
+
+constructors ->
+1. ArrayList arr = new ArrayList()
+initial capacity = 10
+
+2. ArrayList arr = new ArrayList(7)
+capacity = 7
+
+3. ArrayList arr = new ArrayList(arr2)
+passing on the elements of 1 array list into another
+
+public class random {
+    public static void main(String[] args){
+        ArrayList ar = new ArrayList();
+        ar.add(7); //only value
+        ar.add(9);
+        ar.add(4,8); //index and value
+        ar.remove("2"); // removes the value
+        ar.remove(2); // removes the index
+        System.out.println(ar);
+        
+        Iterator itr = ar.iterator();
+        while(itr.hasNext()){
+            System.out.println(itr.next());
+    }
+}
+
+
+==> LinkedList
+
+
+LinkedList is an implemented class of List interface present in java.util package
+
+class LinkedList implements List,Deque,Serializable,Clonable{
+           // constructors and methods
+}
+
+the underline data structure of LinkedList in DoublyLinkList or Circular LinkedList
+can store duplicate and null values
+follows the insertion order that is it will be retrieved in the same order as they were inserted
+does not follow the sorting order
+
+
+interface Coolection{
+  boolean add(Object obj)
+  boolean addAll(Collection c)
+  
+  boolean remove(Object obj)
+  boolean removeAll(Collection c)
+  
+  void clear()
+  
+  boolean contains(Object obj);
+  boolean containsAll(Collection c);
+  
+  boolean isEmpty();
+  
+  int sixe();
+  
+  Iterator iterator();
+ 
+}
+
+interface List extends Collections{
+
+// contains collection interface methods
+
+   void add(int index, Object obj)
+   void addAll(int index, Collection c)
+
+   Object get(int index)
+
+   Object remove(int index)
+
+   Object set(int index, Object newobj)
+
+   int indexOf(Object obj)
+   int lastIndexOf(Object obj)
+}
+
+
+class LinkedList extends List,Deque{
+
+// contains collection, List and Deque methods
+
+    void addFirst(Object obj)
+    void addLAst(OBject obj)
+    
+    Object getFirst()
+    Object getLast()
+    
+    Object removeFirst()
+    Object removeLast()
+}
+
+ArrayList arr = new ArrayList();
+LinkedList l = new LinkedList(arr);
+
+
+
+==> Vectors
+
+Legacy classes we re-engineered in the new JDK version
+All legacy classes are synchronised
+
+
+Vector is a legacy class which was introduced in JDK version 1.0
+is an implemented class of LIst interface
+is in java.util package
+
+class vector implements List, Clonable, Serializable,RandomAccess{
+}
+
+underlying data structure is growable array
+
+index based data structure
+can store diff types of data, multiple null values
+can store duplicate elements, follows insertion order
+does not follow sorting order
+they are synchronized
+
+
+this comprises of Collection and List interfaces methods
+
+addElement(Object obj)
+firstElement()
+lastElement()
+removeElement(Object obj)
+removeElementAt(int index)
+removeAllElements()
+setElementAt(Object obj, int index)
+capacity()
+
+
+//constructors
+vector v = new vector()
+vector v = new vector(int initial capacity)
+vector v = new vector(int initial capacity, increment capacity)
+vector v = new vector(Collection c)
+
+
+
+==> Stack
+is a legacy class, child class of vector
+
+class Stack extends Vector{
+}
+
+designed on the basis of LIFO(Last in First Out)
+diff types of data can be stored
+
+push(Object obj), pop(), peek(), search(Object obj), empty()
+
+Stack s = new Stack()
+
+
+==> HASH MAPS
+-> hash map inserting values
+ HashMap<String, Integer> map = new HashMap<String, Integer>();
+         
+        //Inserting key-value pairs to map using put() method
+         
+        map.put("ONE", 1);
+         
+        map.put("TWO", 2);
+         
+        map.put("THREE", 3);
+         
+        map.put("FOUR", 4);
+         
+        map.put("FIVE", 5);
+         
+        //Printing key-value pairs 
+         
+        Set<Entry<String, Integer>> entrySet = map.entrySet();
+         
+        for (Entry<String, Integer> entry : entrySet) 
+        {
+            System.out.println(entry.getKey()+" : "+entry.getValue());
+        }
+	
+putIfAbsent()...method used to add when it is not present
+containsKey()...containsValue()
+
+//Retrieving the Key Set
+         
+        Set<Integer> keySet = map.keySet();
+         
+        for (Integer key : keySet) 
+        {
+            System.out.println(key);
+        }
+	
+ //Retrieving the Collection view of values present in map
+         
+        Collection<String> values = map.values();
+         
+        for (String value : values) 
+        {
+            System.out.println(value);
+        }
+
+//Creating the HashMap 
+         
+        HashMap<String, Integer> map = new HashMap<String, Integer>();
+         
+         //Getting synchronized Map
+         
+        Map<String, Integer> syncMap = Collections.synchronizedMap(map);
+	
+
+
+###############
+JDBC
+-> javabase database connectivity
+-> is an api which is used to connect java application with database
+-> jdbc api and jdbc driver
+-> has 2 packages....java.sql and javax.sql
+
+-> interfaces and classes under java.sql
+interfaces.......driver,connection statement, prepared statement...callable statement...Result set
+classes...driver manager, date, time, timestamp, types
+
+-> interfaces and classes under javax.sql
+interfaces.......DataSource, RowSet,RowSetListener
+classes..RowSetEvent,ConnectionEvent 
+
+
+-> connecting java app to database
+1. load the driver class
+
+Class.forName("Driver").....use try/catch block
+or
+DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+
+
+2. create connection using DriverMAnager
+Connection con = DriverManager.getConnection("url","username","password");
+
+
+3. Use connection to fire queries(statements for static queries and PreparedStatement for dynamic queries)
+Statement, PreparedStatement, CallableStatement
+string q = "select * from students";
+Statement smt = con.createStatement();
+ResultSet set = smt.executeQuery(q);
+
+4. process the result...ResultSet interface
+while(set.next()){
+    int id = set.getInt("");
+    String name = set.getString("");
+}
+
+5.close the connection
+con.close();
+
+
+-> type "\s" to check the port of mysql
+
+
+################
+PATTERN PRINTING
+
+==> no of lines = no of rows = no of times the outer loop will run
+==> identify for every row number how many cols are there or types of elements in the col
+package com.company;
+
+public class Main {
+
+    public static void main(String[] args) {
+        for(int row = 1;row<=4;row++){
+            for(int col = 1; col<=row; col++){
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+*
+* *
+* * *
+* * * *
+
+
+==>
+* * * * 
+* * * * 
+* * * * 
+* * * * 
+
+package com.company;
+
+public class Main {
+
+    public static void main(String[] args) {
+        for(int row = 1;row<=4;row++){
+            for(int col = 1; col<=4; col++){
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+
+==>
+
+* * * * * 
+* * * * 
+* * * 
+* * 
+* 
+
+package com.company;
+
+public class Main {
+
+    public static void main(String[] args) {
+        for (int i = 1; i <= 5; i++) {
+            // identify the no of lines as rows
+            for (int j = 1; j <= 5-i+1; j++) {
+                // identify the no of col in each row
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+
+==>
+1 
+1 2 
+1 2 3 
+1 2 3 4 
+1 2 3 4 5 
+
+package com.company;
+
+public class Main {
+
+    public static void main(String[] args) {
+        for (int i = 1; i <= 5; i++) {
+            // identify the no of lines as rows
+            for (int j = 1; j <= i; j++) {
+                // identify the no of col in each row
+                System.out.print(j+" ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+==>
+
+     *
+    **
+   ***
+  ****
+ *****
+
+package com.company;
+
+public class Main {
+
+    public static void main(String[] args) {
+       for(int rows = 1;rows<=5;rows++){
+
+           for(int space = 0;space < 5 - rows+1;space++){
+               System.out.print(" ");
+           }
+
+           for(int col = 1;col<=rows;col++){
+               System.out.print("*");
+           }
+           System.out.println();
+       }
+    }
+}
+
+
+==>
+*****
+ ****
+  ***
+   **
+    *
+    
+package com.company;
+
+public class Main {
+
+    public static void main(String[] args) {
+       for(int rows = 5;rows >= 1;rows--){
+
+           for(int space = 5 ;space > rows ;space--){
+               System.out.print(" ");
+           }
+
+           for(int col = 1;col<=rows;col++){
+               System.out.print("*");
+           }
+           System.out.println();
+       }
+    }
+}
+
+
+
+==>
+* 
+* * 
+* * * 
+* * * * 
+* * * * * 
+* * * * 
+* * * 
+* * 
+* 
+
+package com.company;
+
+public class Main {
+
+    public static void main(String[] args) {
+        for (int i = 1; i <= 5; i++) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+        for (int i = 1; i <= 4; i++) {
+            for (int j = 1; j <= 4-i+1; j++) {
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+or
+
+for (int rows = 0; rows < 2 * 5; rows++) {
+            int total = rows > 5 ? 2 * 5 - rows : rows;
+            for (int col = 0; col < total; col++) {
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+
+
+==>
+  
+    * 
+   * * 
+  * * * 
+ * * * * 
+* * * * * 
+ * * * * 
+  * * * 
+   * * 
+    * 
+
+
+package com.company;
+
+public class Main {
+
+    public static void main(String[] args) {
+        for (int rows = 0; rows < 2 * 5; rows++) {
+            int total = rows > 5 ? 2 * 5 - rows : rows;
+
+            int space = 5 - total;
+            for(int s = 0; s < space; s++){
+                System.out.print(" ");
+            }
+            for (int col = 0; col < total; col++) {
+                System.out.print("* ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+
+==>
+
+    1 
+   212 
+  32123 
+ 4321234 
+543212345 
+
+
+package com.company;
+
+public class Main {
+
+    public static void main(String[] args) {
+        for (int rows = 1; rows <= 5; rows++) {
+
+            for(int space = 0; space < 5 - rows; space++){
+                System.out.print(" ");
+            }
+            for(int col = rows; col >= 1 ;col--){
+                System.out.print(col);
+            }
+
+            for(int col =  2;col<=rows;col++){
+                System.out.print(col);
+            }
+
+            System.out.println(" ");
+
+        }
+    }
+}
