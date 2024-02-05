@@ -1,0 +1,547 @@
+STACKS AND QUEUES
+
+###################
+STACKS
+-> first In last in (FILO/LIFO)
+-> Stack is internally built as an class
+Stack stack = new Stack<>();
+-> use this DS to store results which is to be used later and also to convert recursion to iteration
+
+
+-> custom implementation
+public class player {
+    // stack is array internally
+
+    protected int[] data;
+    private static final int DEFAULT_SIZE = 10;
+
+    int ptr = -1; //pointer
+
+    // constructor
+    public player(int size){
+        this.data = new int[size];
+    }
+
+    //constructor where no size is mentioned so we use default size
+    public player(){
+        this(DEFAULT_SIZE);
+    }
+
+    public boolean isFull(){
+        return ptr == data.length-1;   // ptr is at last index
+    }
+
+    public boolean isEmpty(){
+        return ptr == -1;
+    }
+
+    public boolean push(int item){
+        if(isFull()){
+            return false;
+        }
+
+        ptr++;
+        data[ptr] = item;
+        return true;
+    }
+
+    public int pop() throws Exception{
+       if(isEmpty()){
+           throw new Exception("Stack is empty");
+       }
+
+       int removed = data[ptr];
+       ptr--;
+       return removed;
+    }
+
+    public int peek() throws Exception{
+        if(isEmpty()){
+            throw new Exception("Peeking not possible");
+        }
+
+        return data[ptr];
+    }
+}
+
+-> dynamic stack implementation....extend the previous class
+public class Solution extends player{
+
+    public Solution()
+    {
+        super(); // this will call player()
+    }
+
+    public Solution(int size)
+    {
+        super(size); // this will call player(size)
+    }
+
+    // only the push function has to be changed
+
+    @Override
+    public boolean push(int item){
+        if(this.isFull()){
+            // create an array of double the size
+            int[] temp = new int[data.length*2];
+
+            for(int i = 0; i < data.length;i++){
+                temp[i] = data[i];
+            }
+
+            data=temp;
+        }
+
+        return super.push(item);
+    }
+
+
+
+####################
+QUEUES
+-> (LILO/FIFO)
+-> Queue is internally built as an interface
+Queue queue == new LinkedList<>();
+-> use this DS to store results which is to be used later and also to convert recursion to iteration
+
+-> Java Deque(Deck) ...queue where the insertion and deletion takes place from both the ends....hence its faster than Queue and LinkedList
+ArrayDeque() are dynamic while storing data
+Deque<Integer> deque = new ArrayDeque<>();
+        deque.add(4);
+        deque.add(42);
+        deque.add(40);
+        deque.addFirst(3);
+        deque.removeFirst();
+        deque.removeLast();
+
+
+-> custom implementation
+removing an element takes O(n) as elements needs to be shifted to left by 1...so n elements shifting means O(n)
+
+public class player {
+    // queue is implemented using array
+
+    private int[] data;
+    private static final int DEFAULT_SIZE = 10;
+
+    int ptr_end = 0;
+    // constructor
+    public player(int size){
+        this.data = new int[size];
+    }
+
+    //constructor where no size is mentioned so we use default size
+    public player(){
+        this(DEFAULT_SIZE);
+    }
+
+    public boolean isFull(){
+        return ptr_end == data.length;   // ptr is at last index
+    }
+
+    public boolean isEmpty(){
+        return ptr_end == 0;
+    }
+
+    public boolean insert(int item){
+        if(isFull()){
+            return false;
+        }
+
+        data[ptr_end++] = item;
+        // pehle ptr_end mein store karke ptr_end ki value by 1 se badhayega
+
+        return true;
+    }
+
+    public int remove() throws Exception{
+        if(isEmpty()){
+            throw new Exception("Queue is empty");
+        }
+
+        int removed = data[0];
+        // shift the elements
+
+        for(int i = 0;i < ptr_end;i++){
+            data[i-1] = data[i];
+        }
+
+        ptr_end--;
+        return removed;
+    }
+
+    public int front() throws Exception{
+        if(isEmpty()){
+            throw new Exception("Peeking not possible");
+        }
+
+        return data[ptr_end];
+    }
+    
+    
+
+-> circular queue
+public class player {
+    private int[] data;
+    private static final int DEFAULT_SIZE = 10;
+
+    int ptr_end = 0;
+    int ptr_front = 0;
+    int size = 0;
+
+    // constructor
+    public player(int size){
+        this.data = new int[size];
+    }
+
+    //constructor where no size is mentioned so we use default size
+    public player(){
+        this(DEFAULT_SIZE);
+    }
+
+    public boolean isFull(){
+        return size == data.length;   // ptr is at last index
+    }
+
+    public boolean isEmpty(){
+        return size == 0;
+    }
+
+    public boolean insert(int item){
+        if(isFull()){
+            return false;
+        }
+
+        data[ptr_end++] = item;
+        // pehle ptr_end mein store karke ptr_end ki value by 1 se badhayega
+        ptr_end = ptr_end % data.length;
+        size++;
+        return true;
+    }
+
+    public int remove() throws Exception{
+        if(isEmpty()){
+            throw new Exception("Queue is empty");
+        }
+
+        int removed = data[ptr_front++];
+        ptr_front = ptr_front % data.length;
+        size--;
+        return removed;
+    }
+
+    public int front() throws Exception{
+        if(isEmpty()){
+            throw new Exception("Peeking not possible");
+        }
+
+        return data[ptr_front];
+    }
+
+    // normal queue can be printed with for loop but ircular queue involves 2 pointers
+
+    public void display(){
+
+        if(isEmpty()){
+            System.out.println("Empty");
+            return;
+        }
+        int i = ptr_front;
+        do{
+            System.out.print(data[i]+" ");
+            i++;
+            i %= data.length;
+        }while(i != ptr_end);
+        System.out.println("END");
+    }
+
+
+
+    public static void main(String[] args) throws Exception {
+        player cir = new player(5);
+        cir.insert(5);
+        cir.insert(52);
+        cir.insert(53);
+        cir.insert(54);
+        cir.insert(55);
+        cir.display();
+        cir.remove();
+        cir.insert(56);
+        cir.display();
+
+    }
+}
+
+
+-> dynamic queue
+circular queue ko extend kardo
+
+public class Solution extends player{
+    public Solution()
+    {
+        super(); // this will call player()
+    }
+
+    public Solution(int size)
+    {
+        super(size); // this will call player(size)
+    }
+
+    @Override
+    public boolean insert(int item){
+        if(this.isFull()){
+            // create an array of double the size
+            int[] temp = new int[data.length*2];
+
+            // copy the array
+
+            for(int i = 0; i < data.length;i++){
+                temp[i] = data[(ptr_front+i) % data.length];
+            }
+
+            ptr_front = 0;
+            ptr_end = data.length;
+            data=temp;
+        }
+
+        return super.insert(item);
+    }
+
+
+-> implementing queues using stacks
+2 stacks ke saath hi hoga let us name them first and second
+insertion and removal in mein se sirf 1 hi constant time pe hoga
+agar insertion constant time rakhna hai
+first stack mein sabh ghusa do and simply .push lagakr insert kardo...
+removal ke liye tabh second stack mein first stack ko empty karke second mein push lagakr first mein waapis daal do
+agar removal ko constant rakhna hai toh reverse order mein first stack ko daalo air pop karne pe remove ho jayega
+
+class QusingS_insert_efficient{
+    private Stack<Integer> first;
+    private Stack<Integer> second;
+
+    public QusingS_insert_efficient(){
+        first = new Stack<>();
+        second = new Stack<>();
+    }
+
+    public void add(int item){
+        first.push(item);
+    }
+
+    public int remove() throws Exception {
+        while(!first.isEmpty()){
+            second.push(first.pop());
+        }
+
+        int remove = second.pop();
+
+        while(!second.isEmpty()){
+            first.push(second.pop());
+        }
+
+        return remove;
+    }
+
+    public boolean isEmpty(){
+        return first.isEmpty();
+    }
+
+    public int peek() throws Exception{
+        while(!first.isEmpty()){
+            second.push(first.pop());
+        }
+
+        int peeked = second.peek();
+
+        while(!second.isEmpty()){
+            first.push(second.pop());
+        }
+
+        return peeked;
+    }
+}
+
+class QusingS_removal_efficient{
+    private Stack<Integer> first;
+    private Stack<Integer> second;
+
+    public QusingS_removal_efficient(){
+        first = new Stack<>();
+        second = new Stack<>();
+    }
+
+    public void add(int item) throws Exception{
+        while(!first.isEmpty()){
+            second.push(first.pop());
+        }
+
+        first.push(item);
+
+        while(!second.isEmpty()){
+            first.push(second.pop());
+        }
+    }
+
+    public int remove() throws Exception {
+        return first.pop();
+    }
+
+    public boolean isEmpty(){
+        return first.isEmpty();
+    }
+
+    public int peek() throws Exception{
+        return first.peek();
+    }
+}
+
+-> game of 2 stacks
+
+har baar 2 chances hai ya toh ek number a se pop kiya ya b se...similarly further bhi yahin option hai
+its more like recursion now
+
+import java.io.*;
+import java.sql.Array;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.regex.Pattern;
+
+
+public class player {
+
+    static int twostacks(int x, int[] a, int[] b){
+        return twostacks(x,a,b,0,0)-1;
+        // -1 isiliye kyuki ek mein toh sum > x hua tha toh woh hatane ke liye
+    }
+    static int twostacks(int x,int[] a, int[] b,int sum, int count){
+        if(sum > x){
+            return count;
+        }
+
+        if(a.length == 0 || b.length == 0){
+            return count;
+        }
+        int ans1 = twostacks(x,Arrays.copyOfRange(a,1,a.length),b,sum+a[0],count+1);
+        int ans2 = twostacks(x,a,Arrays.copyOfRange(b,1,b.length),sum+b[0],count+1);
+
+        return Math.max(ans1,ans2);
+    }
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int test = input.nextInt();
+        while(test >0){
+            int n1 = input.nextInt();
+            int n2 = input.nextInt();
+            int x = input.nextInt();
+            int[] a = new int[n1];
+            int[] b = new int[n2];
+            for(int i = 0;i<n1;i++){
+                a[i] = input.nextInt();
+            }
+
+            for(int i = 0;i<n2;i++){
+                b[i] = input.nextInt();
+            }
+
+            System.out.println(twostacks(x,a,b));
+            test--;
+        }
+    }
+}
+
+
+-> largest rectangle
+public class player {
+    public int largrec(int[] heights){
+        Stack<Integer> stack = new Stack<>();
+        int max = 0;
+        stack.push(0);
+
+
+        for(int i = 0;i<heights.length;i++){
+            while(!stack.isEmpty() && heights[i] < heights[stack.peek()]){
+                max = getMax(heights,stack,max,i);
+            }
+            stack.push(i);
+        }
+
+        int i = heights.length;
+        while(!stack.isEmpty()){
+            max = getMax(heights,stack,max,i);
+        }
+
+        return max;
+    }
+
+    public static int getMax(int[] arr,Stack<Integer> stack,int max,int i){
+        int area;
+        int popped = stack.pop();
+        if(stack.isEmpty()){
+            area = arr[popped] * i;
+        }
+        else{
+            area = arr[popped] * (i-1-stack.peek());
+        }
+
+        return Math.max(area,max);
+    }
+
+
+-> valid parenthesis
+
+since humko dekhna hai ki joh left closed bracket ka aakhiri hai woh right closed ke pehle wale ka saath match kare toh stack ke upar
+wale ke saath match karna chahiye
+
+
+class Solution {
+  public boolean isValid(String s) {
+    Stack<Character> stack = new Stack<>();
+
+    for (char ch : s.toCharArray()) {
+      if (ch == '(' || ch == '{' || ch == '[') {
+        stack.push(ch);
+      } else {
+        if (ch == ')') {
+          if (stack.isEmpty() || stack.pop() != '(') {
+            return false;
+          }
+        }
+        if (ch == '}') {
+          if (stack.isEmpty() || stack.pop() != '{') {
+            return false;
+          }
+        }
+        if (ch == ']') {
+          if (stack.isEmpty() || stack.pop() != '[') {
+            return false;
+          }
+        }
+      }
+    }
+    return stack.isEmpty();
+  }
+}
+
+
+-> min add to make the parenthesis valid
+class Solution {
+    public int minAddToMakeValid(String s) {
+      Stack<Character> stack = new Stack<>();
+      for (char ch : s.toCharArray()) {
+        if (ch == ')') {
+          if (!stack.isEmpty() && stack.peek() == '(') {
+            stack.pop();
+          } else {
+            stack.push(ch);
+          }
+        } else { // matlab agar ( hua toh direct push maar do
+          stack.push(ch);
+        }
+      }
+      return stack.size();
+    }
+}
+
+
