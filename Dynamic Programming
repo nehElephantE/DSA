@@ -1,0 +1,1852 @@
+DYNAMIC PROGRAMMING
+
+###############
+FIBONNACI 
+(MEMOIZATION)
+
+-> summation of the last 2 numbers
+--> f(n) = f(n-1) + f(n-2)
+-> 0 1 1 2 3 5 8 13 21...
+
+->this code calculates same thing again 
+public class player {
+
+    public static int fib(int n){
+        if(n == 0 || n == 1){
+            return n;
+        }
+        
+        int res = fib(n-1) + fib(n-2);
+        return res;
+    }
+
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        System.out.println(fib(n));
+    }
+}
+
+the time complexity is directly proportional to 2^n
+
+
+-> optimised code
+public class player {
+
+    public static int fib(int n,int[] arr){
+        if(n == 0 || n == 1){
+            return n;
+        }
+
+        // if the fib is already calculated then it will straight away return the value else it will
+        // calculate and store the value in the array
+
+        if(arr[n] != 0){
+            return arr[n];
+        }
+
+        int res = fib(n-1,arr) + fib(n-2,arr);
+        arr[n] = res;
+        return res;
+    }
+
+
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        System.out.println(fib(n,new int[n + 1]));
+
+        // 0 to n ko store karne ke liye array of size n+1
+    }
+}
+
+linear time complexity
+
+
+#################
+TABULATION
+
+Question: You are given a number 'n' representing the number of stairs in a staircase
+You are on the 0th step and are required to climb to the top
+in 1 move you are allowed to climb 1,2 or 3 stairs
+you are required to print the number of different paths via which you can climb to the top
+
+// 0 to 0 bhi ek path count hoga
+// 0 to n mein (n-1), (n-2), (n-3) se jitne paths hai unko add karna hai matlab
+
+-> this code solves the same thing again
+public class player {
+    public static int climb(int n){
+        // agar n = 0 hua toh return 1 agar -ve gaya toh return 0
+        if(n ==0){
+            return 1;
+        }
+        else if(n <0){
+            return 0;
+        }
+
+        int res = climb(n-1)+climb(n-2)+climb(n-3);
+        return res;
+    }
+
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        System.out.println(climb(n));
+    }
+}
+
+-> solving using memoization
+public class player {
+    public static int climb(int n, int[] arr){
+        // agar n = 0 hua toh return 1 agar -ve gaya toh return 0
+        if(n ==0){
+            return 1;
+        }
+        else if(n <0){
+            return 0;
+        }
+        if(arr[n] != 0){
+            return arr[n];
+        }
+
+        int res = climb(n-1,arr)+climb(n-2,arr)+climb(n-3,arr);
+        arr[n] = res;
+        return res;
+    }
+
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        System.out.println(climb(n,new int[n+1]));
+    }
+}
+
+-> using tabulation
+step1 : storage and meaning...divide into cells depending onto n ka value
+step2 : direction from chota to bada chalna hai
+step3 : travel and solve
+
+cell
+
+| 0 | 1 | 2 | 3 | 4 | 5 | 6 |
+  1   1    2   4   7  13  24
+ek cell se jaane ke teen raste n-1,n-2 aur n-3 toh chote ko solve karo aur bade ki taraf badho
+ 
+public class player {
+    public static int climb(int n){
+        int[] arr = new int[n+1];
+        arr[0] = 1;
+        for(int i = 1;i<=n;i++){
+            if(i == 1){
+                arr[i] = arr[i-1];
+            }
+            else if(i == 2){
+                arr[i] = arr[i-1] + arr[i-2];
+            }
+            else{
+                arr[i] = arr[i-1]+arr[i-2]+arr[i-3];
+            }
+        }
+
+        return arr[n];
+    }
+
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        System.out.println(climb(n));
+    }
+}
+
+
+######################
+CLIMB STAIRS WITH VARIABLE JUMPS
+
+question : every step has a number associated with it which decides how many jumps can one take from that step
+
+-> using tabulation
+ 
+
+| 0 | 1 | 2 | 3 | 4 | 5 | 6 |
+  8   5   0   3   2   1   1
+direction of filling right se left hogi kyuki 6 to 6 jaane ka 1 hi possibility
+baaki ka dusre array se dekhkr bata sakte
+
+array to store how many jumps at each step
+| 0 | 1 | 2 | 3 | 4 | 5 | 6 |
+   3  3   0   2   2   3
+
+
+public class player {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+
+        // taking input into an array to store ki ek jagah se kitne climb kar sakte
+        int[] climb = new int[n];
+        for(int i = 0;i<n;i++){
+            climb[i] = input.nextInt();
+        }
+
+        int[] arr = new int[n+1];
+        arr[n] = 1;
+        // last wala joh cell hai array ka that will comprise of path from n -> n isiliye 1
+
+        // if climb[i] = 3 that means we can go (i+1)(i+2) and (i+3)
+
+        for(int i = n-1;i>=0;i--){
+            for(int j = 1;j<=climb[i] && i+j < arr.length;j++){
+                arr[i] += arr[i+j];
+            }
+        }
+        System.out.println(arr[0]);
+    }
+}
+
+
+###########################
+CLIMB STAIRS WITH MINIMUM MOVE
+
+ques : you are given a number 'n' representing the number of stairs in a staircase. You are on the 0th step and are required to climb to the top
+       You are given n numbers where ith element's value represents till how far from the step you could jump in to a single move
+       you can of course fewer number of steps in the move
+       you are required to print the minimum moves in which you can reach the top of staircase
+
+-> Integer[] arr null as default store karega aur int[] 0 as default
+-> min(x,y,z)+1....
+public class kannu {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+
+        int[] arr = new int[n];
+        for(int i = 0;i<n;i++){
+            arr[i]= input.nextInt();
+        }
+
+        Integer[] dp = new Integer[n+1];
+        dp[n] = 0;
+        for(int i =n-1;i>=0;i--){
+            if(arr[i]>0){
+                int min = Integer.MAX_VALUE;
+                for(int j = 1;j<=arr[i] && i+j < dp.length;j++){
+                    if(dp[i+j] != null){
+                        min = Math.min(min,dp[i+j]);
+                    }
+                }
+
+                if(min != Integer.MAX_VALUE){
+                    dp[i] = min+1;
+                }
+                else{
+                    dp[i] = null;
+                }
+            }
+        }
+
+        System.out.println(dp[0]);
+    }
+}
+       
+
+###############################
+MINIMUM COST PATH
+Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right, which minimizes the sum of all numbers along its path.
+Note: You can only move either down or right at any point in time.
+
+-> ek dp array banate hai usmein har ek cell mein wahan se destination(d) tak jaane ke min cost hoga....toh bottom right se top left matrix ko fill karna hoga
+because bottom right is closer to dest(d)
+-> matrix ke bottom most row se toh sirf right ki taraf jaa sakte...aur rightmost col se matrix ke sirf downward jaa sakte...baaki sabse right aur down mein se joh 
+min hoga woh lenge
+
+public class kannu {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int m = input.nextInt();
+        int[][] arr = new int[n][m];
+        int[][] dp = new int[n][m];
+
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++){
+                arr[i][j] = input.nextInt();
+            }
+        }
+
+        for(int i = dp.length-1;i>=0;i--){
+            for (int j = dp[0].length-1;j>=0;j--){
+                // jabh sabse last row aur sabse last col ho matlab last cell...bottomost right
+                if(i == dp.length-1 && j == dp[0].length-1){
+                    dp[n-1][m-1] = arr[n-1][m-1];
+                }
+                //last row mein ho...toh simply add hota jayega value
+                else if(i == dp.length-1){
+                    dp[i][j] = dp[i][j+1]+arr[i][j];
+                }
+                //last col...toh simply add hota jayega value
+                else if(j == dp[0].length-1){
+                    dp[i][j] = dp[i+1][j]+arr[i][j];
+                }
+                //min of right or down 
+                else{
+                    dp[i][j] = Math.min(dp[i+1][j],dp[i][j+1])+arr[i][j];
+                }
+            }
+        }
+        
+        System.out.println(dp[0][0]);
+    }
+}
+
+
+
+##########################
+GOLDMINE......PATH WITH MAXIMUM GOLD
+
+ques: you are given n and m representing no of rows and cols. You are given n*m numbers representing elements of 2d array a which represents a goldmine. 
+You are standing in front of left wall and are supposed to dig to the right wall. You can start from any row in the left wall
+you are allowed to move 1 cell right up , 1 cell right down or 1 cell right
+
+-> last col hai wahan se aur right toh jaa nahi sakte toh joh value hogi wahin same copy paste in the new dp matrix from the given matrix
+-> toh sabse rightmost cols se left ki taraf matrix fill karne pe joh starting col ka max value hoga...woh jis row mein present hai wahan se dig karna chalu karna 
+padega
+-> toh 4 hisso mein solve karo...pehla-last col simply wohin given values copy paste kyuki uske aage jaa nahi sakte.....dusra-first row kyuki wahan se seedha ya down jaa sakte
+teesra-last row kyuki wahan se upar aur seedha jaa sakte...chautha-rest grid
+
+
+import java.io.*;
+import java.util.*;
+
+public class kannu {
+
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int m = input.nextInt();
+        int[][] arr = new int[n][m];
+
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++){
+                arr[i][j]= input.nextInt();
+            }
+        }
+
+        int[][] dp = new int[n][m];
+        //starting with the last col hence j
+        for(int j = arr[0].length-1;j>=0;j--){
+            for(int i = arr.length-1;i>=0;i--){
+                //last col
+                if(j == arr[0].length-1){
+                    dp[i][j]=arr[i][j];
+                }
+                //last row
+                else if(i == dp.length-1){
+                    dp[i][j] = arr[i][j]+Math.max(dp[i][j+1],dp[i-1][j+1]);
+                }
+                //first row
+                else if(i == 0){
+                    dp[i][j] = arr[i][j]+Math.max(dp[i][j+1],dp[i+1][j+1]);
+                }
+                else{
+                    dp[i][j] = arr[i][j]+Math.max(dp[i][j+1],Math.max(dp[i+1][j+1],dp[i-1][j+1]));
+                }
+            }
+        }
+        // first col mein travel karke max nikalo kis row mein present hai
+        int max = dp[0][0];
+
+        for(int i = 0;i<dp.length;i++){
+            if(dp[i][0] > max){
+                max = dp[i][0];
+            }
+        }
+
+        System.out.println(max);
+    }
+}
+
+
+###########################
+TARGET SUM SUBSET
+
+You are given a number n representing the count of elements. You are given n numbers. You are given a no "tar"
+you are required to calculate and print true or false, if there is a subset the elements of which add upto "tar" or not
+
+-> if an array contains n elements ...no of subsets = 2^n
+-> subset mein array ke kidhar ke bhi elements use kar sakte ....subarray mein elements ke beech mein constinuity hona chahiye
+-> hum ek 2d matrix bananyenge jahan upar will be 0 se lekr target jitna hai utna ...here lets say its 10 the target toh 0 se 10 aur dusre taraf
+we take empty subset and the array ke elements
+ex if the given array is [4,2,7,1,3] and target is 10 then the 2d matrix should be 
+    0 1 2 3 4 5 6 7 8 9 10
+x   T F F F F F F F F F F
+4   T F F F T F F F F F F
+2   T F T F T F T F F F F
+7   T F T F T F T T F T F
+1   T T T T T T T T T T T
+3   T T T T T T T T T T T
+
+pehla row mein sochna hai ki empty subset se woh sum banega ki nahi....toh [] se sirf 0 hi banega isiliye woh true baaki false
+dusre row mein 4 hai matlab iske subsets hue [] aur [4] toh isse sirf 0 aur 4 banega baaki sabh F
+teesre mein 2 hai jiske subsets banenge...[],[4],[7] aur[4,7]
+
+-> ek array ke element ke pass do choices hai ki main jaao ya nahi jaao...agar jao toh target jitna ya target se kam score banau aur baaki bache huw scores
+baaki element banale.........
+ex.....abh third row mein 2 hai toh woh row ko bharne ke liye baaki wale dekho matlab 4 and X toh aise socho ki 2 ke hone se woh desired number hoga ya nahi
+
+
+-> matrix mein first row aur col mein const values
+
+public class kannu {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+
+        int[] arr = new int[n];
+
+        for(int i = 0;i<n;i++){
+            arr[i] = input.nextInt();
+        }
+        int tar = input.nextInt();
+        boolean[][] dp = new boolean[n+1][tar+1];
+        //starting with the last col hence j
+        for(int i = 0;i<dp.length;i++){
+            for(int j =0;j<dp[0].length;j++){
+                //first cube hai
+                if(i == 0 && j == 0){
+                    dp[i][j]=true;
+                }
+                // row first hai
+                else if(i ==0){
+                    dp[i][j]=false;
+                }
+                //col first hai
+                else if(j == 0){
+                    dp[i][j]=true;
+                }
+                else{
+                    // agar uske upar wale se bann gaya toh neeche waala toh bana hi dega
+                    if(dp[i-1][j]==true){
+                        dp[i][j]=true;
+                    }
+                    else{
+                        int val = arr[i-1];
+                        //kyuki dp mein humne X bhi likha hai toh arr ke hisab se uski index ek zyada hai
+                        if(j >= val){
+                            // col ke upar joh values hai usko array ke value se >= hona chahiye
+                            if(dp[i - 1][j - val] == true){
+                                dp[i][j]=true;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+        System.out.println(dp[arr.length][tar]);
+    }
+}
+
+
+###############################
+COIN CHANGE COMBINATION
+
+you are given a number n representing the count of coins. You are given n numbers, representing the denominations of n coins
+you are given a number amt. you are required to calculate and print the number of combinations of the n coins usinh which the amt can be paid
+
+
+2/3/5 coins se 7 banana hai we need to find the combinations ie 223 and 25 not the permutation which makes it 223/322/232/25/52 
+
+Array bananyenge ..jahan per cell yeh define karega ki 2/3/5 use karke woh number aana kitne ways se possible hai…since 0 se solve karna sabse easy hai
+…hence traversal from left to right
+
+0 1 2 3 4 5 6 7
+1 0 1 0 1 0 1 0.....sirf 2 se use karke dekha....0 mein toh kuch na dena kuch na kena hence 1...baaki mein 2 minus karke dekho
+
+
+3 ko use karke dekha....upar wale combination mein +1 add karte rehna agar possibility mile toh
+0 1 2 3 4 5 6 7
+1 0 1 1 1 1 2 1
+
+5 ke saath bhi same karna hai
+0 1 2 3 4 5 6 7
+1 0 1 1 1 2 2 2
+
+aise individually pehle 2 phir 3 aur phir 5 se loop karne pe humko sirf combinations hi milega because pehle saare 2 phir 3 phir 5
+
+public class kannu {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+
+        int[] arr = new int[n];
+        for(int i = 0;i<arr.length;i++){
+            arr[i] = input.nextInt();
+        }
+
+        int amt = input.nextInt();
+
+        int[] dp = new int[amt+1];
+        dp[0] = 1;
+        for(int i = 0;i<arr.length;i++){   //yeh hai coins ka loop
+            for(int j = arr[i];j<dp.length;j++){
+                dp[j] = dp[j]+dp[j-arr[i]];
+            }
+        }
+
+        System.out.println(dp[amt]);
+    }
+}
+
+
+
+##########################
+COIN CHANGE PERMUTATIONS
+
+jaise combination mein humlog arry se woh ek single coin jitna peeche gaye the...matlab dp[j] = dp[j}+dp[j-arr[i]]...but in permutation humko
+dp[j] se jitne coins e value hai utne peeche jaane hai 
+
+public class kannu {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+
+        int[] arr = new int[n];
+        for(int i = 0;i<arr.length;i++){
+            arr[i] = input.nextInt();
+        }
+
+        int amt = input.nextInt();
+
+        int[] dp = new int[amt+1];
+        dp[0] = 1;
+        for(int i = 1;i<dp.length;i++){
+            for(int j = 0;j<arr.length;j++){
+                if(arr[j] <= i){            // agar coin amt se chota hai
+                    dp[i] = dp[i]+dp[i-arr[j]];
+                }
+            }
+        }
+        System.out.println(dp[amt]);
+    }
+}
+
+
+
+############################
+ZERO ONE KNAPSACK
+you r given a number n reprsenting the count of items. You r given n numbers representing the values of n items.you are given n numbers representing 
+the weights of n items. You are given a number "cap" which is the capacity of a bag you have. You are required to calculate and print the max value that 
+can be created in the bag wihout overflowing it's capacity
+
+-> hr item ke pass 2 choices hai ki woh aaye ya nahi aaye..hence the total possibilities = 2^n
+
+Weight Value  target
+2        15     7
+5        14
+3        10
+1        45
+4        30
+
+-> rows represent kar rahi hai balls aur cols represent kar rahe hai total runs...isko target subset jaise hi socho....abh jo cell hai (2-15,2) wala
+usmein agar 2 agar 2 target banane ke liye participate na kare toh top wala dekh lo ...aur agar kari toh wohi (target-runs) wali value nikalo aur dekho 
+for possibility
+
+-> toh agar 2-15 part na le toh toh upar dekha toh value 0 ...agar woh part le toh value 15 
+-> rows ki value >= col na ho jaaye toh baaki jagah upar wali same value hogi...kyuki jabh rows >= col hoga tabhi woh part lega
+
+-> for cell (5-14,5) ...jabh woh na kare batting toh upar value dekh lo...15 hai ...agar kare ...toh 5 runs diye aur 0 pe value 0 mil gayi..0+14 <15 toh max 15
+
+
+         0   1   2   3   4   5   6   7
+X        0   0   0   0   0   0   0   0
+2-15     0   0   15  15  15  15  15  15
+5-14     0   0   15  15  15  15  15  29
+1-10     0   10  15  25  25  25  25  29
+3-45     0   10  25  45  55  60  70  70
+4-30     0   10  25  45  55  60  70  75
+
+-> input
+5
+15 14 10 45 30
+2 5 1 3 4 
+7
+
+public class kannu {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+
+        int[] val = new int[n];
+        int[] wts = new int[n];
+
+        for(int i = 0;i<n;i++){
+            val[i] = input.nextInt();
+        }
+        for(int i = 0;i<n;i++){
+            wts[i] = input.nextInt();
+        }
+
+        int cap = input.nextInt();
+
+        int[][] dp = new int[n+1][cap+1];
+
+        for(int i = 1;i<dp.length;i++){
+            for(int j =1;j<dp[0].length;j++){
+                //i-1 isiliye kyuki rows mein ek extra X bhi hai
+                if(j >= wts[i-1]){
+                    int rCap = j-wts[i-1];
+                    if(dp[i-1][rCap]+val[i-1] > dp[i-1][j]){
+                        dp[i][j] = dp[i-1][rCap]+val[i-1];
+                    }
+                    else{
+                        dp[i][j] = dp[i-1][j]; //when i does not bat
+                    }
+                }
+                else{
+                    dp[i][j] = dp[i-1][j]; //when i does not bat
+                }
+            }
+
+        }
+        System.out.println(dp[n][cap]);
+    }
+}
+
+
+#############################
+UNBOUNDED KNAPSACK
+-> 1 day array duplicacy hone deta hai aur 2d array nahi hone deta hai
+-> 1 ko bharne ke liye humara paas option hai 1-10 wala...toh 1 dene se 1-1 = 0 toh total runs 10+0
+-> 2 bharne ke 2 options 1-10 aur 2-15....1-10 dene pe 2-1 = 1 ...toh 1 daalne pe 10 aur 1 ke 10 milakr 20....agar 2-15 daala tog 2-2 = 0 
+...0 pe 0 toh 2 ke 15 ...20>15
+-> 3 ke liye...1-10...2-15..3-45.
+
+
+         0  1  2  3  4  5  6  7
+         ----------------------
+initial  0  0  0  0  0  0  0  0
+            10 20 45 55 65 90 100
+
+
+public class kannu {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+
+        int[] val = new int[n];
+        int[] wts = new int[n];
+
+        for(int i = 0;i<n;i++){
+            val[i] = input.nextInt();
+        }
+        for(int i = 0;i<n;i++){
+            wts[i] = input.nextInt();
+        }
+
+        int cap = input.nextInt();
+
+        int[] dp = new int[cap+1];
+        dp[0] = 0;
+
+        for(int bagc = 1;bagc<=cap;bagc++){
+            // poora target tak loop 1 se
+
+            int max = 0;
+            for(int i = 0;i<n;i++){
+                // weights ko loop karne ke liye
+
+                if(wts[i] <= bagc){
+                    int rbagC = bagc-wts[i];
+                    int rbagv = dp[rbagC];
+                    int tbagv = rbagv + val[i];
+
+                    if(tbagv > max){
+                        max = tbagv;
+                    }
+                }
+            }
+            dp[bagc] = max;
+        }
+
+        System.out.println(dp[cap]);
+    }
+}
+
+
+#############################
+COUNT BINARY STRINGS
+you r given a number n. You are required to print the number of binary strings of length n with no consecutive 0's
+
+agar 4 space hai toh 4 length ka kitne binary strings possible hai...2^4...har ek space ke liye 2 options hai o/1
+-> ek cell ka matlab hai ki woh col ke length jitne kitne binary strings possible hai joh woh row number pe end ho rahe ho
+-> (0,2) ko fill karne ke liye sirf possibility is 10 ....(1,2) ... ke liye possibilities are 01,11
+
+-> upar wale mein last col ke last row ka value aur neeche wale row mein last col ka sum
+
+  0  1  2  3  4  5  6
+0 0  1  1  2  3  5  8
+1 0  1  2  3  5  8  13
+
+-> final answer hoga last col ka sum
+public class kannu {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+
+        int[] dp0= new int[n+1];
+        int[] dp1 = new int[n+1];
+
+        dp0[0] = dp1[0] = 0;
+        dp0[1]=dp1[1] =1;
+
+        for(int i =2;i<n+1;i++){
+            dp1[i] = dp1[i-1]+dp0[i=1];
+            dp0[i] = dp1[i-1];          
+        }
+        System.out.println(dp0[n]+dp1[n]);
+    }
+}
+
+or without array approach
+
+public class kannu {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        
+
+        int old_count_zero = 1;
+        int old_count_ones = 1;
+
+        for(int i =2;i<n+1;i++){
+            int new_count_zero = old_count_ones;
+            int new_count_ones = old_count_ones+old_count_ones;
+            
+            old_count_ones = new_count_ones;
+            old_count_zero = new_count_zero;
+        }
+        System.out.println(old_count_ones+old_count_zero);
+    }
+}
+
+
+############################
+ARRANGE BUILDINGS
+YOu are given a number n which represents the length of a road. the road has n plots on its each side. The road is to be planted that there should not be 
+consecutive buildings on either side of the road. You are required to find and print the number of ways in which the building can be built on both the side of the 
+roads
+
+-> single side wala upar wale qs jaisa same hai
+-> final answer will be upar wale ans ka sq
+
+
+##############
+COUNT ENCODINGS
+you are given a string of digits(will never start with 0). You are required to encode the str as per the following rules...
+1->a, 2->b, 3->c....25->y,26->z. You are required to calculate and print the count of the encodings for the string str. For 123 -> there are 3 encodings abc,aw,lc. 
+For 303-> there are 0 encodings print 0 in such cases. For 013-> invalid input
+
+ex given string 231011
+
+|  |  |  |  |  |  |
+ 2  3  1  0  1  1 
+
+har ek cell mein woh store hoga ki peeche jitne bhi hai usse milakr kitne patterns possible hai...to traversal from left to right...chotte problem se bade problem tak
+
+koi bhi charcater given ho last ka 1 ya do hata sakte ho....jaise 456 hai toh 45_6 ya phir 4_56
+2 ke liye b
+3 ke liye agar woh 2 ke saath jud jaaye to bc aur 23 waise bhi w ke barabar hota hai
+1 abh 3 ke encoding ke peeche aa jaye toh 2 toh waise hi bann gaye bca aur wa abh 2_31 ke liye 31 ka koi code nahi 
+0 ke liye 2310...23_10 or 231_0...231 ka hai bca aur wa ....10 ka hai j....bcj aur wj
+1 ke liye 23101...2310_1 and 231_01....2310_1 ke liye 2310 ke peeche 1 laga do...bcja aur wja...231_01 mein 01 kuch hota hi nahi
+1 ke liye 23101_1 aur 2310_11... ..23101_1 mein bcjaa aur wjaa...2310_11 mein bcjk aur wjk
+
+special cases
+last ke 2 joh hai (i-1) aur i uske cases are as follows - 0 0 || o non-zero || non-zero 0 || non-zero non-zero
+
+public class practise {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        String str = input.next();
+
+        int[] dp = new int[str.length()];
+        dp[0] = 1; // array ke pehle wale mein koi number ka ek encoding toh hoga hi
+
+        for(int i = 1;i<dp.length;i++){
+            if(str.charAt(i-1) == '0' && str.charAt(i) == '0'){
+                // exa,ple lo 21100 toh 2 ka b
+                // 21 ka ba 2 ke aage 1 aur 21 in itself is u
+                // 211 ka 21_1(baa,ua) aur 2_11(bk)
+                // 2110 mein only possibility is 21_10(baj,uj)
+
+                dp[i]= 0; // koi jump possible nahi hai
+            }
+            else if(str.charAt(i-1) == '0' && str.charAt(i) != '0'){
+                // 21103 mein splitting only possible is 2110_3(bajc,ujc)
+                dp[i] = dp[i-1]; // ek hi jump maar sakta hai
+            }
+            else if(str.charAt(i-1) != '0' && str.charAt(i) == '0'){
+                //last ke 2 digits should be less than 26
+                //or  if(str.charAt(i-1) == '1' || str.charAt(i-1) == '2'
+                if(Integer.parseInt(str.substring(i-1,i+1)) <= 26){
+                    dp[i] = (i >= 2 ? dp[i-2] : 1);
+                }
+                else
+                {
+                    dp[i] = 0;
+                }
+            }
+            else{
+                if(Integer.parseInt(str.substring(i-1,i+1)) <= 26){
+                    dp[i] = dp[i-1]+ (i >= 2 ? dp[i-2] : 1);
+                }
+                else{
+                    dp[i] = dp[i-1];
+                }
+            }
+        }
+        System.out.println(str.length()-1);
+    }
+}
+
+
+-> yeh array ka size ke hisaab se test cases dekh lena isiliye woh tertiary operator use kiya
+
+
+###############
+COUNT A+B+C SUBSEQUENCE
+You are given a string str. You are required to calculate and print the count of subsequences of the nature a+b+c
+for abbc -> there r 3 subsequences abc,abc,abbc
+
+-> abcabc total subsequence possible = 2^6 ...ek character aaye ya naa aaye
+-> formulae hai 2a+1...purane a ke saath naya wala jud gaya ya nahi juda toh uske 2 aur woh 1 agar khud ussi se start ho toh....
+-> similarly 2b+a purane b wale ke saath naya b aa sakta hai ya nahi aa sakta aur phir last a ke saath toh aayega hi and 2c+b
+
+-> yaad rakhna substring a se shru hona chahiye
+
+
+            a       b         c       a'             b'                       c'
+a+          0       a         a       aa',a,a'      aa',a,a'                  aa',a,a'
+ 
+a+b+        0       0         ab      ab            ab,abb',ab',aa'b',a'b'     ab,abb',ab',aa'b',a'b'
+ 
+a+b+c+      0       0         0        abc          abc                      abc,abcc',abc',abb'c',ab'c',aa'b'c',a'b'c'
+
+public class practise {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        String str = input.next();
+
+        int a = 0;
+        int ab = 0;
+        int abc = 0;
+
+        for(int i = 0;i<str.length();i++){
+            if(str.charAt(i) == 'a'){
+                a = 2*a + 1;
+                // naya a uske aage jud sakta hai aur nahi bhi toh woh 2a ...+1 agar naya a se string start kare toh
+            }
+            else if(str.charAt(i) == 'b'){
+                ab = 2*ab + a;
+                // naya b purane ab walon ke aage jud sakta hai aur nahi bhi
+                // naya b lekin purane a walon ke peeche toh judega hi
+            }
+            else if(str.charAt(i) == 'c'){
+                abc = 2*abc + ab;
+            }
+        }
+
+        System.out.println(abc);
+
+    }
+}
+
+
+##################
+MAXIMUM SUM NON ADJACENT ELEMENTS
+You are given a number n, representing the count of the elements. You are given n numbers, representing n elements. You are required to 
+find the maximum sum of a subsequence with no adjacent elements
+
+
+-> joh joh element ho set mein consider karoge toh next element ka sirf no option hai
+-> joh element ka no tha toh next element ka yes aur no dono hai
+
+
+
+
+
+
+
+
+
+
+#####################
+PAINT HOUSE
+You are given a number n, representing the number of houses. In the next n rows, you are given 3 spaced seperated numbers representing the cost of the 
+painting nth house with red or blue or green colour. You are required to calculate and print the minimum cost of painting all houses without painting any 
+consecutive house with same colour
+
+
+sampleinput
+4
+1 5 7
+5 8 4
+3 2 9
+1 2 4
+
+ek cell ka yeh matlab hai ki wahan tak sirf red lagaye toh minimum kya hoga
+abh joh (r,2) cell pe lagana hai woh aisa sochoki red toh lagana hi hai lekin uske pehle wala red nahi na ho sakta toh humko (g,1) aur (b,1) mein min lena hoga...5+5
+ 
+      1          2            3           4
+r     1          10           8           8
+b     5          9            7           10
+g     7          5            18          11
+
+final answer hoga ki last col ka min value
+public class champ {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int[][] arr = new int[n][3];
+        for(int i = 0;i<arr.length;i++){
+            for(int j = 0;i<arr[0].length;j++){
+                arr[i][j] = scanner.nextInt();
+            }
+        }
+
+        long[][] dp = new long[n][3];
+        dp[0][0] = arr[0][0];
+        dp[0][1] = arr[0][1];
+        dp[0][2] = arr[0][2];
+
+        for(int i = 0;i< arr.length;i++){
+            dp[i][0] = arr[i][0]+Math.min(dp[i-1][1],dp[i-1][2]);
+            dp[i][1] = arr[i][1]+Math.min(dp[i-1][0],dp[i-1][2]);
+            dp[i][2] = arr[i][2]+Math.min(dp[i-1][1],dp[i-1][0]);
+        }
+
+        long ans = Math.min(dp[n-1][0],Math.min(dp[n-1][1],dp[n-1][2]));
+    }
+}
+
+
+-> Paint House - Many Colors
+1. You are given a number n and a number k separated by a space, representing the number of houses and number of colors.
+2. In the next n rows, you are given k space separated numbers representing the cost of painting nth house with one of the k colors.
+3. You are required to calculate and print the minimum cost of painting all houses without painting any consecutive house with same color.
+
+sample input
+4 3
+1 5 7
+5 8 4
+3 2 9
+1 2 4
+
+
+
+
+########################
+PARTITION INTO SUBSETS
+1. You are given a number n, representing the number of elements.
+2. You are given a number k, representing the number of subsets.
+3. You are required to print the number of ways in which these elements can be partitioned in k non-empty subsets.
+E.g.
+For n = 4 and k = 3 total ways is 6
+12-3-4
+1-23-4
+13-2-4
+14-2-3
+1-24-3
+1-2-34
+
+###########################
+TILLING WITH 2*1 TILES
+
+1. You are given a number n representing the length of a floor space which is 2m wide. It's a 2 * n board.
+2. You've an infinite supply of 2 * 1 tiles.
+3. You are required to calculate and print the number of ways floor can be tiled using tiles.
+
+-> isko waise hi socho source se destination wala...toh total diff tareeke add kardo...pehla toh ek tile agar horizontal rakh de toh kya ....dusra tareeka hai ki vertical rakhe toh kya
+
+public class khatam {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+
+        int[] dp = new int[n+1];
+        //agar 2*1 ho toh 1 tareeka hai aur 2*2 ho toh 2 tareeke hai dono ko horizontal ya dono ko vertical
+        dp[1] = 1;
+        dp[2] = 2;
+
+        for(int i = 3;i<=n;i++){
+            dp[i] = dp[i-1]+dp[i-2];
+            // i-1 jabh tabh ek tile vertically lagaya ho...i-2 tabh jabh 2 tiles horizontally lagaye ho
+        }
+
+        System.out.println(dp[n]);
+    }
+}
+
+
+###########################
+TILLING WITH M*1 TILES
+
+1. You are given a number n and a number m separated by line-break representing the length and breadth of a m * n floor.
+2. You've an infinite supply of m * 1 tiles.
+3. You are required to calculate and print the number of ways floor can be tiled using tiles.
+
+public class khatam {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int m = input.nextInt();
+
+        int[] dp = new int[n+1];
+        for(int i = 1;i<=n;i++){
+           if(i < m){
+               dp[i] = 1;
+           }
+           else if(i == m){
+               dp[i] = 2;
+           }
+           else{
+               dp[i] = dp[i-1]+dp[i-m];
+           }
+        }
+
+        System.out.println(dp[n]);
+    }
+}
+
+
+###############################
+FRIENDS PAIRING PROBLEM
+
+1. You are given a number n, representing the number of friends.
+2. Each friend can stay single or pair up with any of it's friends.
+3. You are required to print the number of ways in which these friends can stay single or pair up.
+E.g.
+1 person can stay single or pair up in 1 way.
+2 people can stay singles or pair up in 2 ways. 12 => 1-2, 12.
+3 people (123) can stay singles or pair up in 4 ways. 123 => 1-2-3, 12-3, 13-2, 23-1.
+
+
+
+#########################
+BUY AND SELL STOCKS - 1 TRANSACTION ALLOWED
+you are given a number n representing the number of days. You are given n numbers where ith number represents price of stock on the ith day.
+You r required to print the max profit u can make if u r allowed a single transaction
+
+-> buy tabh karoge jabh price min ho aur sell max pe 
+-> for every selling day...the max profit will be when we must have bought the stock at least price at some previous day
+
+public class kannu {
+    public static void main(String[] args){
+       Scanner input = new Scanner(System.in);
+       int n = input.nextInt();
+
+       int[] prices = new int[n];
+       for(int i =0;i<n;i++){
+           prices[i] = input.nextInt();
+       }
+
+       int least_so_far = Integer.MAX_VALUE;
+       int overall_profit = 0;
+       int profit_so_far = 0;
+
+
+       for(int i = 0;i<n;i++){
+           if(prices[i] < least_so_far){
+               least_so_far = prices[i];
+           }
+
+           profit_so_far = prices[i] - least_so_far;
+
+           if(overall_profit < profit_so_far){
+               overall_profit = profit_so_far;
+           }
+       }
+
+       System.out.println(overall_profit);
+    }
+}
+
+-> Buy And Sell Stocks - Infinite Transactions Allowed 
+1. You are given a number n, representing the number of days.
+2. You are given n numbers, where ith number represents price of stock on ith day.
+3. You are required to print the maximum profit you can make if you are allowed infinite transactions.
+Note - There can be no overlapping transaction. One transaction needs to be closed (a buy followed by a sell) before opening another transaction (another buy)
+
+har dip ke baad buy hai aur dip se pehle sell...aise har ek buy-sell pair ko count karna hai
+
+initially buy aur sell ki dates same rakho...jaise jaise values badh rahi hai toh sell date aage khiskao...jaise hi drop aa jaaye sell ko wahan pe hi rok do 
+aur utna ka profit collect karlo...abh waapis buying and selling ko
+
+dip pe rakhiye aur waapis values badhe toh sell ki value badhate jaao
+
+
+public class expert{
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+
+        int[] arr = new int[n];
+        for(int i =0;i<n;i++){
+            arr[i] = input.nextInt();
+        }
+
+        int buying_date = 0;
+        int selling_date = 0;
+        int profit = 0;
+
+
+        for(int i = 1;i<arr.length;i++){
+            if(arr[i] >= arr[i-1]){
+                selling_date++;
+            }
+            else{
+                profit = arr[selling_date]-arr[buying_date];
+                buying_date = selling_date = i;
+            }
+        }
+
+        profit = arr[selling_date]-arr[buying_date];
+        System.out.println(profit);
+    }
+}
+
+
+-> Best Time to Buy and Sell Stocks with Transaction Fee and Infinite Transactions
+
+ismein do variables hoga ...box state aur sold state...box state means buy-sell ke pairs mein lekin ek buy akele reh jaaye toh
+sold state is all buy-sell pairs are complete
+
+Day               bsp(0)       ssp(0)     fees = 3
+
+1        10       -10  b1          0                                                                humne day 1 pe yeh stock khareeda isiliye apne paas -10 hai
+
+day 2 ke liye else u take upar wala or 0-15 = -15 b2
+2        15       -10  b1     2 b1s2(15 wala bech diya toh 15-10 lekin 3 ka fees bhi hai toh 5-3) b1s2   aage aise check karna hai ki upar wala hi rehne se ya naya wala buy kare ...so -10 ya -15
+
+day 3 ke liye bought state(bs) ka matlab yeh hai ki apne pass ek share extra hai jabh bhi khareeda gaya ho....sold state(ss) ka matlab yeh hai ki no of buys = no of sell
+toh apne pass koi extra stock nahi hai
+
+toh koibhi din ke liye for bs either upar wale same state mein reh sakte hai ya uske upar wala ss mein reh sakte hai...toh day 3 ke liye its either -10 b1 or 
+-15(upar ke ss wala 2 aur buy kar rahe toh -17) b1s2b3...toh better option is -10 b1
+ss ke liye bhi do option ki upar wala 2 b1s2 ya 17 wala sell kardo toh 10+17-3=4
+
+3        17      -10 b1       4 b1s3
+
+day 4 ke liye upar wala else buy kardo toh 4-20 = -16 b1s3b4...but -10 b1 is better
+4        20      -10 b1      7 b1s4
+5        16      -9 b1s4b5   7 b1s4
+6        18      -9 b1s4b5   7 b1s4
+7        22      -9 b1s4b5   10 b1s4b5s7
+8        20      -9 b1s4b5   10 b1s4b5s7
+9        22      -9 b1s4b5   10 b1s4b5s7
+10       20      -9 b1s4b5   10 b1s4b5s7
+11       23      -9 b1s4b5   11 b1s4b5s11
+12        25     -9 b1s4b5   13 b1s4b5s112
+
+
+public class expert{
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+
+        int[] arr = new int[n];
+        for(int i =0;i<n;i++){
+            arr[i] = input.nextInt();
+        }
+
+        int fee = input.nextInt();
+
+        int obsp = -arr[0];
+        int ossp = 0;
+
+
+        for(int i = 1;i<arr.length;i++){
+
+            int nbsp = 0;
+            int nssp = 0;
+
+            //upar wale ssp se buy kiya means ssp-arr[i] woh agar upar wala bsp se acha ha th update
+            if(ossp-arr[i]>obsp){
+                nbsp = ossp-arr[i];
+            }
+            else{
+                nbsp = obsp;
+            }
+
+            if(obsp+arr[i]-fee > ossp){
+                nssp = obsp+arr[i]-fee;
+            }
+            else{
+                nssp = ossp;
+            }
+
+            obsp = nbsp;
+            ossp = nssp;
+
+        }
+
+        System.out.println(ossp);
+    }
+}
+
+
+
+-> Buy And Sell Stocks With Cooldown - Infinite Transaction Allowed
+1. You are given a number n, representing the number of days.
+2. You are given n numbers, where ith number represents price of stock on ith day.
+3. You are required to print the maximum profit you can make if you are allowed infinite transactions, but have to cooldown for 1 day after 1 transaction
+i.e. you cannot buy on the next day after you sell, you have to cooldown for a day at-least before buying again.
+Note - There can be no overlapping transaction. One transaction needs to be closed (a buy followed by a sell) before opening another transaction (another buy).
+
+
+Day               bsp(0)       ssp(0)     csp
+
+1        10       -10 b1      0          0
+
+cool down ke baad hi share bech sakte toh upar wale csp ka 0 toh 0-15 = -15 b2
+
+2        15      -10 b1      5 b1s2      0
+
+cool down ke baad hi share bech sakte toh upar wale csp ka 0 toh 0-17 = -17 b3
+3        17      -10 b1     7 b1s3      5 b1s2c3
+
+day 4 bsp =  -15 b1s2c3s4 else -10 b1 
+4        20       -10 b1              10 b1s4         7 b1s3c4
+5        16       -9 b1s3c4b5         10 b1s4         10 b1s4c5
+6        18       -8 b1s4c5b6         9 b1s4          10 b1s4c5
+7        22       -8 b1s4c5b6        14 b1s4c5b6s7    10 b1s4c5
+8        20        -8 b1s4c5b6       14 b1s4c5b6s7    14 b1s4c5b6s7c8
+9        22      
+10       20      
+11       23      
+12       25   
+
+public class expert{
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+
+        int[] arr = new int[n];
+        for(int i =0;i<n;i++){
+            arr[i] = input.nextInt();
+        }
+
+        int obsp = -arr[0];
+        int ossp = 0;
+        int ocsp = 0;
+
+
+        for(int i = 1;i<arr.length;i++){
+
+            int nbsp = 0;
+            int nssp = 0;
+            int ncsp = 0;
+
+            if(ocsp-arr[i]>obsp){
+                nbsp = ocsp-arr[i];
+            }
+            else{
+                nbsp = obsp;
+            }
+
+            if(obsp+arr[i] > ossp){
+                nssp = obsp+arr[i];
+            }
+            else{
+                nssp = ossp;
+            }
+
+            if (ossp > ocsp){
+                ncsp = ossp;
+            }
+            else{
+                ncsp = ocsp;
+            }
+
+            obsp = nbsp;
+            ossp = nssp;
+            ocsp = ncsp;
+        }
+        System.out.println(ossp);
+    }
+}
+
+
+
+-> Buy And Sell Stocks - Two Transactions Allowed
+1. You are given a number n, representing the number of days.
+2. You are given n numbers, where ith number represents price of stock on ith day.
+3. You are required to print the maximum profit you can make if you are allowed two transactions at-most.
+Note - There can be no overlapping transaction. One transaction needs to be closed (a buy followed by a sell) before opening another transaction (another buy).
+
+-> kisi date pe sell karna mandatory ho toh uske pehle mein konse date pe sabse less price ho toh tabh khareeda hota toh profit max hoga
+-> har ek date pe woh store karo ki uske pehle tak ka max profit kitna hua
+-> uske baad reverese mein traverse karo aur store karo ki agar aaj ke din buy karna compulsory hota toh kya hota....toh hum future ki
+  dates pe max margin wale ko selling date maan kar value store kar dete....lekin agar uske pehle ke max margin hai toh woh store kar lo
+
+-> toh har point pe yeh pada hai ki uss din ya uss din se pehle sell hua toh max kitna hai aur uss din aur uske baad agar buy hoga toh 
+kya max hai
+-> har point pe yeh dono ka sum kardo
+
+public class khatam {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0;i<arr.length;i++){
+            arr[i] = input.nextInt();
+        }
+
+        //left to right jaakr max if sold today nikalte
+        int max_if_sold_today = 0;
+        int least_so_far = arr[0];
+        int[] dpmax_profit_upto_today = new int[arr.length];
+        for(int i = 1;i<arr.length;i++){
+            if(arr[i] < least_so_far){
+                least_so_far = arr[i];
+            }
+
+            max_if_sold_today = arr[i]-least_so_far;
+
+            if(max_if_sold_today > dpmax_profit_upto_today[i-1]){
+                dpmax_profit_upto_today[i] = max_if_sold_today;
+            }
+            else{
+                dpmax_profit_upto_today[i] = dpmax_profit_upto_today[i-1];
+            }
+        }
+
+        // abh R to left chalo aur max profit if bought today calculate karo
+
+        int max_profit_if_bought_today = 0;
+        int max_after_today = arr[arr.length-1];
+        int[] dpmaxprofit = new int[arr.length];
+        for(int i = arr.length-2;i>=0;i--){
+            if(arr[i] > max_after_today){
+                max_after_today = arr[i];
+            }
+
+            max_profit_if_bought_today = max_after_today-arr[i];
+            if(max_profit_if_bought_today > dpmaxprofit[i+1]){
+                dpmaxprofit[i] = max_profit_if_bought_today;
+            }
+            else{
+                dpmaxprofit[i] = dpmaxprofit[i+1];
+            }
+        }
+// jidhar dono values ka maximum sum woh hai
+        int op = 0;
+        for(int i = 0;i<arr.length;i++){
+            if(dpmax_profit_upto_today[i] + dpmaxprofit[i] >op){
+                op = dpmax_profit_upto_today[i] + dpmaxprofit[i];
+            }
+        }
+
+        System.out.println(op);
+
+    }
+}
+
+
+
+-> Buy And Sell Stocks - K Transactions Allowed
+
+
+
+
+###########################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###################################
+LARGEST SQUARE SUBMATRIX OF ALL 1's
+
+given matrix
+0 1 0 1 0 1                 
+1 0 1 0 1 0
+0 1 1 1 1 0
+0 0 1 1 1 0
+1 1 1 1 1 1
+
+
+dp matrix
+0 1 0 1 0 1
+1 0 1 0 1 0
+0 1 3 2 1 0
+0 0 2 2 1 0
+1 1 1 1 1 1
+
+-> we create the same size ka matrix jismein ek cell ka matlab hoga ki agar usko top left corner maan le toh kitna bada all 1 ka matrix banega
+-> toh dekha jaaye to last row aur last col se banane wala cell se hi sabse choti matrix banegi toh traversal waisa hoga
+-> jahan jahan 0 pada hua hai udhar 0 hi daal do
+-> last row aur last col mein bhi wohin daal do joh original matrix mein the kyuki wahan se square banana toh mushkil hai
+-> baaki jagah ke liye...see right bottom aur diagonally down aur unka min lekr + 1 karke likh do
+-> jagan sabse bada number hoga usko top left maan kr sabse bada sq matrix possible hoga
+ 
+
+public class kannu {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int m = input.nextInt();
+        int[][] arr = new int[n][m];
+
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++){
+                arr[i][j]= input.nextInt();
+            }
+        }
+
+        int ans = 0;
+
+        int[][] dp = new int[n][m];
+        for(int i = dp.length-1;i>=0;i--){
+            for(int j = dp[0].length-1;j>=0;j--){
+                //last row and last col
+                if(i== dp.length-1 && j== dp[0].length-1){
+                    dp[i][j] = arr[i][j];
+                }
+                //last row
+                else if(i == dp.length-1){
+                    dp[i][j] =  arr[i][j];
+                }
+                //last col
+                else if(j == dp[0].length-1){
+                    dp[i][j] =  arr[i][j];
+                }
+                else{
+                    if(arr[i][j] == 0){
+                        dp[i][j] = 0;
+                    }
+                    else{
+                        int min = Math.min(dp[i][j+1],Math.min(dp[i+1][j],dp[i+1][j+1]));
+                        dp[i][j] = min+1;
+
+                        if(dp[i][j] > ans){
+                            ans = dp[i][j];
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
+}
+
+
+##############################3
+PRINT ALL PATHS WITH MINIMUM JUMPS
+
+You are given a number N representing no of elements. You are given N space seperated numbers. Your task is to find and print minimum jumps need from 
+0th step to (n-1)th step and all configurations of minimum jumps
+
+-> agar yeh given array hai toh humko destination tak pahunchna hai we traverse it from right to left
+0 1 2 3 4 5 6 7 8 9
+3 3 0 2 1 2 4 2 0 0
+-> jitne number of jumps hai uska min +1
+0 1 2 3 4 5 6 7 8 9
+4 4 n 3 3 2 1 1 n 0
+
+abhi path print karne ke liye store karo index value--size--jump--path so far
+toh starting 0-3-4/0...abh woh dekha size 3 hai toh 3 aage wala index ka min liya toh aaya 3 at index no 3 so now it chamnges to 3-2-3/0->3
+abh index no 3 se dekha size 2 hai toh 2 indexes aage dekhe min is 2 at index 5 toh 5-2-2/0->3>5
+similarly move ahead
+
+
+public class kannu {
+
+    public static class Pair{
+        int i,s,j;
+        String psf;
+        //path so far
+        Pair(int i,int s, int j, String psf){
+            this.i=i;
+            this.s=s;
+            this.j=j;
+            this.psf=psf;
+        }
+    }
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0;i<n;i++){
+            arr[i] = input.nextInt();
+        }
+
+        Integer[] dp = new Integer[n];
+        //last spot se jumplagegi nahi
+        dp[arr.length-1] = 0;
+
+        for(int i = arr.length-2;i>=0;i--){
+            int steps = arr[i];
+            int min = Integer.MAX_VALUE;
+            for(int j = 1;j<=steps & i+j < arr.length;j++){
+                if(dp[i+j] != null && dp[i+j]<min){
+                    min = dp[i+j];
+                }
+            }
+
+            // agar jahan null pada hai wahan update nahi hoga
+
+            if(min != Integer.MAX_VALUE){
+                dp[i] = min+1;
+            }
+        }
+
+        System.out.println(dp[0]);
+
+        ArrayDeque<Pair> queue = new ArrayDeque<>();
+        queue.add(new Pair(0,arr[0],dp[0],0+""));
+
+        while(queue.size() > 0){
+            Pair rem = queue.removeFirst();
+            if(rem.j == 0){
+                System.out.println(rem.psf);
+            }
+
+            for(int j = 1;j<=rem.s && rem.i+j <arr.length;j++){
+                if(dp[rem.i+j] != null && dp[rem.i+j] == rem.j-1){
+                    queue.add(new Pair(rem.i+j,arr[rem.i+j],dp[rem.i+j],rem.psf+" -> "+rem.i+j));
+                }
+            }
+        }
+
+    }
+}
+
+
+
+###############################
+
+##############################
+LONGEST INCREASING SUBSEQUENCE
+
+YOU ARE GIVEN A NUMBER N, REPRESENTING THE NUMBER OF ELEMENTS. YOU ARE GIVEN N NUMBERS,REPRESENTING THE CONTENTS OF ARRAY OF LENGTH N. YOU ARE 
+REQUIRED TO PRINT THE LENGTH OF LONGEST INCREASING SUBSEQUENCE OF ARRAY
+
+
+-> substring aur subarray ek baat hai...abc ke substrings ya subarrays bole toh a,ab,abc,b,bc,c
+-> subsequence ya subset matlab ek element pe choice hai ki woh aaye ya na aaye
+
+-> 1D array banana hai aur ek cell mein woh length store karna hai joh udhar se pehle ke elements ko milakr saare banne but end ussi number se ho
+
+|   |   |   |   |   |   |   |   |   |   |
+ 10   22  9  33   21  50  41  60  80  1
+
+-> left to right sequence
+-> 10 pe khatam hone wale... _ aur 10  lekin 10 pe khatam hone wale ek hi hai 10
+-> 10|22 ke __,_22,10_,1022....lekin 22 pe khatam hone wale _22,1022
+-> 9 ke liye increasing subsequence sirf ek hai woh hai _9
+-> 33 aisa sochega ki kya uske pehle wale possibilities ke peeche lagke
+-> toh sabke paas aise dekhkr woh ussi ke peeche lagega joh lamba ho , increasing subsequence hoga aur ussi number pe end ho
+-> har cell pe aisa uspe khatam hone wala condition isiliye hai kyuki 
+
+-> jaise 50 ka dekha ki woh toh usle pehle ke saare elements se bada hai toh kisike bhi peeche lagega...abh dp array check karke
+-> dekho ki largest value kiska hai toh ussi ke peeche lagado
+
+public class practise {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0;i<n;i++){
+            arr[i] = input.nextInt();
+        }
+        int overall_max = 0;
+
+        int[] dp = new int[n];
+        dp[0] = 1;
+        // array mein ek certain cell ke peeche tak check karo ki woh uss number se chotta hai if yes uski value ko check karo ki kya woh max hai
+
+
+        for(int i = 0;i<dp.length;i++) {
+            int max = 0;
+            for(int j = 0;j<i;j++) {
+                if (arr[j] < arr[i]) {
+                    if (dp[j] > max) {
+                        max = dp[j];
+                    }
+
+                }
+            }
+
+            dp[i] = max+1;
+            // woh i pe joh value hogi woh uske purane wale ke max + 1 hi hogi kyuki woh  uske peeche ki lag sakta hai given that the number
+            // is greater than its previous occurences
+            if(dp[i] > overall_max){
+                overall_max = dp[i];
+            }
+
+        }
+        System.out.println(overall_max);
+    }
+}
+
+
+###################################
+MAXIMUM SUM INCREASING SUBSEQUENCE
+
+1. You are given a number n, representing the number of elements.
+2. You are given n numbers, representing the contents of array of length n.
+3. You are required to print the sum of elements of the increasing subsequence with maximum sum for the array.
+
+public class practise {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0;i<n;i++){
+            arr[i] = input.nextInt();
+        }
+        int overall_max = Integer.MIN_VALUE;
+
+        int[] dp = new int[n];
+
+        for(int i = 0;i<dp.length;i++) {
+            Integer max = null;
+            for(int j = 0;j<i;j++) {
+                if (arr[j] < arr[i]) {
+                    if(max == null){
+                        max=dp[j];
+                        // pehla element ke liye
+                    }
+                    else if (dp[j] > max) {
+                        max = dp[j];
+                    }
+
+                }
+            }
+
+            if(max == null){
+                dp[i] = arr[i];
+                // max null matlab pehla hi element hai toh dp ke uss cell mein array ka hi element daal do
+            }
+            else{
+                dp[i] = max+arr[i];
+            }
+
+            if(dp[i] > overall_max){
+                overall_max = dp[i];
+            }
+
+        }
+        System.out.println(overall_max);
+    }
+}
+
+#######################################
+LONGEST BITONIC SUBSEQUENCE
+
+1. You are given a number n, representing the number of elements.
+2. You are given n numbers, representing the contents of array of length n.
+3. You are required to print the length of longest bitonic subsequence of array.
+Note -> bitonic subsequence begins with elements in increasing order, followed by elements in decreasing order.
+
+-> pehle toh LIC jaise nikalte the waise nikalo
+-> last se traverse karke given array ko decreasing subsequence banao
+-> har cell pe do cheezein hai ...uss point pe khatam hone wala increasing subsequence aur wahan se shuru hone wale drcreasing subsequence...toh dono ke length ko add kardo aur -1
+  because woh number khud 1 baar increasing subseq aur decreasing subseq mein aa raha hai ...isisliye -1 karenge sum of lengths se
+
+
+public class champ {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int[] arr = new int[n];
+        for(int i = 0;i<n;i++){
+            arr[i] = input.nextInt();
+        }
+
+        int[] dp1 = new int[n];
+
+        for(int i = 0;i<arr.length;i++){
+            int max = 0;
+            for(int j = 0;j<i;j++){
+                if(arr[j] <= arr[i]){
+                    if(dp1[j] > max){
+                        max = dp1[j];
+                    }
+                }
+            }
+
+            dp1[i] = max+1;
+        }
+
+
+        int[] dp2 = new int[n];
+
+        for(int i = arr.length-1;i>=0;i--){
+            int max = 0;
+            for(int j = arr.length-1;j>i;j--){
+                if(arr[j] <= arr[i]){
+                    if(dp2[j] > max){
+                        max = dp2[j];
+                    }
+                }
+            }
+
+            dp2[i] = max+1;
+        }
+
+        int overall_max = 0;
+        for(int i = 0;i<arr.length;i++){
+            if(dp1[i]+dp2[i]-1 > overall_max){
+                overall_max = dp1[i]+dp2[i]-1;
+            }
+        }
+
+        System.out.println(overall_max);
+    }
+}
+
+
+##############################
+MAXIMUM NON-OVERLAPPING BRIDGES
+
+1. You are given a number n, representing the number of bridges on a river.
+2. You are given n pair of numbers, representing the north bank and south bank co-ordinates of each bridge.
+3. You are required to print the count of maximum number of non-overlapping bridges.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###############################
+EXTRA QUESTIONS
+
+
+QUESTION1 - GENERATE PARENTHESIS
+import java.util.*;
+
+public class practise {
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        List<String> final_list = generate(n);
+        for(String s : final_list){
+            System.out.println(s);
+        }
+
+    }
+
+    public static List<String> generate(int n){
+        List<String> result = new ArrayList<>();
+        backtrack(result,"",0,0,n);
+        return result;
+    }
+
+    public static void backtrack(List<String> result,String current,int open,int close, int n){
+        if(current.length() == n*2){
+            result.add(current);
+            return;
+        }
+
+        if(open < n){
+            backtrack(result,current+"(",open+1,close,n);
+        }
+        if(close < open){
+            backtrack(result,current+")",open,close+1,n);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
