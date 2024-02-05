@@ -1,0 +1,923 @@
+TREES
+
+
+#####################################
+GENERIC TREE
+
+-> if given an array of numbers like
+10 20 50 -1 60 -1 -1 20 70 -1 80 110 -1 10 -1 -1 90 -1 -1 40 100 -1 -1 -1
+one by one put in stack...-1 aate hi remove the topmost element matlab pop...then insert the next
+ek node hai...dusre node ko uske children banao...-1 aate hi node change kardo 
+
+
+class Node{
+    int data;
+    ArrayList<Node> children = new ArrayList<>();
+    // ek node ke kitne bhi children ho sakte hai
+}
+
+public class expert {
+    public static void main(String[] args) {
+       int[] arr = {10,20,50,-1,60,-1,-1,30,70,-1,80,110,-1,120,-1,-1,90,-1,-1,40,100,-1,-1,-1};
+       Node root;
+       Stack<Node> st = new Stack<>();
+       for(int i = 0;i<arr.length;i++){
+           if(arr[i] == -1){
+               st.pop();
+           }
+           else{
+               Node t = new Node();//node banaya
+               t.data = arr[i]; // arr ka value usmein daal diya
+
+               if(st.size() > 0){
+                   st.peek().children.add(t);
+               }
+               else{
+                   root = t;
+               }
+
+               st.push(t);
+           }
+       }
+    }
+}
+
+
+
+-> displaying generic tree
+
+
+class Node{
+    int data;
+    ArrayList<Node> children = new ArrayList<>();
+    // ek node ke kitne bhi children ho sakte hai
+}
+
+public class expert {
+
+    public static void display(Node node){
+        String str = node.data + "-> ";
+        for(Node child : node.children){
+            str += child.data + ", ";
+        }
+        str += ".";
+        System.out.println(str);
+        // itna tak ek node apne ko print kar dega
+
+        for(Node child : node.children){
+            display(child);
+        }
+        // yeh code will treat children as individual nodes and then
+    }
+    public static void main(String[] args) {
+       int[] arr = {10,20,50,-1,60,-1,-1,30,70,-1,80,110,-1,120,-1,-1,90,-1,-1,40,100,-1,-1,-1};
+       Node root =  null;
+       Stack<Node> st = new Stack<>();
+       for(int i = 0;i<arr.length;i++){
+           if(arr[i] == -1){
+               st.pop();
+           }
+           else{
+               Node t = new Node();//node banaya
+               t.data = arr[i]; // arr ka value usmein daal diya
+
+               if(st.size() > 0){
+                   st.peek().children.add(t);
+               }
+               else{
+                   root = t;
+               }
+
+               st.push(t);
+
+           }
+       }
+
+       display(root);
+    }
+}
+
+
+-> size of generic tree
+
+recursion se hum log sochte hai ki ek node apne neeche ke children ke count batayega
+
+public static int size(Node node){
+        int s = 0;
+        for(Node child : node.children){
+            int child_size = size(child);
+            s = s+child_size;
+        }
+        s+=1; // root node ko add karne
+        return s;
+    }
+
+
+-> Maximum in a generic tree
+
+again recursion lekr dekho ki ek node apne usmein dekh lega...basically root ke children mein se max lo
+ex ek root hai uske 3 children hai...har ek children ke subtree se max lo phir final max lo
+
+ public static int max_node(Node node){
+        int max_n= Integer.MIN_VALUE;
+        for(Node child : node.children){
+            // har ek node apne subtree mein se max dega
+            int cm = max_node(child);
+            max_n = Math.max(max_n,cm);
+        }
+        max_n = Math.max(node.data,max_n);
+        //comparing with the root
+        return max_n;
+    }
+
+
+-> height of a tree
+root ke children pe recursion lagakr uska height nikalna hai ...uspr + 1 karne se height mil jayega
+
+
+ public static int height(Node node){
+        int ht = -1;
+        // edges ke term mein poonche to -1 se initialise...nodes ke term mein poonche toh 0 se initialise
+        for(Node child : node.children){
+            int ch = height(child);
+            ht = Math.max(ch,ht);
+        }
+        ht+=1;
+        return ht;
+    }
+
+
+-> traversal of trees
+
+
+#######################
+BINARY TREES
+-> efficiently inserting and deleting in O(logn) whereas linked list does it in O(n)
+-> binary tree can have 0,1,2 children
+-> unbalanced binary tree...jismein left side node khali ho aur sirf right side pe node ho toh traversal phir O(n) ke ussmein hoga
+-> height = max no of edges between the node and the leaf nodes
+-> level = height of root - height of node......root level = 0
+-> types - complete binary tree=>fill it from left to right.....full or strict binary tree=> every node has 0 or 2 children-1 nahi ho sakta
+         .....perfect binary tree=> all internal nodes have complete nodes-all levels are full.....height balanced binary tree==> avg height O(logn)
+.......skewed binary tree=>every node has 1 child => avg height O(n) like linked list....ordered binary tree=> every node has a property associated with it like bst
+
+-> total nodes in perfect binary tree = 2^(h+1)-1
+-> total no of leaf nodes in perfect binary tree = 2^h
+-> internal nodes = total nodes - leaf nodes = 2^h -1
+-> if u have n number of leaf then min no of levels = logn + 1 levels
+-> if u have n number of leaf then min no of levels = logn+1  levels
+-> strict binary tree....total leaf nodes = n....then internal nodes = n-1...hence in strict binary tree so leaf nodes = internal nodes+1
+-> degree of tree can be 0,1,2
+
+
+-> array ya linked list twale format mein implement kar sakte hai
+public class champ {
+
+    static class Node{
+        Node left;
+        Node right;
+        int data;
+
+        public Node(int value){
+            this.data = value;
+        }
+    }
+
+    Node root;
+
+    public void insert(Scanner scanner){
+        System.out.println("Enter the root Node");
+        int value = scanner.nextInt();
+        root = new Node(value);
+        populate(scanner,root);
+    }
+
+    public void populate(Scanner scanner , Node node){
+        System.out.println("Do you want to enter a left node of "+ node.data);
+        boolean left = scanner.nextBoolean();
+        if(left){
+            System.out.println("enter the value");
+            int value = scanner.nextInt();
+            node.left = new Node(value);
+            populate(scanner,node.left);
+        }
+
+        System.out.println("Do you want to enter a right node of "+ node.data);
+        boolean right = scanner.nextBoolean();
+        if(right){
+            System.out.println("enter the value");
+            int value = scanner.nextInt();
+            node.right = new Node(value);
+            populate(scanner,node.right);
+        }
+    }
+
+    public void display(){
+        display(root,"");
+    }
+
+    public void display(Node node, String indent){
+        if(node == null){
+            return;
+        }
+        System.out.println(indent+node.data);
+        display(node.left,indent+"\t");
+        display(node.right,indent+"\t");
+
+    }
+
+public void pretty_display(Node node, int level){
+        if(node == null){
+            return;
+        }
+
+        pretty_display(node.right,level+1);
+        // poora extreame right tak jaao aur wahan se level 1 increase kar do
+
+        if(level != 0){
+            for(int i = 0;i<level-1;i++){
+                System.out.print("|\t\t");
+            }
+            System.out.println("|---------->"+ node.value);
+        }
+        else{
+            System.out.println(node.data);
+        }
+        pretty_display(node.left,level+1);
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        champ tree = new champ();
+        tree.insert(scanner);
+        tree.display();
+        tree.pretty_display(root,0);
+    }
+}
+
+
+-> binary search tree...insertion/deletion = O(logn)
+public class champ {
+
+    static class Node{
+        Node left;
+        Node right;
+        int value;
+        int height;
+
+        public Node(int value){
+            this.value = value;
+        }
+
+        public int getValue(){
+            return value;
+        }
+    }
+
+    Node root;
+
+    public int height(Node node){
+        if(node == null){
+            return -1;
+        }
+        return node.height;
+    }
+
+    public boolean isEmpty(){
+        return root == null;
+    }
+
+    public void insert(int value){
+        root = insert(value,root);
+    }
+
+    public Node insert(int value, Node node){
+        if(node == null){
+            node = new Node(value);
+            return node;
+        }
+
+        if(value < node.value){
+            node.left = insert(value,node.left);
+        }
+
+        if(value > node.value){
+            node.right = insert(value,node.right);
+        }
+
+        node.height = Math.max(height(node.left),height(node.right) + 1);
+
+        return node;
+    }
+
+    public void populate(int[] nums){
+        for(int i = 0;i<nums.length;i++){
+            this.insert(nums[i]);
+        }
+    }
+
+public static void populateSorted(int[] nums, int start, int end){
+        if(start >= end){
+            return;
+        }
+        int mid =(start+end)/2;
+
+        insert(nums[mid]);
+        //pehle middle element insert karo uske baad left aur right
+
+        populateSorted(nums,start,mid);//left
+        populateSorted(nums,mid+1,end);//right
+    }
+
+    public boolean balanced(){
+        return balanced(root);
+    }
+
+    public boolean balanced(Node node){
+        if(node == null){
+            return true;
+        }
+        return Math.abs(height(node.left)-height(node.right)) <= 1 && balanced(node.left) && balanced(node.right);
+    }
+
+    public void display(){
+        display(root,"Root Node: ");
+    }
+
+    public void display(Node node,String details){
+        if(node == null){
+            return;
+        }
+        System.out.println(details+node.getValue());
+
+        display(node.left,"Left child of " + node.getValue()+" : ");
+        display(node.right,"Right child of " + node.getValue()+" : ");
+    }
+
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        champ tree = new champ();
+        int[] nums = { 5,2,7,1,4,5,6,7,8};
+        tree.populate(nums);
+        tree.display();
+    }
+}
+
+
+-> traversals
+pre order...node-left-right...used to copy binary tree or for evaluating maths expressions...string to binary tree
+in order....left-node-right.....in bST inorder helps to traverse in sorted manner
+post-order ...left-right-node.....delete a binary tree....calculating height
+
+
+
+####################
+AVL TREES
+-> for every node the height diff between left and right subtree <= 1
+-> neeche se dekho ki konsa node unbalanced hai usse phir balance kardo
+-> basic BST property ki node ke right me bade wale aur left mein chotte wale nodes honge still holds
+
+
+class AVL {
+  public class Node {
+    private int value;
+    private Node left;
+    private Node right;
+    private int height;
+
+    public Node(int value) {
+      this.value = value;
+    }
+
+    public int getValue() {
+      return value;
+    }
+  }
+
+  private Node root;
+
+  public AVL() {
+
+  }
+
+  public int height() {
+    return height(root);
+  }
+  private int height(Node node) {
+    if (node == null) {
+      return -1;
+    }
+    return node.height;
+  }
+  
+  public void insert(int value) {
+    root = insert(value, root);
+  }
+
+  private Node insert(int value, Node node) {
+    if (node == null) {
+      node = new Node(value);
+      return node;
+    }
+
+    if (value < node.value) {
+      node.left = insert(value, node.left);
+    }
+
+    if (value > node.value) {
+      node.right = insert(value, node.right);
+    }
+
+    node.height = Math.max(height(node.left), height(node.right)) + 1;
+    return rotate(node);
+  }
+
+  private Node rotate(Node node) {
+    if (height(node.left) - height(node.right) > 1) {
+      // left heavy
+      if(height(node.left.left) - height(node.left.right) > 0) {
+        // left left case
+        return rightRotate(node);
+      }
+      if(height(node.left.left) - height(node.left.right) < 0) {
+        // left right case
+        node.left = leftRotate(node.left);
+        return rightRotate(node);
+      }
+    }
+
+    if (height(node.left) - height(node.right) < -1) {
+      // right heavy
+      if(height(node.right.left) - height(node.right.right) < 0) {
+        // right right case
+        return leftRotate(node);
+      }
+      if(height(node.right.left) - height(node.right.right) > 0) {
+        // left right case
+        node.right = rightRotate(node.right);
+        return leftRotate(node);
+      }
+    }
+
+    return node;
+  }
+
+  public Node rightRotate(Node p) {
+    Node c = p.left;
+    Node t = c.right;
+
+    c.right = p;
+    p.left = t;
+    
+    p.height = Math.max(height(p.left), height(p.right) + 1);
+    c.height = Math.max(height(c.left), height(c.right) + 1);
+
+    return c;
+  }
+
+  public Node leftRotate(Node c) {
+    Node p = c.right;
+    Node t = p.left;
+
+    p.left = c;
+    c.right = t;
+    
+    p.height = Math.max(height(p.left), height(p.right) + 1);
+    c.height = Math.max(height(c.left), height(c.right) + 1);
+
+    return p;
+  }
+
+  public void populate(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+      this.insert(nums[i]);
+    }
+  }
+
+  public void populatedSorted(int[] nums) {
+    populatedSorted(nums, 0, nums.length);
+  }
+
+  private void populatedSorted(int[] nums, int start, int end) {
+    if (start >= end) {
+      return;
+    }
+
+    int mid = (start + end) / 2;
+
+    this.insert(nums[mid]);
+    populatedSorted(nums, start, mid);
+    populatedSorted(nums, mid + 1, end);
+  }
+
+  public void display() {
+    display(this.root, "Root Node: ");
+  }
+
+  private void display(Node node, String details) {
+    if (node == null) {
+      return;
+    }
+    System.out.println(details + node.value);
+    display(node.left, "Left child of " + node.value + " : ");
+    display(node.right, "Right child of " + node.value + " : ");
+  }
+
+  public boolean isEmpty() {
+    return root == null;
+  }
+
+  public boolean balanced() {
+    return balanced(root);
+  }
+
+  private boolean balanced(Node node) {
+    if (node == null) {
+      return true;
+    }
+    return Math.abs(height(node.left) - height(node.right)) <= 1 && balanced(node.left) && balanced(node.right);
+  }
+
+}
+
+
+
+#######################
+SEGMENT TREES
+
+-> used when a ques or query involves a range like max,min,product,avg in range...does it in O(logn)
+-> its a binary tree which consists of interval info and operation we are performing
+-> har range ko /2 karte raho jabh tak leaf node mein sirf 1 hi element na reh jaaye array ke range mein
+-> its a full binary tree....leaf nodes = n....internal nodes = n-1...total nodes = 2n-1
+-> ya toh joh range chhaiye woh overlap karega...outside hoga ya wohin hoga joh chahiye
+
+
+class SegmentTree {
+
+  private static class Node {
+    int data;
+    int startInterval;
+    int endInterval;
+    Node left;
+    Node right;
+
+    public Node (int startInterval, int endInterval) {
+      this.startInterval = startInterval;
+      this.endInterval = endInterval;
+    }
+  }
+
+  Node root;
+
+  public SegmentTree(int[] arr) {
+    // create a tree using this array
+    this.root = constructTree(arr, 0, arr.length - 1);
+  }
+
+  private Node constructTree(int[] arr, int start, int end) {
+    if(start == end) {
+      // leaf node
+      Node leaf = new Node(start, end);
+      leaf.data = arr[start];
+      return leaf;
+    }
+
+    // create new node with index you are at
+    Node node = new Node(start, end);
+    
+    int mid = (start + end) / 2;
+
+    node.left = this.constructTree(arr, start, mid);
+    node.right = this.constructTree(arr, mid + 1, end);
+
+    node.data = node.left.data + node.right.data;
+    return node;
+  }
+
+  public void display() {
+    display(this.root);
+  }
+  private void display(Node node) {
+    String str = "";
+
+    if(node.left != null) {
+      str = str + "Interval=[" + node.left.startInterval + "-" + node.left.endInterval + "] and data: " + node.left.data + " => "; 
+    } else {
+      str = str + "No left child";
+    }
+
+    // for current node
+    str = str + "Interval=[" + node.startInterval + "-" + node.endInterval + "] and data: " + node.data + " <= "; 
+    
+    if(node.right != null) {
+      str = str + "Interval=[" + node.right.startInterval + "-" + node.right.endInterval + "] and data: " + node.right.data; 
+    } else {
+      str = str + "No right child";
+    }
+
+    System.out.println(str + '\n');
+
+    // call recursion
+    if(node.left != null) {
+      display(node.left);
+    }
+
+    if(node.right != null) {
+      display(node.right);
+    }
+  }
+
+  // query
+  public int query(int qsi, int qei) {
+    return this.query(this.root, qsi, qei);
+  }
+  private int query(Node node, int qsi, int qei) {
+    if(node.startInterval >= qsi && node.endInterval <= qei) {
+      // node is completely lying inside query
+      return node.data;
+    } else if (node.startInterval > qei || node.endInterval < qsi) {
+      // completely outside
+      return 0;
+    } else {
+      return this.query(node.left, qsi, qei) + this.query(node.right, qsi, qei);
+    }
+  }
+
+  // update
+  public void update(int index, int value) {
+    this.root.data = update(this.root, index, value);
+  }
+  private int update(Node node, int index, int value) {
+    if (index >= node.startInterval&& index <= node.endInterval){
+      if(index == node.startInterval && index == node.endInterval) {
+        node.data = value;
+        return node.data;
+      } else {
+        int leftAns = update(node.left, index, value);
+        int rightAns = update(node.right, index, value);
+        node.data = leftAns + rightAns;
+        return node.data;
+      }
+    }
+    return node.data;
+  }
+  
+}
+
+
+
+######################
+GRAPHS
+
+-> representing using adjacency matrix and adjacency list
+public class kannu {
+    static class Edge{
+        int src; //source
+        int nbr; // neighbour
+        int wt; // weights
+
+        Edge(int src, int nbr,int wt){
+            this.src = src;
+            this.nbr = nbr;
+            this.wt = wt;
+        }
+    }
+    public static void main(String[] args) throws Exception{
+        int vces = 7;
+        ArrayList<Edge>[] graph = new ArrayList[vces];
+        for(int i = 0;i<vces;i++){
+            graph[i] = new ArrayList<>();
+        }
+
+        graph[0].add(new Edge(0,3,40));
+        graph[1].add(new Edge(0,1,10));
+
+        graph[1].add(new Edge(0,3,40));
+        graph[1].add(new Edge(0,3,40));
+
+        graph[2].add(new Edge(0,3,40));
+        graph[2].add(new Edge(0,3,40));
+
+    }
+}
+
+
+QUESTION1 - YOU ARE GIVEN A GRAPH, A SRC AND A DESTINATION VERTEX. YOU ARE REQUIRED TO FIND IF A PATH EXISTS BETWEEN SRC AND DEST. 
+IF IT DOES PRINT TRUE ELSE PRINT FALSE
+
+input
+7
+8
+0 1 10
+1 2 10
+2 3 10
+0 3 10
+3 4 10
+4 5 10
+5 6 10
+4 6 10
+0 
+6
+
+public class kannu {
+    static class Edge{
+        int src; //source
+        int nbr; // neighbour
+        int wt; // weights
+
+        Edge(int src, int nbr,int wt){
+            this.src = src;
+            this.nbr = nbr;
+            this.wt = wt;
+        }
+    }
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int vces = Integer.parseInt(br.readLine());
+        ArrayList<Edge>[] graph = new ArrayList[vces];
+        for(int i = 0;i<vces;i++){
+            graph[i] = new ArrayList<>();
+        }
+
+        int edges = Integer.parseInt(br.readLine());
+        for(int i = 0;i<edges;i++){
+            String[] parts = br.readLine().split(" ");
+            int v1 = Integer.parseInt(parts[0]);
+            int v2 = Integer.parseInt(parts[1]);
+            int wt = Integer.parseInt(parts[2]);
+            graph[v1].add(new Edge(v1,v2,wt));
+            graph[v2].add(new Edge(v2,v1,wt));
+        }
+
+        int src = Integer.parseInt(br.readLine());
+        int dest = Integer.parseInt(br.readLine());
+
+        boolean[] visited = new boolean[vces];
+        boolean path = hasPath(graph,src,dest,visited);
+        System.out.println(path);
+    }
+
+    public static boolean hasPath(ArrayList<Edge>[] graph, int src , int dest, boolean[] visited){
+        // recursion ke saath socho ...ki agar neighbour se jaa sakte then true
+        // boolean visited array se we can check we arent checking the same neighbour again
+
+        if(src == dest){
+            return true;
+        }
+
+        visited[src] = true;
+
+        for(Edge edge : graph[src]){
+            if(visited[edge.nbr] == false){
+                boolean hasNbrPath = hasPath(graph,edge.nbr,dest,visited);
+                if(hasNbrPath == true){
+                    return true;
+                }
+            }
+
+        }
+
+        return false;
+    }
+}
+
+
+QUESTION2 - PRINT ALL PATHS LEXOGRAPHICALLY
+public class kannu {
+    static class Edge{
+        int src; //source
+        int nbr; // neighbour
+        int wt; // weights
+
+        Edge(int src, int nbr,int wt){
+            this.src = src;
+            this.nbr = nbr;
+            this.wt = wt;
+        }
+    }
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int vces = Integer.parseInt(br.readLine());
+        ArrayList<Edge>[] graph = new ArrayList[vces];
+        for(int i = 0;i<vces;i++){
+            graph[i] = new ArrayList<>();
+        }
+
+        int edges = Integer.parseInt(br.readLine());
+        for(int i = 0;i<edges;i++){
+            String[] parts = br.readLine().split(" ");
+            int v1 = Integer.parseInt(parts[0]);
+            int v2 = Integer.parseInt(parts[1]);
+            int wt = Integer.parseInt(parts[2]);
+            graph[v1].add(new Edge(v1,v2,wt));
+            graph[v2].add(new Edge(v2,v1,wt));
+        }
+
+        int src = Integer.parseInt(br.readLine());
+        int dest = Integer.parseInt(br.readLine());
+
+        boolean[] visited = new boolean[vces];
+        printALlPaths(graph,src,dest,visited,src+"");
+    }
+
+    public static void printALlPaths(ArrayList<Edge>[] graph, int src , int dest, boolean[] visited, String psf){
+        if(src == dest){
+            System.out.println(psf);
+            return ;
+        }
+
+        visited[src] = true;
+
+        for(Edge edge : graph[src]){
+            if(!visited[edge.nbr]){
+                printALlPaths(graph,edge.nbr,dest,visited,psf+edge.nbr);
+            }
+        }
+        visited[src] = false;
+    }
+}
+
+
+
+QUESTION3 - SMALLEST, LARGEST, CEIL,FLOOR,KTH LARGEST PATH
+
+QUESTION4 - GET CONNECTED COMPONENTS OF A GRAPH ...YOU ARE GIVEN A GRAPGH.YOU ARE REQUIRED TO FIND AND PRINT ALL CONNECTED COMPONENTS OF THE GRAPH
+7
+5
+0 1 10
+2 3 10
+4 5 10
+5 6 10
+4 6 10
+
+we traverse through each node individually and see wahan se kitne paths possible hai....jishar tak honge utna ek component
+
+public class litcode {
+
+    static class Edge{
+        int src;
+        int nbr;
+        int wt;
+
+         Edge(int v1,int v2,int wt){
+            this.src=v1;
+            this.nbr=v2;
+            this.wt=wt;
+        }
+    }
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int vces = Integer.parseInt(br.readLine());
+        ArrayList<Edge>[] graph = new ArrayList[vces];
+        for(int i = 0;i<vces;i++){
+            graph[i] = new ArrayList<>();
+        }
+
+        int edges = Integer.parseInt(br.readLine());
+        for(int i = 0;i<edges;i++){
+            String[] parts = br.readLine().split(" ");
+            int v1 = Integer.parseInt(parts[0]);
+            int v2 = Integer.parseInt(parts[1]);
+            int wt = Integer.parseInt(parts[2]);
+            graph[v1].add(new Edge(v1,v2,wt));
+            graph[v2].add(new Edge(v2,v1,wt));
+        }
+
+        ArrayList<ArrayList<Integer>> comps = new ArrayList<>();
+
+        boolean[] visited = new boolean[vces];
+
+        for(int i = 0;i<vces;i++){
+            if(!visited[i]){
+                ArrayList<Integer> comp = new ArrayList<>();
+                drawTree(graph,i,comp,visited);
+                comps.add(comp);
+            }
+        }
+
+        System.out.println(comps);
+    }
+
+    public static void drawTree(ArrayList<Edge>[] graph,int src, ArrayList<Integer> comp,boolean[] visited){
+        visited[src] = true;
+        comp.add(src);
+        for(Edge e: graph[src]){
+            if(!visited[e.nbr]){
+                drawTree(graph,e.nbr,comp,visited);
+            }
+        }
+    }
+}
+
+
+QUESTION5 - CHECK IF A GRAPH IS CONNECTED
+
+ek graph tabhi connected bol sakte hai agar har vertex se har dusri vertex ka raasta maujood ho
+
+upar wala code hi bass dekh lena ki joh arraylist of arraylist mein ek arraylist aisa hoga jismein saare vertices mil jayenge...which means its connected
+toh last mein System.out.println(comps); iski jagah System.out.println(comps.size() == 1);..agar true hua toh hai connected else false
+
+QUESTION6- COUNT NUMBER OF ISLANDS
+YOU ARE GIVEN A 2D ARRAY WHERE 0'S REPRESENT LAND AND 1'S REPRESENT WATER.ASSUME EVERY CELL IS LINKED TO ITS NORTH,EAST,WEST AND SOUTH CELL. YOU ARE REQUIRED TO
+FIND AND COUNT THE NUMBER OF ISLANDS
