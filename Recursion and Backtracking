@@ -1,0 +1,1170 @@
+RECURSION AND BACKTRACKING
+
+##################
+RECURSION
+-> stoping condition, return type imp
+
+-> printing from N to 1
+public class player {
+    public static void func(int n){
+        if(n == 0){
+            return;
+        }
+        System.out.println(n);
+        func(n-1);
+    }
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        func(5);
+    }
+}
+
+
+-> printing from 1 to N
+public class player {
+    public static void func(int n){
+        if(n == 0){
+            return;
+        }
+        func(n-1);
+        System.out.println(n);
+
+    }
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        func(5);
+    }
+}
+
+
+-> printing N to 1 and 1 to N together
+public class player {
+    public static void func(int n){
+        if(n == 0){
+            return;
+        }
+	System.out.println(n);
+        func(n-1);
+        System.out.println(n);
+
+    }
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        func(5);
+    }
+}
+
+
+
+->factorial of a number
+public class kannu {
+    public static int pro(int n){
+        if(n == 1){
+            return 1;
+        }
+        int res = n;
+        return res*pro(n-1);
+    }
+
+    public static void main(String[] args){
+        System.out.println(pro(5));
+    }
+}
+
+
+-> sum of n numbers....same as factorial but just + instead of +
+public class kannu {
+    public static int pro(int n){
+        if(n == 1){
+            return 1;
+        }
+        int res = n;
+        return res+pro(n-1);
+    }
+
+    public static void main(String[] args){
+        System.out.println(pro(5));
+    }
+}
+
+
+-> fibonacci 0,1,1,2,3,5........
+
+public class player {
+    public static int func(int n){
+        if(n < 2){
+            return n;
+        }
+        return func(n-1) + func(n-2);
+
+    }
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.println(func(7));
+    }
+}
+
+
+-> binary search using recursion
+
+public class kannu {
+    public static int search(int[] arr, int target, int s, int e){
+        if(s > e){
+            return -1;
+        }
+        int m = s + (e-s)/2;
+        if(arr[m] == target){
+            return m;
+        }
+        if(target<arr[m]){
+            return search(arr,target,s,m-1);
+        }
+
+        return search(arr,target,m+1,e);
+    }
+    public static void main(String[] args){
+        int[] arr = {1,2,3,4,55,66,78};
+        int target = 55;
+        System.out.println(search(arr,target,0,arr.length-1));
+
+    }
+}
+
+-> sum of digits
+public class kannu {
+    public static int sumOfDigit(int n){
+        if(n == 0){
+            return n;
+        }
+        int res = n%10;
+        return res+sumOfDigit(n/10);
+    }
+
+    public static void main(String[] args){
+        System.out.println(sumOfDigit(1342));
+    }
+}
+
+
+-> product of digits
+public class kannu {
+    public static int sumOfDigit(int n){
+        if(n == 0){
+            return n;
+        }
+        int res = n%10;
+        return res*sumOfDigit(n/10);
+    }
+
+    public static void main(String[] args){
+        System.out.println(sumOfDigit(1342));
+    }
+}
+
+
+-> skipping up a character
+public class kannu {
+    public static String skipChar(String s, char c){
+        if(s.length()==0){
+            return "";
+        }
+        if(s.charAt(0)==c){
+            return skipChar(s.substring(1),c);
+        }
+        else{
+            return s.charAt(0)+skipChar(s.substring(1),c);
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(skipChar("bacddac",'a'));
+    }
+}
+
+
+->skipping an entire string
+public class kannu {
+    public static String skipStr(String s, String c){
+        // stopping condition hai jabh tak string ki len = 0 na ho jaaye
+        if(s.length()==0){
+            return "";
+        }
+        // agar woh string mein woh cheez poora mil jaaye toh utna ka length skip karke aage ka search karo
+        if(s.startsWith(c)){
+            return skipStr(s.substring(c.length()),c);
+        }
+        else{
+            //agar nahi mila toh next index position se dekho ki kya woh string mila isiliye substring by 1 lete hai
+            return s.charAt(0)+skipStr(s.substring(1),c);
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(skipStr("bvdapplehkd","apple"));
+    }
+}
+
+
+-> sorting an array
+public class kannu {
+    public static boolean isSort(int[] arr,int i){
+        if(i == arr.length-1){
+            return true;
+        }
+        // compare 2 elements and baaki ko sort karne ke liye recursion call maaro
+
+        return arr[i+1]>arr[i] && isSort(arr,i+1);
+    }
+
+    public static void main(String[] args) {
+        int[] arr={1,2,4,8,43,12};
+        System.out.println(isSort(arr,0));
+    }
+}
+
+
+-> subsets....combination of data without changing sequence
+// non adjacent collection
+// koi question mein subset pattern ko observe karna ho toh yeh cheez ka dhyan rakho ki ismein element ke paas 2 options hote hai...include hona ya na include hona
+
+public class SubSet {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 2};
+        List<List<Integer>> ans = subsetDuplicate(arr);
+        for (List<Integer> list : ans) {
+            System.out.println(list);
+        }
+    }
+
+    static List<List<Integer>> subset(int[] arr) {
+        List<List<Integer>> outer = new ArrayList<>();
+        outer.add(new ArrayList<>());
+        for (int num : arr) {
+            int n = outer.size();
+            for (int i = 0; i < n; i++) {
+                List<Integer> internal = new ArrayList<>(outer.get(i));
+                internal.add(num);
+                outer.add(internal);
+            }
+        }
+        return outer;
+    }
+
+    static List<List<Integer>> subsetDuplicate(int[] arr) {
+        Arrays.sort(arr);
+        List<List<Integer>> outer = new ArrayList<>();
+        outer.add(new ArrayList<>());
+        int start = 0;
+        int end = 0;
+        for (int i = 0; i < arr.length; i++) {
+            start = 0;
+            // if current and previous element is same, s = e + 1
+            if (i > 0 && arr[i] == arr[i-1]) {
+                start = end + 1;
+            }
+            end = outer.size() - 1;
+            int n = outer.size();
+            for (int j = start; j < n; j++) {
+                List<Integer> internal = new ArrayList<>(outer.get(j));
+                internal.add(arr[i]);
+                outer.add(internal);
+            }
+        }
+        return outer;
+    }
+}
+
+-> subsequences
+ public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        subseq("","neha");
+    }
+
+    public static void subseq(String processed, String unprocessed){
+        if(unprocessed.isEmpty()){
+            System.out.println(processed);
+            return;
+            // jabh tak unprocessed poora khatam na ho jaaye
+        }
+        char ch = unprocessed.charAt(0);
+        //unprocessed ka pehla character lo aur usko ek baar include aur exclude karke recursive call karo
+        subseq(processed+ch,unprocessed.substring(1));
+        subseq(processed,unprocessed.substring(1));
+    }
+    
+    // method 2 using arraylist
+    public static ArrayList<String> subseq2(String processed, String unprocessed){
+        if(unprocessed.isEmpty()){
+            ArrayList<String> res = new ArrayList<>();
+            res.add(processed);
+            return res;
+        }
+        char ch = unprocessed.charAt(0);
+        ArrayList<String> left = subseq2(processed+ch,unprocessed.substring(1));
+        ArrayList<String> right =subseq2(processed,unprocessed.substring(1));
+
+        left.addAll(right);
+
+        return left;
+    }
+}
+
+
+-> ASCII
+Given the string print all the subsets having their ASCII values as well
+
+// basic ASCII value printing
+public class Ascii {
+    public static void main(String[] args) {
+        char ch = 'a';
+        System.out.println((ch + 0));
+    }
+}
+
+// this would print 97 so a ka ASCII code is 97
+
+
+ public static void subseq_ASCII(String processed, String unprocessed){
+        if(unprocessed.isEmpty()){
+            System.out.println(processed);
+            return;
+            // jabh tak unprocessed poora khatam na ho jaaye
+        }
+        char ch = unprocessed.charAt(0);
+        //unprocessed ka pehla character lo aur usko ek baar include aur exclude karke recursive call karo
+        subseq_ASCII(processed+ch,unprocessed.substring(1));
+        subseq_ASCII(processed,unprocessed.substring(1));
+        subseq_ASCII(processed + (ch+0),unprocessed.substring(1))
+    }
+
+public static ArrayList<String> subseq2(String processed, String unprocessed){
+        if(unprocessed.isEmpty()){
+            ArrayList<String> res = new ArrayList<>();
+            res.add(processed);
+            return res;
+        }
+        char ch = unprocessed.charAt(0);
+        ArrayList<String> left = subseq2(processed+ch,unprocessed.substring(1));
+        ArrayList<String> right =subseq2(processed,unprocessed.substring(1));
+        ArrayList<String> third =subseq2(processed+(ch+0),unprocessed.substring(1));
+
+        left.addAll(right);
+        left.addAll(third);
+
+        return left;
+    }
+
+
+-> recursion to iteratively solve karna
+public class SubSet {
+    public static void main(String[] args) {
+        int[] arr = {1, 2, 2};
+        List<List<Integer>> ans = subsetDuplicate(arr);
+        for (List<Integer> list : ans) {
+            System.out.println(list);
+        }
+    }
+
+    static List<List<Integer>> subset(int[] arr) {
+        List<List<Integer>> outer = new ArrayList<>();
+        outer.add(new ArrayList<>());
+        for (int num : arr) {
+            int n = outer.size();
+            for (int i = 0; i < n; i++) {
+                List<Integer> internal = new ArrayList<>(outer.get(i));
+                internal.add(num);
+                outer.add(internal);
+            }
+        }
+        return outer;
+    }
+
+-> sebsequence after removing duplicates
+
+    static List<List<Integer>> subsetDuplicate(int[] arr) {
+        Arrays.sort(arr);
+        List<List<Integer>> outer = new ArrayList<>();
+        outer.add(new ArrayList<>());
+        int start = 0;
+        int end = 0;
+        for (int i = 0; i < arr.length; i++) {
+            start = 0;
+            // if current and previous element is same, s = e + 1
+            if (i > 0 && arr[i] == arr[i-1]) {
+                start = end + 1;
+            }
+            end = outer.size() - 1;
+            int n = outer.size();
+            for (int j = start; j < n; j++) {
+                List<Integer> internal = new ArrayList<>(outer.get(j));
+                internal.add(arr[i]);
+                outer.add(internal);
+            }
+        }
+        return outer;
+    }
+}
+
+-> using recursion check if the array is sorted or not
+
+-> quick sort
+//choose any element as pivot ...after 1st pass all the elements<pivot will be at left side and roght side otherwise
+//so after 1st run woh pivot ke left mein usse chotte numbers honge aur right mein bade wale numbers honge....so using recursion u solve the left and right side
+
+5  4  3  2  1...........see the start and the end and compare with pivot here its 4 then swap
+s           e
+
+1  4  3  2  5
+   s     e
+
+1  2  3  4  5....now the pivot is correct position
+      se
+
+pivot ke right aur left side ko bhi sort karna hai by having another pivot resp
+
+time complexity
+T(N) = T(K) + T(N-k-1)+O(N)....T(K) agar pivot ke pehle wale elements ko k maane
+T(N-k-1) ...n is the total ...n-k matlab total mein se left/right side wale....woh 1 hai pivot ko 1 maante hue
+O(N)...pivot ko loop ke through apne corect position mein daalne ke liye
+
+// the worst case would be if the pivot chosen is the smallest or the greatest element which makes K=0....T(N-1)+T(N) = O(n^2)
+// best case...pivot is the mid element ...k = N/2
+
+// insertion sort is the most effective
+
+public class QuickSort {
+    public static void main(String[] args) {
+        int[] arr = {5, 4, 3, 2, 1};
+//        sort(arr, 0, arr.length - 1);
+//        System.out.println(Arrays.toString(arr));
+        Arrays.sort(arr);
+    }
+
+    static void sort(int[] nums, int low, int hi) {
+        if (low >= hi) {
+            return;
+        }
+
+        int s = low;
+        int e = hi;
+        int m = s + (e - s) / 2;
+        int pivot = nums[m];
+
+        while (s <= e) {
+
+            // also a reason why if its already sorted it will not swap
+            while (nums[s] < pivot) {
+                s++;
+            }
+            while (nums[e] > pivot) {
+                e--;
+            }
+
+            if (s <= e) {
+                int temp = nums[s];
+                nums[s] = nums[e];
+                nums[e] = temp;
+                s++;
+                e--;
+            }
+        }
+
+        // now my pivot is at correct index, please sort two halves now
+        sort(nums, low, e);
+        sort(nums, s, hi);
+    }
+}
+
+-> permutations of a given string
+
+public class expert{
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String n = input.next();
+        permutation("",n);
+        ArrayList<String> output = permutation2("",n);
+        System.out.println(output);
+    }
+    public static void permutation(String processed, String unprocessed){
+        // String ko do hisse mein baant diya ...jabh tak sabh process ho jaaye uske baad print
+        if(unprocessed.isEmpty()){
+            System.out.println(processed);
+            return;
+        }
+        char ch = unprocessed.charAt(0);
+        // unprocesses se pehla character uthaya aur usko processed ke substrings ke saath jod diya
+
+        for(int i = 0 ;i<=processed.length();i++){
+            String first = processed.substring(0,i);
+            String second = processed.substring(i, processed.length());
+            permutation(first+ch+second,unprocessed.substring(1));
+        }
+    }
+
+    // Method 2 if u want to add o an arraylist
+    public static ArrayList<String> permutation2(String processed, String unprocessed){
+
+        ArrayList<String> res = new ArrayList<String>();
+
+        if(unprocessed.isEmpty()){
+            ArrayList<String> out = new ArrayList<String>();
+            out.add(processed);
+            return out;
+        }
+        char ch = unprocessed.charAt(0);
+
+        for(int i = 0 ;i<=processed.length();i++){
+            String first = processed.substring(0,i);
+            String second = processed.substring(i, processed.length());
+            res.addAll(permutation2(first+ch+second,unprocessed.substring(1)));
+// unprocessed ka substring(1) isiliye liya because pehla character to lag gaya na sequence mein
+        }
+
+        return res;
+    }
+}
+
+
+-> counting number of permutations of strings
+
+public class expert{
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String n = input.next();
+        int result = permutation_count("",n);
+        System.out.println(result);
+    }
+    public static int permutation_count(String processed, String unprocessed){
+
+        if(unprocessed.isEmpty()){
+            return 1;
+        }
+        int count = 0;
+        char ch = unprocessed.charAt(0);
+
+
+        for(int i = 0 ;i<=processed.length();i++){
+            String first = processed.substring(0,i);
+            String second = processed.substring(i, processed.length());
+            count = count + permutation_count(first+ch+second,unprocessed.substring(1));
+        }
+
+        return count;
+    }
+}
+
+
+-> recursion printing patterns
+
+public class Triangle {
+    public static void main(String[] args) {
+//        triangle2(4, 0);
+        int[] arr = {1, 4, 3, 5};
+        selection(arr, arr.length, 0, 0);
+        System.out.println(Arrays.toString(arr));
+    }
+
+    static void triangle2(int r, int c) {
+        if (r == 0) {
+            return;
+        }
+        if (c < r) {
+            triangle2(r, c+1);
+            System.out.print("*");
+        } else {
+            triangle2(r-1, 0);
+            System.out.println();
+        }
+    }
+
+    static void triangle(int r, int c) {
+        if (r == 0) {
+            return;
+        }
+        if (c < r) {
+            System.out.print("*");
+            triangle(r, c+1);
+        } else {
+            System.out.println(); // to start a new line
+            triangle(r-1, 0);
+        }
+    }
+
+
+-> bubble sort using recursion
+
+    static void bubble(int[] arr, int r, int c) {
+        if (r == 0) {
+            return;
+        }
+        if (c < r) {
+
+            if (arr[c] > arr[c+1]) {
+                // swap
+                int temp = arr[c];
+                arr[c] = arr[c+1];
+                arr[c+1] = temp;
+            }
+
+            bubble(arr, r, c+1);
+        } else {
+            bubble(arr, r-1, 0);
+        }
+    }
+
+
+-> selection sort using recursion
+
+    static void selection(int[] arr, int r, int c, int max) {
+        if (r == 0) {
+            return;
+        }
+        if (c < r) {
+            if (arr[c] > arr[max]) {
+                selection(arr, r, c+1, c);
+            } else {
+                selection(arr, r, c+1, max);
+            }
+        } else {
+            int temp = arr[max];
+            arr[max] = arr[r-1];
+            arr[r-1] = temp;
+            selection(arr, r-1, 0, 0);
+        }
+    }
+}
+
+
+-> Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. 
+Return the answer in any order.A mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does 
+not map to any letters.
+
+// loop will run from [(digit-1)*3,digit*3)
+
+public class PhonePad {
+    public static void main(String[] args) {
+        System.out.println(padRet("", "12").size());
+        System.out.println(padCount("", "12"));
+    }
+
+    static void pad(String p, String up) {
+        if (up.isEmpty()) {
+            System.out.println(p);
+            return;
+        }
+        int digit = up.charAt(0) - '0'; // this will convert '2' into 2
+        for (int i = (digit - 1) * 3; i < digit * 3; i++) {
+            char ch = (char) ('a' + i);
+            pad(p + ch, up.substring(1));
+        }
+
+    }
+
+    static ArrayList<String> padRet(String p, String up) {
+        if (up.isEmpty()) {
+            ArrayList<String> list = new ArrayList<>();
+            list.add(p);
+            return list;
+        }
+        int digit = up.charAt(0) - '0'; // this will convert '2' into 2
+
+        ArrayList<String> list = new ArrayList<>();
+
+        for (int i = (digit - 1) * 3; i < digit * 3; i++) {
+            char ch = (char) ('a' + i);
+            list.addAll(padRet(p + ch, up.substring(1)));
+        }
+        return list;
+    }
+
+-> To count the count of permutations
+    static int padCount(String p, String up) {
+        if (up.isEmpty()) {
+            return 1;
+        }
+        int count = 0;
+        int digit = up.charAt(0) - '0'; // this will convert '2' into 2
+        for (int i = (digit - 1) * 3; i < digit * 3; i++) {
+            char ch = (char) ('a' + i);
+            count = count + padCount(p + ch, up.substring(1));
+        }
+        return count;
+    }
+}
+
+-> Number of dice rolls with target sum
+
+public class Dice {
+    public static void main(String[] args) {
+        dice("", 4);
+        System.out.println(diceRet("", 4));
+    }
+
+    static void dice(String p, int target) {
+        if (target == 0) {
+            System.out.println(p);
+            return;
+        }
+
+        for (int i = 1; i <= 6 && i <= target; i++) {
+            dice(p + i, target - i);
+        }
+    }
+
+    static ArrayList<String> diceRet(String p, int target) {
+        if (target == 0) {
+            ArrayList<String> list = new ArrayList<>();
+            list.add(p);
+            return list;
+        }
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 1; i <= 6 && i <= target; i++) {
+            list.addAll(diceRet(p + i, target - i));
+        }
+        return list;
+    }
+
+    static void diceFace(String p, int target, int face) {
+        if (target == 0) {
+            System.out.println(p);
+            return;
+        }
+
+        for (int i = 1; i <= face && i <= target; i++) {
+            diceFace(p + i, target - i, face);
+        }
+    }
+
+    static ArrayList<String> diceFaceRet(String p, int target, int face) {
+        if (target == 0) {
+            ArrayList<String> list = new ArrayList<>();
+            list.add(p);
+            return list;
+        }
+        ArrayList<String> list = new ArrayList<>();
+        for (int i = 1; i <= face && i <= target; i++) {
+            list.addAll(diceFaceRet(p + i, target - i, face));
+        }
+        return list;
+    }
+
+}
+
+
+######################
+BACKTRACKING AND MAZE PROBLEMS
+
+
+QUESTION1 - GIVEN A MATRIX 3*3 YOU NEED TO MOVE FROM TOP LEFT CELL TO BOTTOM RIGHT CELL GIVEN THAT ONLY RIGHT AND LEFT IS ALLOWED AS MOVEMENTS AND ALSO PRINT THE 
+COMPLETE PATHS
+
+-> last col mein agar aa gaye toh only possible movement is downwards and last row mein aa gaye toh sirf right jaa sakte hai
+-> humlog ne col aur row ko aise number kiya hai ki 3,2,1 isiliye conditions aise hai
+
+
+public class practise {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int rows = input.nextInt();
+        int cols = input.nextInt();
+        System.out.println(count_paths(rows,cols));
+        paths("",rows,cols);
+        System.out.println(paths_2("",rows,cols));
+    }
+
+    public static int count_paths(int rows,int cols){
+        if(rows == 1 || cols == 1){
+            return 1;
+        }
+
+        int left = count_paths(rows-1,cols); // down jaane ke liye
+        int right = count_paths(rows,cols-1);   // right jaane ke liye
+        int result = left+right;
+        return result;
+    }
+
+    public static void paths(String p , int rows, int cols){
+        if(rows == 1 && cols == 1){
+            // row aur col 1,1, matlab maan lo last ke bottom right pe pahunch gaye toh woh string path ka print maar do
+            System.out.println(p);
+            return;
+        }
+
+        if(rows > 1){
+            paths(p+'D',rows-1,cols);
+        }
+        if(cols > 1){
+            paths(p+'R',rows,cols-1);
+        }
+    }
+
+// agar array list mein print karna ho toh
+
+    public static ArrayList<String> paths_2(String p , int rows, int cols){
+        if(rows == 1 && cols == 1){
+            ArrayList<String> list = new ArrayList<>();
+            list.add(p);
+            return list;
+        }
+
+        ArrayList<String> list = new ArrayList<>();
+        if(rows > 1){
+            list.addAll(paths_2(p+'D',rows-1,cols));
+        }
+        if(cols > 1){
+            list.addAll(paths_2(p+'R',rows,cols-1));
+        }
+
+        return list;
+    }
+}
+
+
+QUESTION2 - AGAR DIAGONAL BHI ALLOW KAR DE TOH
+
+-> bass ek condition aur ki agar rows aur cols dono 1 se bade tabhi diagonally move hoga aur rows aur cols ka count 1 se kamm ho jayega
+
+public class practise {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int rows = input.nextInt();
+        int cols = input.nextInt();
+        System.out.println(count_paths(rows,cols));
+        System.out.println(paths_2("",rows,cols));
+    }
+
+    public static int count_paths(int rows,int cols){
+        if(rows == 1 || cols == 1){
+            return 1;
+        }
+
+        int left = count_paths(rows-1,cols); // down jaane ke liye
+        int right = count_paths(rows,cols-1);   // right jaane ke liye
+        int result = left+right;
+        return result;
+    }
+
+    public static ArrayList<String> paths_2(String p , int rows, int cols){
+        if(rows == 1 && cols == 1){
+            ArrayList<String> list = new ArrayList<>();
+            list.add(p);
+            return list;
+        }
+
+        ArrayList<String> list = new ArrayList<>();
+        if(rows>1 && cols > 1){
+            list.addAll(paths_2(p+'D',rows-1,cols-1));
+        }
+        if(rows > 1){
+            list.addAll(paths_2(p+'V',rows-1,cols));
+        }
+        if(cols > 1){
+            list.addAll(paths_2(p+'H',rows,cols-1));
+        }
+
+        return list;
+    }
+}
+
+QUESTION3 - MAZE WITH OBSTACLE
+
+-> when u land on a new cell check if obstacle is present. if yes stop recursion for that call
+-> abh row aur col ki counting 1,2,3...and so on karte hai
+
+public class practise {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        boolean[][] board ={
+                {true,true,true},
+                {true,false,true},
+                {true,true,true}
+        };
+
+        paths_2("",board,0,0);
+    }
+
+
+    public static void paths_2(String p ,boolean[][] maze, int rows, int cols){
+        if(rows == maze.length-1 && cols == maze[0].length-1){
+            System.out.println(p);
+            return;
+        }
+
+        if(!maze[rows][cols]){
+            return;
+        }
+        if(rows < maze.length-1){
+            paths_2(p+'V',maze,rows+1,cols);
+        }
+        if(cols < maze[0].length-1){
+           paths_2(p+'H',maze,rows,cols+1);
+        }
+    }
+}
+
+QUESTION4 - FROM ANY CELL CAN GO TO ANY OF THE 4 DIRECTIONS
+
+-> humko joh joh cell visit kiya hai unko waapis visit nahi karna warna stack overflow ho jaana hai...lekin ek path ke liye hi mark karna hai ...aur jabh dusre path 
+ke liye dekhe toh usko restore the maze as it was
+
+public class practise {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        boolean[][] board ={
+                {true,true,true},
+                {true,false,true},
+                {true,true,true}
+        };
+
+        paths_2("",board,0,0);
+    }
+
+
+    public static void paths_2(String p ,boolean[][] maze, int rows, int cols){
+        if(rows == maze.length-1 && cols == maze[0].length-1){
+            System.out.println(p);
+            return;
+        }
+
+        if(!maze[rows][cols]){
+            return;
+        }
+
+        maze[rows][cols] = false;
+
+        if(rows < maze.length-1){
+            paths_2(p+'D',maze,rows+1,cols);
+        }
+        if(cols < maze[0].length-1){
+           paths_2(p+'R',maze,rows,cols+1);
+        }
+        if(rows > 0){
+            paths_2(p+'U',maze,rows-1,cols);
+        }
+        if(cols > 0){
+            paths_2(p+'H',maze,rows,cols-1);
+        }
+
+        // this line is where the function will be over
+        // so before the function gets removed, also remove the changes that were made by that function
+        maze[rows][cols] = true;
+    }
+}
+
+QUESTION5 - PRINT THE MATRIX OF THE PATH
+-> the count on the cell is basically the level of recursion u r at
+public class practise {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+
+        boolean[][] board ={
+                {true,true,true},
+                {true,false,true},
+                {true,true,true}
+        };
+
+        int[][] path = new int[board.length][board[0].length];
+        paths_2("",board,0,0,path,1);
+    }
+
+
+    public static void paths_2(String p ,boolean[][] maze, int rows, int cols,int[][] path, int step){
+        if(rows == maze.length-1 && cols == maze[0].length-1){
+            path[rows][cols] = step;
+            for(int[] i : path){
+                System.out.println(Arrays.toString(i));
+            }
+            System.out.println(p);
+            System.out.println();
+            return;
+        }
+
+        if(!maze[rows][cols]){
+            return;
+        }
+
+        maze[rows][cols] = false;
+        path[rows][cols] = step;
+
+        if(rows < maze.length-1){
+            paths_2(p+'D',maze,rows+1,cols,path,step+1);
+        }
+        if(cols < maze[0].length-1){
+           paths_2(p+'R',maze,rows,cols+1,path,step+1);
+        }
+        if(rows > 0){
+            paths_2(p+'U',maze,rows-1,cols,path,step+1);
+        }
+        if(cols > 0){
+            paths_2(p+'L',maze,rows,cols-1,path,step+1);
+        }
+        maze[rows][cols] = true;
+        path[rows][cols] = 0;
+    }
+}
+
+
+QUESTION6 - N QUEEN...U R GIVEN N*N BOARD AND U NEED TO PLACE N QUEENS ON IT...DISPLAY THE NUMBER WAYS TO DO IT
+
+public class NQueens {
+    public static void main(String[] args) {
+        int n = 4;
+        boolean[][] board = new boolean[n][n];
+        System.out.println(queens(board, 0));
+    }
+
+    static int queens(boolean[][] board, int row) {
+        if (row == board.length) {// all queens have been placed
+            display(board);
+            System.out.println();
+            return 1;
+        }
+
+        int count = 0;
+
+        // placing the queen and checking for every row and col
+        for (int col = 0; col < board.length; col++) {
+            // place the queen if it is safe
+            if(isSafe(board, row, col)) {
+                board[row][col] = true;
+                count += queens(board, row + 1);
+                board[row][col] = false;
+            }
+        }
+
+        return count;
+    }
+
+    private static boolean isSafe(boolean[][] board, int row, int col) {
+        // check vertical row
+        for (int i = 0; i < row; i++) {
+            if (board[i][col]) {
+                return false;
+            }
+        }
+
+        // diagonal left
+        int maxLeft = Math.min(row, col);
+        for (int i = 1; i <= maxLeft; i++) {
+            if(board[row-i][col-i]) {
+                return false;
+            }
+        }
+
+        // diagonal right
+        int maxRight = Math.min(row, board.length - col - 1);
+        for (int i = 1; i <= maxRight; i++) {
+            if(board[row-i][col+i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static void display(boolean[][] board) {
+        for(boolean[] row : board) {
+            for(boolean element : row) {
+                if (element) {
+                    System.out.print("Q ");
+                } else {
+                    System.out.print("X ");
+                }
+            }
+            System.out.println();
+        }
+    }
+}
+
+
+QUESTION7 - PLACE KNIGHTS
+
+public class NKnights {
+    public static void main(String[] args) {
+        int n = 4;
+        boolean[][] board = new boolean[n][n];
+        knight(board, 0, 0, 4);
+    }
+
+    static void knight(boolean[][] board, int row, int col, int knights) {
+        if (knights == 0) {
+            display(board);
+            System.out.println();
+            return;
+        }
+
+        if (row == board.length - 1 && col == board.length) {
+            return;
+        }
+
+        if (col == board.length) {
+            knight(board, row + 1, 0, knights);
+            return;
+        }
+
+        if (isSafe(board, row, col)) {
+            board[row][col] = true;
+            knight(board, row, col + 1, knights - 1);
+            board[row][col] = false;
+        }
+
+        knight(board, row, col + 1, knights);
+    }
+
+    private static boolean isSafe(boolean[][] board, int row, int col) {
+        if (isValid(board, row - 2, col - 1)) {
+            if (board[row - 2][col - 1]) {
+                return false;
+            }
+        }
+
+        if (isValid(board, row - 1, col - 2)) {
+            if (board[row - 1][col - 2]) {
+                return false;
+            }
+        }
+
+        if (isValid(board, row - 2, col + 1)) {
+            if (board[row - 2][col + 1]) {
+                return false;
+            }
+        }
+
+        if (isValid(board, row - 1, col + 2)) {
+            if (board[row - 1][col + 2]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // do not repeat yourself, hence created this function
+    static boolean isValid(boolean[][] board, int row, int col) {
+        if (row >= 0 && row < board.length && col >= 0 && col < board.length) {
+            return true;
+        }
+        return false;
+    }
+
+    private static void display(boolean[][] board) {
+        for(boolean[] row : board) {
+            for(boolean element : row) {
+                if (element) {
+                    System.out.print("K ");
+                } else {
+                    System.out.print("X ");
+                }
+            }
+            System.out.println();
+        }
+    }
+}
+
+
