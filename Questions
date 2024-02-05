@@ -1,0 +1,1097 @@
+QUESTIONS
+
+########################
+QUESTION
+Let X be a district and it has ‘n’ villages. District X has no schools and the government has decided to put schools. For each village x, let Sx be the set of villages 
+within 5 miles of it. There are only two constraints (a)Each school should be in district X. (b)No one should have to travel more than 5 miles to reach one of them. 
+What is the minimum number of schools needed?
+
+For example,
+
+X={1,2,3,4,5,6,7,8,9, 10}
+
+S1={1,2, 5,6,7}
+S2={3, 4,8, 9}
+S4={2, 8,9,10}
+S5={1, 3,4,8,9,10}
+The minimum number of schools is 2, they are located in the village S1 and S5.
+
+
+input
+6
+123456
+3
+125
+34
+56
+output = 3
+
+import java.util.*;
+
+public class chumma {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int[] dist = new int[n];
+        for (int i = 0; i < n; i++) {
+            dist[i] = input.nextInt();
+        }
+        int m = input.nextInt();
+        List<Set<Integer>> villageSets = new ArrayList<>();
+        input.nextLine();
+        for (int i = 0; i < m; i++) {
+            Set<Integer> villageSet = new HashSet<>();
+            String s = input.nextLine();
+            String[] ar = s.split(" ");
+            for (String e : ar) {
+                int val = Integer.parseInt(e);
+                villageSet.add(val);
+            }
+
+            villageSets.add(villageSet);
+        }
+
+        int schoolCount = minSchool(dist, villageSets);
+        System.out.println(schoolCount);
+    }
+
+    public static int minSchool(int[] dist, List<Set<Integer>> villageSets) {
+        Set<Integer> remainingVillages = new HashSet<>();
+        for (int village : dist) {
+            remainingVillages.add(village);
+        }
+
+        int schoolCount = 0;
+
+        while (!remainingVillages.isEmpty()) {
+            int maxCovered = -1;
+            Set<Integer> selectedSchoolSet = new HashSet<>();
+
+            for (Set<Integer> villageSet : villageSets) {
+                Set<Integer> coveredVillages = new HashSet<>(villageSet);
+                System.out.println("-------------");
+                System.out.println(coveredVillages);
+                coveredVillages.retainAll(remainingVillages);
+                System.out.println("------------");
+                System.out.println(coveredVillages);
+
+                if (coveredVillages.size() > maxCovered) {
+                    maxCovered = coveredVillages.size();
+                    selectedSchoolSet = villageSet;
+                }
+            }
+
+            remainingVillages.removeAll(selectedSchoolSet);
+            schoolCount++;
+        }
+        return schoolCount;
+    }
+}
+
+
+######################
+STRING DIVISION INTO ARRAY
+String[] arr = s.split("[,']+");
+
+
+#######################
+INVERSE OF A NUMBER
+
+
+
+
+
+
+###################
+ROTATING A NUMBER
+no hai 27391...right ke taraf rotation hai....1 se rotate karne pe-12739....and also 6th rotation is 12739...matlab length ke baad cheeze repeat hongi
+-1 se 73912...-4 se bhi same
+-1/+4...-2/+3....-3/+2....-4/+1...same hai ....add upto 5 which is length of the number
+
+
+################
+YOU ARE GIVEN A NUMBER X AND A NUMBER N. YOU ARE REQUIRED TO CALCULATE X RAISED TO POWER N
+
+method-1
+public class chumma {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int x = input.nextInt();
+        int n = input.nextInt();
+        System.out.println(powerxn(x,n));
+    }
+
+    public static int powerxn(int x, int n){
+        if(n==0){
+            return 1;
+        }
+        int res = x * powerxn(x,n-1);
+        return res;
+    }
+}
+
+method-2
+x^n = x^(n/2) * x^(n/2) ...if n is even else its  x^(n/2) *  x^(n/2) * x
+public class chumma {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int x = input.nextInt();
+        int n = input.nextInt();
+        System.out.println(powerxn(x,n));
+    }
+
+    public static int powerxn(int x, int n){
+        if(n==0){
+            return 1;
+        }
+
+        int random = powerxn(x,n/2);
+        int res = random*random;
+
+        if(n%2==1){
+            res = res*x;
+        }
+
+        return  res;
+    }
+}
+
+
+############################
+PRINTING ZIG-ZAG
+public class chumma {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        pzz(n);
+    }
+
+    public static void pzz(int n){
+        if(n==0){
+            return;
+        }
+        System.out.println("Pre "+n);
+        pzz(n-1);
+        System.out.println("In "+n);
+        pzz(n-1);
+        System.out.println("Post "+n);
+    }
+}
+
+
+##########################
+TOWER OF HANOI
+THERE ARE 3 TOWERS. TOWER1 HAS N DISKS,WHERE N IS A POSITIVE NUMBER. TOWER2 AND 3 ARE EMPTY.THE DISKS ARE INCREASINGLY PLACED IN TERMS OF SIZE SUCH THAT THE 
+SMALLEST DISK IS ON TOP AND LARGEST DISK IS AT BOTTOM.YOU ARE REQUIRED TO PRINT THE INSTRUCTIONS TO MOVE THE DISKS FROM TOWER 1 TO TOWER2 USING TOWER3 AND FOLLOWING 
+THE RULES-MOVING 1 DISK AT A TIME,NEVER PLACE A SMALLER DISK UNDER A LARGER DISK, YOU CAN ONLY MOVE A DISK AT TOP
+
+
+
+
+
+
+
+
+
+
+
+######################
+GRAPHS
+
+-> representing using adjacency matrix and adjacency list
+public class kannu {
+    static class Edge{
+        int src; //source
+        int nbr; // neighbour
+        int wt; // weights
+
+        Edge(int src, int nbr,int wt){
+            this.src = src;
+            this.nbr = nbr;
+            this.wt = wt;
+        }
+    }
+    public static void main(String[] args) throws Exception{
+        int vces = 7;
+        ArrayList<Edge>[] graph = new ArrayList[vces];
+        for(int i = 0;i<vces;i++){
+            graph[i] = new ArrayList<>();
+        }
+
+        graph[0].add(new Edge(0,3,40));
+        graph[1].add(new Edge(0,1,10));
+
+        graph[1].add(new Edge(0,3,40));
+        graph[1].add(new Edge(0,3,40));
+
+        graph[2].add(new Edge(0,3,40));
+        graph[2].add(new Edge(0,3,40));
+
+    }
+}
+
+
+QUESTION1 - YOU ARE GIVEN A GRAPH, A SRC AND A DESTINATION VERTEX. YOU ARE REQUIRED TO FIND IF A PATH EXISTS BETWEEN SRC AND DEST. 
+IF IT DOES PRINT TRUE ELSE PRINT FALSE
+
+input
+7
+8
+0 1 10
+1 2 10
+2 3 10
+0 3 10
+3 4 10
+4 5 10
+5 6 10
+4 6 10
+0 
+6
+
+public class kannu {
+    static class Edge{
+        int src; //source
+        int nbr; // neighbour
+        int wt; // weights
+
+        Edge(int src, int nbr,int wt){
+            this.src = src;
+            this.nbr = nbr;
+            this.wt = wt;
+        }
+    }
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int vces = Integer.parseInt(br.readLine());
+        ArrayList<Edge>[] graph = new ArrayList[vces];
+        for(int i = 0;i<vces;i++){
+            graph[i] = new ArrayList<>();
+        }
+
+        int edges = Integer.parseInt(br.readLine());
+        for(int i = 0;i<edges;i++){
+            String[] parts = br.readLine().split(" ");
+            int v1 = Integer.parseInt(parts[0]);
+            int v2 = Integer.parseInt(parts[1]);
+            int wt = Integer.parseInt(parts[2]);
+            graph[v1].add(new Edge(v1,v2,wt));
+            graph[v2].add(new Edge(v2,v1,wt));
+        }
+
+        int src = Integer.parseInt(br.readLine());
+        int dest = Integer.parseInt(br.readLine());
+
+        boolean[] visited = new boolean[vces];
+        boolean path = hasPath(graph,src,dest,visited);
+        System.out.println(path);
+    }
+
+    public static boolean hasPath(ArrayList<Edge>[] graph, int src , int dest, boolean[] visited){
+        // recursion ke saath socho ...ki agar neighbour se jaa sakte then true
+        // boolean visited array se we can check we arent checking the same neighbour again
+
+        if(src == dest){
+            return true;
+        }
+
+        visited[src] = true;
+
+        for(Edge edge : graph[src]){
+            if(visited[edge.nbr] == false){
+                boolean hasNbrPath = hasPath(graph,edge.nbr,dest,visited);
+                if(hasNbrPath == true){
+                    return true;
+                }
+            }
+
+        }
+
+        return false;
+    }
+}
+
+
+QUESTION2 - PRINT ALL PATHS LEXOGRAPHICALLY
+public class kannu {
+    static class Edge{
+        int src; //source
+        int nbr; // neighbour
+        int wt; // weights
+
+        Edge(int src, int nbr,int wt){
+            this.src = src;
+            this.nbr = nbr;
+            this.wt = wt;
+        }
+    }
+    public static void main(String[] args) throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int vces = Integer.parseInt(br.readLine());
+        ArrayList<Edge>[] graph = new ArrayList[vces];
+        for(int i = 0;i<vces;i++){
+            graph[i] = new ArrayList<>();
+        }
+
+        int edges = Integer.parseInt(br.readLine());
+        for(int i = 0;i<edges;i++){
+            String[] parts = br.readLine().split(" ");
+            int v1 = Integer.parseInt(parts[0]);
+            int v2 = Integer.parseInt(parts[1]);
+            int wt = Integer.parseInt(parts[2]);
+            graph[v1].add(new Edge(v1,v2,wt));
+            graph[v2].add(new Edge(v2,v1,wt));
+        }
+
+        int src = Integer.parseInt(br.readLine());
+        int dest = Integer.parseInt(br.readLine());
+
+        boolean[] visited = new boolean[vces];
+        printALlPaths(graph,src,dest,visited,src+"");
+    }
+
+    public static void printALlPaths(ArrayList<Edge>[] graph, int src , int dest, boolean[] visited, String psf){
+        if(src == dest){
+            System.out.println(psf);
+            return ;
+        }
+
+        visited[src] = true;
+
+        for(Edge edge : graph[src]){
+            if(!visited[edge.nbr]){
+                printALlPaths(graph,edge.nbr,dest,visited,psf+edge.nbr);
+            }
+        }
+        visited[src] = false;
+    }
+}
+
+
+
+QUESTION3 - SMALLEST, LARGEST, CEIL,FLOOR,KTH LARGEST PATH
+
+QUESTION4 - GET CONNECTED COMPONENTS OF A GRAPH ...YOU ARE GIVEN A GRAPGH.YOU ARE REQUIRED TO FIND AND PRINT ALL CONNECTED COMPONENTS OF THE GRAPH
+7
+5
+0 1 10
+2 3 10
+4 5 10
+5 6 10
+4 6 10
+
+we traverse through each node individually and see wahan se kitne paths possible hai....jishar tak honge utna ek component
+
+public class litcode {
+
+    static class Edge{
+        int src;
+        int nbr;
+        int wt;
+
+         Edge(int v1,int v2,int wt){
+            this.src=v1;
+            this.nbr=v2;
+            this.wt=wt;
+        }
+    }
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int vces = Integer.parseInt(br.readLine());
+        ArrayList<Edge>[] graph = new ArrayList[vces];
+        for(int i = 0;i<vces;i++){
+            graph[i] = new ArrayList<>();
+        }
+
+        int edges = Integer.parseInt(br.readLine());
+        for(int i = 0;i<edges;i++){
+            String[] parts = br.readLine().split(" ");
+            int v1 = Integer.parseInt(parts[0]);
+            int v2 = Integer.parseInt(parts[1]);
+            int wt = Integer.parseInt(parts[2]);
+            graph[v1].add(new Edge(v1,v2,wt));
+            graph[v2].add(new Edge(v2,v1,wt));
+        }
+
+        ArrayList<ArrayList<Integer>> comps = new ArrayList<>();
+
+        boolean[] visited = new boolean[vces];
+
+        for(int i = 0;i<vces;i++){
+            if(!visited[i]){
+                ArrayList<Integer> comp = new ArrayList<>();
+                drawTree(graph,i,comp,visited);
+                comps.add(comp);
+            }
+        }
+
+        System.out.println(comps);
+    }
+
+    public static void drawTree(ArrayList<Edge>[] graph,int src, ArrayList<Integer> comp,boolean[] visited){
+        visited[src] = true;
+        comp.add(src);
+        for(Edge e: graph[src]){
+            if(!visited[e.nbr]){
+                drawTree(graph,e.nbr,comp,visited);
+            }
+        }
+    }
+}
+
+
+QUESTION5 - CHECK IF A GRAPH IS CONNECTED
+
+ek graph tabhi connected bol sakte hai agar har vertex se har dusri vertex ka raasta maujood ho
+
+upar wala code hi bass dekh lena ki joh arraylist of arraylist mein ek arraylist aisa hoga jismein saare vertices mil jayenge...which means its connected
+toh last mein System.out.println(comps); iski jagah System.out.println(comps.size() == 1);..agar true hua toh hai connected else false
+
+QUESTION6- COUNT NUMBER OF ISLANDS
+YOU ARE GIVEN A 2D ARRAY WHERE 0'S REPRESENT LAND AND 1'S REPRESENT WATER.ASSUME EVERY CELL IS LINKED TO ITS NORTH,EAST,WEST AND SOUTH CELL. YOU ARE REQUIRED TO
+FIND AND COUNT THE NUMBER OF ISLANDS
+
+
+
+
+##########################
+EXTRA QUESTIONS
+
+QUESTION1: LEVINSHTEIN DISTANCE BETWEEN STRINGS
+public class LevenshteinDistance {
+    public static int calculateDistance(String s1, String s2) {
+        int m = s1.length();
+        int n = s2.length();
+
+        // Create a 2D array to store the distances
+        int[][] dp = new int[m + 1][n + 1];
+
+        // Initialize the first row and column
+        for (int i = 0; i <= m; i++) {
+            dp[i][0] = i;
+        }
+        for (int j = 0; j <= n; j++) {
+            dp[0][j] = j;
+        }
+
+// first col aur row ko unko length jitna daala hai
+
+        // Calculate the distances
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = 1 + min(dp[i - 1][j],       // Deletion
+                                        dp[i][j - 1],       // Insertion
+                                        dp[i - 1][j - 1]);  // Substitution
+                }
+            }
+        }
+
+// left top aur diagonally peeche oppo
+
+        return dp[m][n];
+    }
+
+    private static int min(int a, int b, int c) {
+        return Math.min(a, Math.min(b, c));
+    }
+
+    public static void main(String[] args) {
+        String s1 = "kitten";
+        String s2 = "sitting";
+
+        int distance = calculateDistance(s1, s2);
+        System.out.println("Levenshtein distance: " + distance);
+    }
+}
+
+################################
+given a string s, find the length of the longest substring without repeating characters
+input = abccd
+
+public class complete {
+    public static void main(String[] args) {
+        String s = "abccd";
+        int longestLength = findLongestSubstringLength(s);
+        System.out.println("Length of the longest substring without repeating characters: " + longestLength);
+    }
+
+    public static int findLongestSubstringLength(String s) {
+        int maxLength = 0;
+        int left = 0;
+        int right = 0;
+        HashMap<Character, Integer> charIndexMap = new HashMap<>();
+
+        while (right < s.length()) {
+            char currentChar = s.charAt(right);
+
+            if (charIndexMap.containsKey(currentChar)) {
+                left = Math.max(charIndexMap.get(currentChar) + 1, left);
+            }
+
+            charIndexMap.put(currentChar, right);
+            maxLength = Math.max(maxLength, right - left + 1);
+            right++;
+        }
+
+        return maxLength;
+    }
+}
+
+
+##############################
+EGYPTIAN FRACTION
+public class complete {
+    public static void main(String[] args) {
+        int numerator = 5;
+        int denominator = 7;
+        ArrayList<String> egyptianFractions = getEgyptianFractions(numerator, denominator);
+
+        System.out.println("Egyptian Fractions for " + numerator + "/" + denominator + ":");
+        for (String fraction : egyptianFractions) {
+            System.out.println(fraction);
+        }
+    }
+
+    public static ArrayList<String> getEgyptianFractions(int numerator, int denominator) {
+        ArrayList<String> result = new ArrayList<>();
+        if (numerator <= 0 || denominator <= 0) {
+            throw new IllegalArgumentException("Numerator and denominator must be positive.");
+        }
+
+        while (numerator > 0) {
+            int unitDenominator = (int) Math.ceil((double) denominator / numerator);
+            result.add("1/" + unitDenominator);
+
+            numerator = numerator * unitDenominator - denominator;
+            denominator = denominator * unitDenominator;
+
+            // Simplify numerator and denominator
+            int gcd = gcd(numerator, denominator);
+            numerator /= gcd;
+            denominator /= gcd;
+        }
+
+        return result;
+    }
+
+    public static int gcd(int a, int b) {
+        if (b == 0) {
+            return a;
+        }
+        return gcd(b, a % b);
+    }
+}
+
+
+#############################
+To find the largest special prime number that is less than the given number `n`, we can write a Java program to check each number less than `n` and validate whether 
+it is a special prime or not. A special prime is a number that, when formed by placing digits one after another, all resulting numbers are prime.
+
+public class LargestSpecialPrime {
+    public static void main(String[] args) {
+        int n = 100;
+        int largestSpecialPrime = findLargestSpecialPrime(n);
+        System.out.println("Largest special prime less than " + n + ": " + largestSpecialPrime);
+    }
+
+    public static boolean isPrime(int num) {
+        if (num <= 1) {
+            return false;
+        }
+        for (int i = 2; i * i <= num; i++) {
+            if (num % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static int findLargestSpecialPrime(int n) {
+        for (int num = n - 1; num >= 2; num--) {
+            if (isPrime(num)) {
+                String numString = Integer.toString(num);
+                boolean isSpecialPrime = true;
+
+                for (int len = 1; len <= numString.length(); len++) {
+                    int subNum = Integer.parseInt(numString.substring(0, len));
+                    if (!isPrime(subNum)) {
+                        isSpecialPrime = false;
+                        break;
+                    }
+                }
+
+                if (isSpecialPrime) {
+                    return num;
+                }
+            }
+        }
+        return -1; // If no special prime is found
+    }
+}
+
+
+#########################
+you have a list arr of all integers in the range [1,n] sorted in a strictly increasing order. Apply the following algorithm on arc. Starting from left to right, 
+remove the first number and every other number afterward until you reach the end of the list. Repeat the previous step again, but this time from right to left, 
+remove the rightmost number and every other number from the remaining numbers. Keep repeating the steps again,alternating left to right and right to left until a single 
+number remians. Given the integer n, return the last number that remains in arr
+
+Input = 9
+Output = 6
+
+
+public class khatam {
+    public static int lastRemaining(int n) {
+        boolean leftToRight = true;
+        int remainingNumbers = n;
+        int step = 1;
+        int start = 1;
+
+        while (remainingNumbers > 1) {
+            if (leftToRight || remainingNumbers % 2 == 1) {
+                start += step;
+            }
+
+            step *= 2;
+            remainingNumbers /= 2;
+            leftToRight = !leftToRight;
+        }
+
+        return start;
+    }
+
+    public static void main(String[] args) {
+        int n = 10;
+        int result = lastRemaining(n);
+        System.out.println("Last remaining number: " + result);
+    }
+}
+
+
+
+####################################
+HASHMAPS AND HEAPS 
+
+QUESTION - GET COMMON ELEMENTS
+GIVEN TWO ARRAYS THEN PRINT THE COMMON ELEMENTS IN TERMS OF FREQUENCY
+ARRAY1 = 1 1 2 2 2 3 5
+ARRAY2 = 1 1 1 2 2 4 5
+TOH PRINT HONA CHAHIYE 1 1 2 2 5
+
+-> pehle array ko hashmap mein store karlo uske freq ke saath
+-> phir second array se loop karlo aur aur uski freq khatate raho aur tabhi hi print kardo...0 hui toh kuch mat karo
+
+public class khatam {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int m = input.nextInt();
+
+        int[] arr1 = new int[n];
+        int[] arr2 = new int[m];
+
+        for(int i = 0;i<n;i++){
+            arr1[i] = input.nextInt();
+        }
+
+        for(int i = 0;i<m;i++){
+            arr2[i] = input.nextInt();
+        }
+
+        HashMap<Integer,Integer> hm = new HashMap<>();
+
+        for(int i : arr1){
+            if(hm.containsKey(i)){
+                hm.put(i,hm.get(i)+1);
+            }
+            else{
+                hm.put(i,1);
+            }
+        }
+
+        for(int i : arr2){
+            if(hm.containsKey(i)){
+                if(hm.get(i) == 0){
+
+                }
+                else {
+                    System.out.print(i);
+                    hm.put(i, hm.get(i) - 1);
+                }
+            }
+        }
+    }
+}
+
+
+
+QUESTION - FIND THE LONGEST CONSECUTIVE SUBSEQUENCE
+GIVEN AN ARRAY 10 5 9 1 11 8 6 15 3 12 2
+TOH CONSECUTIVE LIST BANE 1,2,3....5,6...8,9,10,11,12...15
+TOH SABSE BADA LENGTH HUA 5
+
+-> array se loop karke saare elements ko hash map mein daal do with true indicating ki saari elements koi na koi subsequence ki shuruwat hai
+-> dusri baar loop kiya aur dekha ki uske pehle wale elements hai ki nahi...if present to usko false kar diya
+
+public class khatam {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int[] arr = new int[n];
+
+        for(int i = 0;i<n;i++){
+            arr[i] = input.nextInt();
+        }
+
+        HashMap<Integer,Boolean> map = new HashMap<>();
+        for(int i : arr){
+            map.put(i,true);
+        }
+
+        for(int val : arr){
+            if(map.containsKey(val - 1)){
+                map.put(val,false);
+            }
+        }
+
+        int max_start_point = 0;
+        int max_length = 0;
+
+        for(int val : arr){
+            if(map.get(val) == true){
+                int temp_length = 1;
+                int temp_start_point = val;
+
+                while(map.containsKey(temp_start_point+temp_length)){
+                    temp_length++;
+                }
+
+                if(temp_length > max_length){
+                    max_start_point = temp_start_point;
+                    max_length = temp_length;
+                }
+            }
+        }
+
+        for(int i = 0 ;i<max_length;i++){
+            System.out.println(max_start_point+1);
+        }
+    }
+}
+
+
+QUESTION - K Largest Elements
+1. You are given a number n, representing the size of array a.
+2. You are given n numbers, representing elements of array a.
+3. You are given a number k.
+4. You are required to find and print the k largest elements of array in increasing order.
+
+-> tumhare pass ek array hai 2 10 5 17 7 18 6 4 toh usmein se 3 largest nikalna hai
+-> priority queue mein daalne se woh sort kar deta hai increasing order mein
+-> toh hum priority queue mein 3 elements add karte hai pehle starting ke...uska peek would be the smallest among the 3
+-> phir baaki ke elements se loop karte hai agar woh element peek se bada hua toh peek ko remove karke uss element ko add kar denge
+-> last mein humko last ke 3 largest element mill jayenge
+
+public class khatam {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int k = input.nextInt();
+        int[] arr = new int[n];
+
+        for(int i = 0;i<n;i++){
+            arr[i] = input.nextInt();
+        }
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+
+        for(int i = 0;i<n;i++){
+            if(i < k){
+                // toh jitne k largest hai utne toh pehle normally elements daal do
+                pq.add(arr[i]);
+            }
+            else{
+                if(arr[i] > pq.peek()){
+                    pq.remove();
+                    pq.add(arr[i]);
+                }
+            }
+        }
+
+        while(pq.size() > 0){
+            System.out.println(pq.remove());
+        }
+    }
+}
+
+
+
+QUESTION - Sort K-sorted Array
+1. You are given a number n, representing the size of array a.
+2. You are given n numbers, representing elements of array a.
+3. The array is nearly sorted. Every element is at-max displaced k spots left or right to it's position in the sorted array. Hence it is being called k-sorted array.
+4. You are required to sort and print the sorted array.
+
+
+-> k sorted array means ki element ko jahan hona chahiye tha woh element wahan se k positions aage ya peeche chala gaya hai
+
+public class khatam {
+    public static void main(String[] args) throws IOException {
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int[] arr = new int[n];
+
+        for(int i = 0;i<n;i++){
+            arr[i] = input.nextInt();
+        }
+        int k = input.nextInt();
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
+        for(int i = 0;i<=k;i++){
+            //starting se lekar k eleents ko pq mein add kardo
+            pq.add(arr[i]);
+        }
+
+        for(int i = k+1;i<arr.length;i++){
+            System.out.println(pq.remove());
+            pq.add(arr[i]);
+        }
+        
+        while(pq.size() > 0){
+            System.out.println(pq.remove());
+        }
+    }
+}
+
+
+
+QUESTION - Merge K Sorted Lists
+1. You are given a list of lists, where each list is sorted.
+2. You are required to complete the body of mergeKSortedLists function. The function is expected to merge k sorted lists to create one sorted list.
+
+-> jitne bhi list given hai uske sabse pehle element ko priority queue mein daal do...peek karo aur sabse chote element ko remove karke uske list ka second element add 
+kardo
+-> toh waise hi compare ko ...joh chota hai uska remove karo aur uss list ka agala element pq mein daal do
+public class khatam {
+
+    public static class Pair implements Comparable<Pair>{
+        int list_index;
+        int data_index;
+        int val;
+
+        Pair(int list_index,int data_index,int val){
+            this.list_index = list_index;
+            this.data_index = data_index;
+            this.val = val;
+        }
+
+        public int compareTo(Pair o){
+            return this.val - o.val;
+        }
+    }
+
+    public static ArrayList<Integer> mergeKSortedLists(ArrayList<ArrayList<Integer>> lists){
+        ArrayList<Integer> rv = new ArrayList<>();
+        PriorityQueue<Pair> pq =new PriorityQueue<>();
+// har list ka pehla element pq ke andar isliye get(0)
+        for(int i = 0;i< lists.size();i++){
+            Pair p = new Pair(i,0,lists.get(i).get(0));
+            pq.add(p);
+        }
+
+        while(pq.size()>0){
+            //peek ko remove kardo
+            Pair p = pq.remove();
+            //uss Pair ka value ko merge list mein add kardo...Pair(list index, usmein data index,uss data index ka value)
+            rv.add(p.val);
+            //data_index ko aage increase kardo
+            p.data_index++;
+// check ki data_index uss particular list ke size se chotta hai ki nahi
+            if(p.data_index < lists.get(p.list_index).size()){
+                // add the val of the next data_index into the pq
+                p.val = lists.get(p.list_index).get(p.data_index);
+                pq.add(p);
+            }
+        }
+
+        return rv;
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int k = Integer.parseInt(br.readLine());
+        ArrayList<ArrayList<Integer>> lists = new ArrayList<>();
+        for(int i = 0; i < k; i++){
+            ArrayList<Integer> list = new ArrayList<>();
+
+            int n = Integer.parseInt(br.readLine());
+            String[] elements = br.readLine().split(" ");
+            for(int j = 0; j < n; j++){
+                list.add(Integer.parseInt(elements[j]));
+            }
+
+            lists.add(list);
+        }
+
+        ArrayList<Integer> mlist = mergeKSortedLists(lists);
+        for(int val: mlist){
+            System.out.print(val + " ");
+        }
+        System.out.println();
+
+    }
+}
+
+
+QUESTION - Median Priority Queue
+1. You are required to complete the code of our MedianPriorityQueue class. The class should mimic the behaviour of a PriorityQueue and give highest priority to median of it's data.
+2. Here is the list of functions that you are supposed to complete
+2.1. add -> Should accept new data.
+2.2. remove -> Should remove and return median value, if available or print "Underflow" otherwise and return -1
+2.3. peek -> Should return median value, if available or print "Underflow" otherwise and return -1
+2.4. size -> Should return the number of elements available
+3. Input and Output is managed for you.
+
+public class khatam {
+
+    public static class MedianPriorityQueue {
+        PriorityQueue<Integer> left;
+        PriorityQueue<Integer> right;
+
+        public MedianPriorityQueue() {
+            left = new PriorityQueue<>(Collections.reverseOrder());
+            right = new PriorityQueue<>();
+        }
+
+        public void add(int val) {
+            if(right.size() > 0 && val > right.peek()){
+                right.add(val);
+            }
+            else{
+                left.add(val);
+            }
+
+            if(left.size() - right.size() == 2){
+                right.add(left.remove());
+            }
+            else if(right.size() - left.size() == 2){
+                left.add(right.remove());
+            }
+        }
+
+        public int remove() {
+            if(this.size() == 0){
+                System.out.println("Underflow");
+                return -1
+            }
+            if(left.size() >= right.size()){
+                return left.remove();
+            }
+            else{
+                return right.remove();
+            }
+        }
+
+        public int peek() {
+            if(this.size() == 0){
+                System.out.println("Underflow");
+                return -1
+            }
+            if(left.size() >= right.size()){
+                return left.peek();
+            }
+            else{
+                return right.peek();
+            }
+        }
+
+        public int size() {
+            return left.size()+right.size();
+
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        MedianPriorityQueue qu = new MedianPriorityQueue();
+
+        String str = br.readLine();
+        while (str.equals("quit") == false) {
+            if (str.startsWith("add")) {
+                int val = Integer.parseInt(str.split(" ")[1]);
+                qu.add(val);
+            } else if (str.startsWith("remove")) {
+                int val = qu.remove();
+                if (val != -1) {
+                    System.out.println(val);
+                }
+            } else if (str.startsWith("peek")) {
+                int val = qu.peek();
+                if (val != -1) {
+                    System.out.println(val);
+                }
+            } else if (str.startsWith("size")) {
+                System.out.println(qu.size());
+            }
+            str = br.readLine();
+        }
+    }
+}
+
+
+IMPORTANT NOTE ON HOW THE COMPARABLE AND COMPARATOR WORKS
+public class expert {
+     static class Student implements Comparable<Student>{
+        int rno;
+        int ht;
+        int wt;
+
+        public Student(int rno, int ht, int wt){
+            this.rno = rno;
+            this.ht = ht;
+            this.wt = wt;
+        }
+
+        // Comparable iterface mein ek method hai jiska naam hai compareTo...isko likhna padega
+        public int compareTo(Student o){
+            return this.rno - o.rno;
+        }
+
+        // toString function likhna imp hai taaki woh cheez print ho jaaye
+
+        public String toString(){
+            return this.rno +" "+ this.ht +" "+ this.wt;
+        }
+    }
+    public static void main(String[] args) {
+         PriorityQueue<Student> pq = new PriorityQueue<>();
+         pq.add(new Student(10,180,81));
+        pq.add(new Student(12,180,81));
+        pq.add(new Student(4,180,81));
+
+        while(pq.size() > 0){
+            System.out.println(pq.peek());
+            pq.remove();
+        }
+    }
+}
+
+TIME COMPLEXITY = n-logn-2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
