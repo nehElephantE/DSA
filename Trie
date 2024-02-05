@@ -1,0 +1,30 @@
+TRIE
+
+###################
+TRIE
+
+-> also known as retrieval tree, digital search and prefix tree
+-> this data structure helps to store common info only once.....apple aur app mein app aur le alag alag store karna hai
+-> search complexity = O(L) where L is the length of word...hence for searching Trie is the best data structure
+-> root is always the empty node
+words[]="the","a","there","their","any"
+
+()->(t)->(h)->(e)end->(r)->(e)end
+()->(a)end->(n)->(y)
+
+(e)end->(i)->(r)
+
+class Node{
+  Node[] children;............root node khali abh wahan se level1 pe words ke 1st letter store honge joh ki a-z ho sakte hai hence array of 26 
+  boolean endOfWord;
+}
+
+-> har ek node pe ek array hai 26 size ka jahan pe index 0 pe a aur 1 be b ,3 pe c and so on
+ -> inserion time complexity O(L)
+
+
+
+
+
+
+
