@@ -1,0 +1,882 @@
+SEARCH ALGORITHM
+
+###################
+LINEAR SEARCH
+O(1)......pehle index value pe hi mill gaya.....best case
+O(N)...poora array dekh ke last mein mila....worse case
+
+public class kannu {
+
+    static public int linearSearch(int[] arr, int target){
+        if(arr.length==0){
+            return -1;
+        }
+        for(int i= 0;i<arr.length;i++){
+            if(arr[i] == target){
+                return i;
+            }
+        }
+        return -1;
+    }
+    public static void main(String[] args){
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int[] arr= {23,45,34,67,35,24,64,13,69};
+        System.out.println(linearSearch(arr,n));
+
+    }
+}
+
+=> time complexity
+best case: O(1)
+worst case: O(n)
+
+-> no of digits nikalna ho
+static int digit(int num){
+   return (int)(Math.log10(num))+1;
+}
+
+agar issi mein binary hota toh log2 le lena ...agar octal hota toh log8 and so on
+
+
+########################
+BINARY SEARCH
+
+-> find the middle element
+-> target > mid ...search in the right side else left
+-> if middle element == target...answer mill gaya
+
+-> best case is if the middle element is only the target element...O(1)
+-> total comparisons in worst case...logN
+
+-> for sorted arrays
+just check if the starting index value is > than the last index value...if yes then the array is increasing else decreasing
+
+public class kannu {
+    public static int binarysearch(int[] p , int target){
+        int start = 0;
+        int end= p.length-1;
+
+        while(start <=end){
+            // humlog (start+end)/2 isiliye nahi karte hai kyuki shayad start+end int ki capacity exceed karde
+            int mid = start +(end-start)/2;
+            if(p[mid] > target){
+                end = mid-1;
+            }
+            else if(p[mid]<target){
+                start = mid+1;
+            }
+            else{
+                return mid;
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args){
+        int[] arr= {1,2,3,4,5,6,7,8};
+        System.out.println(binarysearch(arr,3));
+    }
+}
+
+->
+public static int BinarySearch(int[] p , int target){
+        int start = 0;
+        int end= p.length-1;
+
+        boolean isAsc = p[start]>p[end];
+
+        while(start <= end) {
+            // humlog (start+end)/2 isiliye nahi karte hai kyuki shayad start+end int ki capacity exceed karde
+            int mid = start + (end - start) / 2;
+            if (p[mid] == target) {
+                return mid;
+            }
+
+            if (isAsc) {
+                if (p[mid] > target) {
+                    end = mid - 1;
+                } else if (p[mid] < target) {
+                    start = mid + 1;
+                }
+            } else {
+                if (p[mid] < target) {
+                    end = mid - 1;
+                } else if (p[mid] > target) {
+                    start = mid + 1;
+                }
+            }
+        }
+        return -1;
+    }
+
+-> ceiling of a number...smallest element in an array greater than = = target element
+ex arr= {2,3,5,9,14,16,18} target element is 14...ceiling is 14...if target =15...ceiling = 16
+
+jahan pe humlog return -1 karte hai..uski jagah start return karenge...kyuki yeh binary search wala loop tabhi totega if start >= end..
+matlab end target start ...toh target se bada start hi hua ...hence start apna answer hai
+
+
+-> floor pooncha hota toh end print karte
+
+-> smallest letter greater than the target...LEETCODE
+ismein wrap around honge characters
+
+public class kannu {
+    public static char BinarySearch(char[] arr , char target){
+        int start = 0;
+        int end= arr.length-1;
+
+        while(start <= end) {
+            int mid = start + (end - start) / 2;
+            if(arr[mid] > target){
+                end = mid-1;
+            }
+            else{
+                start = mid+1;
+            }
+        }
+        return arr[start % arr.length];
+    }
+
+    public static void main(String[] args){
+       char[] arr = {'c','f','g'};
+       System.out.println(BinarySearch(arr,'j'));
+    }
+}
+
+-> first and last position of element in sorted array....LEETCODE
+public class kannu {
+    public static int[] searchRange(int[] arr , int target){
+        int[] ans = {-1,-1};
+        //initial answer in an array
+
+        int start = search(arr,target,true);
+        //humlog woh neeche wale func ko bulakr first occurence nikal rahe hai
+        int end = search(arr,target,false);
+
+        ans[0] = start;
+        ans[1] = end;
+        return ans;
+    }
+
+    // this func is to search for the target value ka index
+    public static int search(int[] arr, int target, boolean findStartIndex){
+        int ans = -1;
+
+        int start = 0;
+        int end= arr.length-1;
+
+        while(start <=end) {
+            int mid = start + (end - start) / 2;
+            if (target < arr[mid]) {
+                end = mid - 1;
+            } else if (target > arr[mid]) {
+                start = mid + 1;
+            } else {
+                ans = mid;
+                // checking ke mid ke left side mein aur toh nahi hai
+                if(findStartIndex == true){
+                    end = end-1;
+                }
+                else{
+                    start = mid+1;
+                }
+            }
+        }
+        return ans;
+    }
+
+
+    public static void main(String[] args){
+        int[] arr = {3,4,7,7,7,7,3,2};
+        System.out.println(searchRange(arr,7));
+    }
+}
+
+-> find position of an element in a sorted array of infinite numbers
+searching window ko exponentially increase karte jaao
+
+public class kannu {
+
+    public static int ans(int[] arr, int target){
+        int start =0;
+        int end = 1;
+
+        while(target > arr[end]){
+            int newStart = end+1;
+            //doubling the box size
+            end = end+(end-start+1)*2;
+            start = newStart;
+        }
+
+        return binarysearch(arr,target,start,end);
+    }
+
+    public static int binarysearch(int[] arr , int target, int start , int end){
+        while(start <=end){
+            int mid = start +(end-start)/2;
+            if(arr[mid] > target){
+                end = mid-1;
+            }
+            else if(arr[mid]<target){
+                start = mid+1;
+            }
+            else{
+                return mid;
+            }
+        }
+        return -1;
+    }
+
+
+    public static void main(String[] args){
+        int[] arr = {3,4,5,6,7,8};
+        System.out.println(ans(arr,5));
+    }
+}
+
+
+-> find peak in mounted array
+// array does not contain duplicate element
+if arr[mid] > arr[mid+1] toh end = mid+1 else start = mid+1
+in the end both start and end will point towards the largest element
+
+public int peakIndexInMountainArray(int[] arr) {
+        int start = 0;
+        int end = arr.length - 1;
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (arr[mid] > arr[mid+1]) {
+                // you are in dec part of array
+                // this may be the ans, but look at left
+                // this is why end != mid - 1
+                end = mid;
+            } else {
+                // you are in asc part of array
+                start = mid + 1; // because we know that mid+1 element > mid element
+            }
+        }
+        // in the end, start == end and pointing to the largest number because of the 2 checks above
+        // start and end are always trying to find max element in the above 2 checks
+        // hence, when they are pointing to just one element, that is the max one because that is what the checks say
+        // more elaboration: at every point of time for start and end, they have the best possible answer till that time
+        // and if we are saying that only one item is remaining, hence cuz of above line that is the best possible ans
+        return start; // or return end as both are =
+
+
+
+-> Given a mountain array mountainArr, return the minimum index such that mountainArr.get(index) == target. If such an index does not exist, return -1.
+
+int search(int[] arr, int target) {
+        int peak = peakIndexInMountainArray(arr);
+        int firstTry = orderAgnosticBS(arr, target, 0, peak);
+        if (firstTry != -1) {
+            return firstTry;
+        }
+        // try to search in second half
+        return orderAgnosticBS(arr, target, peak+1, arr.length - 1);
+    }
+
+    public int peakIndexInMountainArray(int[] arr) {
+        int start = 0;
+        int end = arr.length - 1;
+
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (arr[mid] > arr[mid+1]) {
+                // you are in dec part of array
+                // this may be the ans, but look at left
+                // this is why end != mid - 1
+                end = mid;
+            } else {
+                // you are in asc part of array
+                start = mid + 1; // because we know that mid+1 element > mid element
+            }
+        }
+        // in the end, start == end and pointing to the largest number because of the 2 checks above
+        // start and end are always trying to find max element in the above 2 checks
+        // hence, when they are pointing to just one element, that is the max one because that is what the checks say
+        // more elaboration: at every point of time for start and end, they have the best possible answer till that time
+        // and if we are saying that only one item is remaining, hence cuz of above line that is the best possible ans
+        return start; // or return end as both are =
+    }
+
+    static int orderAgnosticBS(int[] arr, int target, int start, int end) {
+        // find whether the array is sorted in ascending or descending
+        boolean isAsc = arr[start] < arr[end];
+
+        while(start <= end) {
+            // find the middle element
+//            int mid = (start + end) / 2; // might be possible that (start + end) exceeds the range of int in java
+            int mid = start + (end - start) / 2;
+
+            if (arr[mid] == target) {
+                return mid;
+            }
+
+            if (isAsc) {
+                if (target < arr[mid]) {
+                    end = mid - 1;
+                } else {
+                    start = mid + 1;
+                }
+            } else {
+                if (target > arr[mid]) {
+                    end = mid - 1;
+                } else {
+                    start = mid + 1;
+                }
+            }
+        }
+        return -1;
+    }
+
+
+-> search in rotated array
+// find the pivot element matlab woh element jahan ke right left ascending aur ascending do arrays ho...then search in first half...0 to pivot....
+else search in pivot+1 to end
+
+// pivot element if mid > mid+1...or mid < mid-1....or start >= mid
+
+
+
+
+-> Searching in 2D Array
+
+row-wise and col wise sorted aise wale matrix mein search karna ho toh
+matrix wale ques mein search space humesha kamm karne ka try karo...toh ek row mein lowerbound pehla element uss row ka aur upperbound aakhiri element uss row ka
+
+-> in the first row ..last col ka element if its greater than the target element which means that ki last col ke saare elements ki target elements se bade honge..hence ignore 
+the last col
+-> similarly if the element at any position is smaller than the target element...toh uske row mein usse left pe pade hue elements bhi chotte hi honge toh row ko ignore maaro
+
+-> toh karna aisa hai ki last column ke fisrt element ko dekho....target element se bada hai toh poora col nahi dekhna...phir usle pichle wale col ka dekho first element
+woh agar chotta hai toh uske row ko poor uda do
+
+public class RowColMatrix {
+    public static void main(String[] args) {
+        int[][] arr = {
+                {10, 20, 30, 40},
+                {15, 25, 35, 45},
+                {28, 29, 37, 49},
+                {33, 34, 38, 50}
+        };
+
+        System.out.println(Arrays.toString(search(arr, 49)));
+    }
+
+    static int[] search(int[][] matrix, int target) {
+        int r = 0;
+        int c = matrix[0].length - 1;
+
+        while (r < matrix.length && c >= 0) {
+            if (matrix[r][c] == target) {
+                return new int[]{r, c};
+            }
+            if (matrix[r][c] < target) {
+// target element is bigger toh woh row ko udana hai
+                r++;
+            } else {
+                c--;
+            }
+        }
+        return new int[]{-1, -1};
+    }
+}
+
+
+
+-> sorted matrix
+Sorted matrix means poora matrix ki sorted hoga aisa row ya col wise nahi
+
+-> take middle col and perform binary search on this...toh uss col ke middle element agar target element se bada ho toh uske aage dekhne ki zarurat hi nahi...ignore all 
+rows after it...agar chotta hai toh uske upar wale rows ignore maar do....this is how we r reducing the search space
+
+-> if only 2 rows are remaining , check in the middle col if the target element is present or not
+
+public class SortedMatrix {
+    public static void main(String[] args) {
+        int[][] arr = {
+                {1, 2, 3},
+                {4, 5, 6},
+                {7, 8, 9}
+        };
+        System.out.println(Arrays.toString(search(arr, 9)));
+    }
+
+    // search in the row provided between the cols provided
+    static int[] binarySearch(int[][] matrix, int row, int cStart, int cEnd, int target) {
+        while (cStart <= cEnd) {
+            int mid = cStart + (cEnd - cStart) / 2;
+            if (matrix[row][mid] == target) {
+                return new int[]{row, mid};
+            }
+            if (matrix[row][mid] < target) {
+                cStart = mid + 1;
+            } else {
+                cEnd = mid - 1;
+            }
+        }
+        return new int[]{-1, -1};
+    }
+
+    static int[] search(int[][] matrix, int target) {
+        int rows = matrix.length;
+        int cols = matrix[0].length; // be cautious, matrix may be empty
+        if (cols == 0){
+            return new int[] {-1,-1};
+        }
+        if (rows == 1) {
+            return binarySearch(matrix,0, 0, cols-1, target);
+        }
+
+        int rStart = 0;
+        int rEnd = rows - 1;
+        int cMid = cols / 2;
+
+        // run the loop till 2 rows are remaining
+        while (rStart < (rEnd - 1)) { // while this is true it will have more than 2 rows
+            int mid = rStart + (rEnd - rStart) / 2;
+            if (matrix[mid][cMid] == target) {
+                return new int[]{mid, cMid};
+            }
+            if (matrix[mid][cMid] < target) {
+                rStart = mid;
+            } else {
+                rEnd = mid;
+            }
+        }
+
+        // now we have two rows
+        // check whether the target is in the col of 2 rows
+        if (matrix[rStart][cMid] == target) {
+            return new int[]{rStart, cMid};
+        }
+        if (matrix[rStart + 1][cMid] == target) {
+            return new int[]{rStart + 1, cMid};
+        }
+
+        // search in 1st half
+        if (target <= matrix[rStart][cMid - 1]) {
+            return binarySearch(matrix, rStart, 0, cMid-1, target);
+        }
+        // search in 2nd half
+        if (target >= matrix[rStart][cMid + 1] && target <= matrix[rStart][cols - 1]) {
+            return binarySearch(matrix, rStart, cMid + 1, cols - 1, target);
+        }
+        // search in 3rd half
+        if (target <= matrix[rStart + 1][cMid - 1]) {
+            return binarySearch(matrix, rStart + 1, 0, cMid-1, target);
+        } else {
+            return binarySearch(matrix, rStart + 1, cMid + 1, cols - 1, target);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+########################
+BUBBLE SORT
+-> comparison sort method
+-> in every step u r comparing adjacent elements...greater element gets swaped to the right.....once u run through the largest element come to the end...at every 
+runthrough the largest element comes to the end
+-> also known as sinking sort or exchange sort
+-> this is a stable sorting algo
+
+public class practise {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int[] arr = {6,5,4,3,2,1};
+        bubble(arr);
+        System.out.println(Arrays.toString(arr));
+
+    }
+
+    public static void bubble(int[] arr){
+        boolean swapped;
+        for(int i = 0;i<arr.length;i++){
+            swapped = false;
+            for(int j = 1;j<arr.length-i;j++){
+                if(arr[j] <arr[j-1]){
+                    int temp = arr[j];
+                    arr[j] = arr[j-1];
+                    arr[j-1] = temp;
+                    swapped = true;
+                }
+            }
+            // if u didnt swap for a particular value of i, it means that the array is sorted hence stop the programme
+            if(!swapped){
+                break;
+            }
+        }
+    }
+}
+
+
+#####################
+SELECTION SORT
+-> select an element and put it at its correct position
+-> unstable ...works well in small arrays
+
+public class practise {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int[] arr ={5,4,6,3,2};
+        selection(arr);
+        System.out.println(Arrays.toString(arr));
+
+    }
+
+    public static void selection(int[] arr){
+        // find the max element in the remaining array and swap with correct index
+        for(int i=0;i<arr.length;i++){
+            int last = arr.length-i-1;
+            int maxIndex = getMaxElement(arr,0,last);
+            swap(arr,maxIndex,last);
+        }
+    }
+
+    public static int getMaxElement(int[] arr, int start, int end){
+        int max = start;
+        for(int i=start;i<=end;i++){
+            if(arr[max] < arr[i]){
+                max = i;
+            }
+        }
+        return max;
+    }
+
+    public static void swap(int[] arr, int first, int second){
+        int temp = arr[first];
+        arr[first] = arr[second];
+        arr[second] = temp;
+    }
+}
+
+########################
+INSERTION SORT
+-> sorting the array partially
+for every index u r at , put that element in the correct index in the left hand side
+-> O(n^2)....worst case.....O(n)...best case
+
+ public static void main(String[] args) {
+        int[] arr = {5, 3, 4, 1, 2};
+        insertion(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+
+    static void insertion(int[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = i+1; j > 0; j--) {
+                if (arr[j] < arr[j-1]) {
+                    swap(arr, j, j-1);
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    static void selection(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            // find the max item in the remaining array and swap with correct index
+            int last = arr.length - i - 1;
+            int maxIndex = getMaxIndex(arr, 0, last);
+            swap(arr, maxIndex, last);
+        }
+    }
+
+    static void swap(int[] arr, int first, int second) {
+        int temp = arr[first];
+        arr[first] = arr[second];
+        arr[second] = temp;
+    }
+
+    static int getMaxIndex(int[] arr, int start, int end) {
+        int max = start;
+        for (int i = start; i <= end; i++) {
+            if (arr[max] < arr[i]) {
+                max = i;
+            }
+        }
+        return max;
+    }
+
+    static void bubble(int[] arr) {
+        boolean swapped;
+        // run the steps n-1 times
+        for (int i = 0; i < arr.length; i++) {
+            swapped = false;
+            // for each step, max item will come at the last respective index
+            for (int j = 1; j < arr.length - i; j++) {
+                // swap if the item is smaller than the previous item
+                if (arr[j] < arr[j-1]) {
+                    // swap
+                    int temp = arr[j];
+                    arr[j] = arr[j-1];
+                    arr[j-1] = temp;
+                    swapped = true;
+                }
+            }
+            // if you did not swap for a particular value of i, it means the array is sorted hence stop the program
+            if (!swapped) { // !false = true
+                break;
+            }
+        }
+    }
+
+
+########################
+CYCLE SORT
+
+-> this algo uses just one loop
+-> when given nos from range 1 to N use cyclic sort
+-> 1 to N sort karna hai toh sort karne ke baad yeh observe hota hai ki joh index value hai woh uss jagah pe stored value - 1 ...ex...at index position 2 ..3 will be stored
+    so once you loop through the unsorted array swap the value to its correct index...jaise agar 0 pe 3 pada ho toh kaide se 3 ko 2 mein pada hona chahiye toh seedha swap
+-> worst case O(2N-1)...O(N)
+
+public class CyclicSort {
+    public static void main(String[] args) {
+        int[] arr = {5, 4, 3, 2, 1};
+        sort(arr);
+        System.out.println(Arrays.toString(arr));
+    }
+
+    static void sort(int[] arr) {
+        int i = 0;
+        while (i < arr.length) {
+            int correct = arr[i] - 1;   # for current index
+            if (arr[i] != arr[correct]) {
+                swap(arr, i , correct);
+            } else {
+                i++;
+            }
+        }
+    }
+
+    static void swap(int[] arr, int first, int second) {
+        int temp = arr[first];
+        arr[first] = arr[second];
+        arr[second] = temp;
+    }
+}
+
+
+-> Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+jidhar bhi 0 to n ya aise continuous range dikh jaaye...cyclic sort
+
+yahan pe lekin har element apne index value se match hoga kyuki 0 to N hai toh 0 0 position pe ...1 1 position pe
+class MissingNumber {
+
+    public static void main(String[] args) {
+        int[] arr = {4, 0, 2, 1};
+        System.out.println(missingNumber(arr));
+    }
+
+    public static int missingNumber(int[] arr) {
+        int i = 0;
+        while (i < arr.length) {
+            int correct = arr[i];
+            if (arr[i] < arr.length && arr[i] != arr[correct]) {
+                swap(arr, i , correct);
+            } else {
+                i++;
+            }
+        }
+
+        // search for first missing number
+        for (int index = 0; index < arr.length; index++) {
+            if (arr[index] != index) {
+                return index;
+            }
+        }
+
+        // case 2
+        return arr.length;
+    }
+
+    static void swap(int[] arr, int first, int second) {
+        int temp = arr[first];
+        arr[first] = arr[second];
+        arr[second] = temp;
+    }
+}
+
+
+-> Given an array nums of n integers where nums[i] is in the range [1, n], return an array of all the integers in the range [1, n] that do not appear in nums
+class FindAllMissing {
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            int correct = nums[i] - 1;   # kyuki yahan pe 1 to N hai toh index 0 pe 1 aayega 
+            if (nums[i] != nums[correct]) {
+                swap(nums, i , correct);
+            } else {
+                i++;
+            }
+        }
+
+        // just find missing numbers
+        List<Integer> ans = new ArrayList<>();
+        for (int index = 0; index < nums.length; index++) {
+            if (nums[index] != index+1) {
+                ans.add(index + 1);
+            }
+        }
+
+        return ans;
+    }
+
+    static void swap(int[] arr, int first, int second) {
+        int temp = arr[first];
+        arr[first] = arr[second];
+        arr[second] = temp;
+    }
+}
+
+
+-> Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n] inclusive.
+There is only one repeated number in nums, return this repeated number.
+
+public class FindDuplicate {
+    public int findDuplicate(int[] arr) {
+        int i = 0;
+        while (i < arr.length) {
+            if (arr[i] != i + 1) {
+                int correct = arr[i] - 1;
+                if (arr[i] != arr[correct]) {
+                    swap(arr, i , correct);
+                } else {
+                    return arr[i];
+                }
+            } else {
+                i++;
+            }
+        }
+        return -1;
+    }
+
+    static void swap(int[] arr, int first, int second) {
+        int temp = arr[first];
+        arr[first] = arr[second];
+        arr[second] = temp;
+    }
+}
+
+
+-> Given an integer array nums of length n where all the integers of nums are in the range [1, n] 
+and each integer appears once or twice, return an array of all the integers that appears twice.
+class Solution {
+    public List<Integer> findDuplicates(int[] nums) {
+        int i = 0;
+        while (i < nums.length) {
+            int correct = nums[i] - 1;  
+            if (nums[i] != nums[correct]) {
+                swap(nums, i , correct);
+            } else {
+                i++;
+            }
+        }
+
+        List<Integer> ans = new ArrayList<>();
+        for (int index = 0; index < nums.length; index++) {
+            if (nums[index] != index+1) {
+                ans.add(nums[index]);
+            }
+        }
+
+        return ans;
+    }
+
+     static void swap(int[] arr, int first, int second) {
+        int temp = arr[first];
+        arr[first] = arr[second];
+        arr[second] = temp;
+    }
+}
+
+
+->You have a set of integers s, which originally contains all the numbers from 1 to n. Unfortunately, due to some error, one of the numbers in s got duplicated to 
+another number in the set, which results in repetition of one number and loss of another number.You are given an integer array nums representing the data status of this 
+set after the error.Find the number that occurs twice and the number that is missing and return them in the form of an array.
+public class SetMismatch {
+    public int[] findErrorNums(int[] arr) {
+        int i = 0;
+        while (i < arr.length) {
+            int correct = arr[i] - 1;
+            if (arr[i] != arr[correct]) {
+                swap(arr, i , correct);
+            } else {
+                i++;
+            }
+        }
+
+        // search for first missing number
+        for (int index = 0; index < arr.length; index++) {
+            if (arr[index] != index + 1) {
+                return new int[] {arr[index], index+1};
+            }
+        }
+        return new int[] {-1, -1};
+    }
+
+    static void swap(int[] arr, int first, int second) {
+        int temp = arr[first];
+        arr[first] = arr[second];
+        arr[second] = temp;
+    }
+}
+
+
+-> Given an unsorted integer array nums, return the smallest missing positive integer.
+public class MissingPositive {
+
+    public static int firstMissingPositive(int[] arr) {
+        int i = 0;
+        while (i < arr.length) {
+            int correct = arr[i] - 1;
+            if (arr[i] > 0 && arr[i] <= arr.length && arr[i] != arr[correct]) {
+# -ve any hona chahiye isiliye > 0
+                swap(arr, i , correct);
+            } else {
+                i++;
+            }
+        }
+
+        // search for first missing number
+        for (int index = 0; index < arr.length; index++) {
+            if (arr[index] != index + 1) {
+                return index + 1;
+            }
+        }
+
+        // case 2
+        return arr.length + 1;  # agar 0,1,2 given hai toh 3 answer hoga
+    }
+
+    static void swap(int[] arr, int first, int second) {
+        int temp = arr[first];
+        arr[first] = arr[second];
+        arr[second] = temp;
+    }
+}
+
+
+
+
+########################
+MERGE SORT
+
+-> divide and conquer...aadhe ko sirt karo phir jod do
+
+
+
+
+
