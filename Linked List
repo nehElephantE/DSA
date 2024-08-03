@@ -1,18 +1,8 @@
 #################################
 LINKED LIST
 
--> 
-public static class Node{
-        int data;
-        Node next;
-    }
 
-    // this class will act like the summary of the linked list ki head mein start ka node hoga
-    // tail mein end ka node hoga aur size would define the no of nodes
-public static class LinkedList{
-        Node head;
-        Node tail;
-        int size;
+
 
 
 #######################
@@ -667,6 +657,21 @@ class ListNode {
         next = null;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
