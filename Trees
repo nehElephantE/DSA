@@ -6,8 +6,11 @@ GENERIC TREE
 
 -> if given an array of numbers like
 10 20 50 -1 60 -1 -1 20 70 -1 80 110 -1 10 -1 -1 90 -1 -1 40 100 -1 -1 -1
-one by one put in stack...-1 aate hi remove the topmost element matlab pop...then insert the next
-ek node hai...dusre node ko uske children banao...-1 aate hi node change kardo 
+
+// first no liya ...usko node banaya...dekha stack khali hai toh usko root bana diya...phir usko stack mein push kar diya
+// next no dekha...if its not -1...usko root ka child banaya aur stack mein push kar diya
+// toh agar koi number hai which is not -1 hence its the child of the previous node
+// -1 dikha toh pop kar diya that is top most number removed
 
 
 class Node{
@@ -28,6 +31,8 @@ public class expert {
            else{
                Node t = new Node();//node banaya
                t.data = arr[i]; // arr ka value usmein daal diya
+
+// we need ti see if stack is empty or not...and then joh upar element hoga(peek) uske children mein add karna hai
 
                if(st.size() > 0){
                    st.peek().children.add(t);
