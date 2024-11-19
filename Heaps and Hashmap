@@ -164,6 +164,58 @@ PRESENT IN N1(IN ORDER OF THIER OCCURENECE IN S2). PRINT DUPLICATE VALUES
 ###################
 YOU ARE GIVEN A NUMBER N REPRESENTING THE SIZE OF AN ARRAY A. YOU ARE REQUIRED TO PRINT THE LONGEST SEQUENCE OF CONSUCUTIVE ELEMENTS IN THE ARRAY (IGNORING DUPLICATES)
 
+Given an array with elements - 10 5 9 1 11 8 6 5 3 12 2
+Sabse pehle Hashmap mein array loop lagakr har element ka value True kar denge
+Phir array pr loop lagaya aur dekha ki uss element ka pichla value HashMap pe pada hai ki nahi...agar pada hai toh False kar diya
+jaise 10 ka picha number 9 ...HashMap mein hai..matab 10 koi seq ka start ni bann sakta isiliye 10 ke aage False kar diya
+
+Phir array se ek aur loop lagayenge aur unhi elements ko dekhenge joh true honge...pehle 5 hoga phir..uska agala 6 pada hua hai
+HashMap mein lekin 7 ni hai toh maxLength 2...phir agala element gaye joh true tha which is 1..1,2,3 is present toh maxLength is now
+3
+
+public static void main(String[] args){
+       Scanner scn = new Scanner(System.in);
+       int n = scn.nextInt();
+       int[] arr = new int[n];
+
+       for(int i = 0;i<arr.length;i++){
+        arr[i]=scn.nextInt();
+       }
+
+       HashMap<Integer,Boolean> map = new HashMap<>();
+       for(int val:arr){
+        map.put(val,true);
+       }
+
+       for(int val:arr){
+        if(map.containsKey(val-1)){
+            map.put(val,false);
+        }
+       }
+
+       int max_startpt = 0;
+       int max_len = 0;
+
+       for(int val:arr){
+        if(map.get(val) == true){
+            int temp_len = 1;
+            int temp_startpt = val;
+
+            while(map.containsKey(temp_startpt+1)){
+                temp_len++;
+            }
+
+            if(temp_len > max_len){
+                max_len = temp_len;
+                max_startpt = temp_startpt;
+            }
+        }
+       }
+
+       for(int i = 0 ; i < max_len ;i++){
+        System.out.println(max_startpt+i);
+       }
+    }
 
 
 ###################
