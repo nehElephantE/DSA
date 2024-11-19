@@ -1,0 +1,16 @@
+##########################
+YOU ARE GIVEN A GRAPH,A SRCVERTEX AND A DESTINATION VERTEX. YOU RAE REQUIRED TO FIND IF A PATH
+EXISTS BETWEEN SRC AND DEST. IF IT DOES PRINT IT ELSE RETURN FALSE
+
+##########################
+YOU ARE GIVEN A GRAPH, A SRC VERTEX AND A DESTINATION VERTEX. YOU ARE REQUIRED TO FIND ALL PATHS
+BETWEEN SRC AND DEST. FIND THEM IN LEXOGRAPHICAL ORDER
+
+##########################
+##########################
+##########################
+##########################
+##########################
+##########################
+##########################
+##########################
