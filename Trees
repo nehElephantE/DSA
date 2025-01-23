@@ -32,7 +32,7 @@ public class expert {
                Node t = new Node();//node banaya
                t.data = arr[i]; // arr ka value usmein daal diya
 
-// we need ti see if stack is empty or not...and then joh upar element hoga(peek) uske children mein add karna hai
+// we need to see if stack is empty or not...and then joh upar element hoga(peek) uske children mein add karna hai
 
                if(st.size() > 0){
                    st.peek().children.add(t);
@@ -153,6 +153,7 @@ root ke children pe recursion lagakr uska height nikalna hai ...uspr + 1 karne s
 
 
 -> traversal of trees
+
 
 
 #######################
