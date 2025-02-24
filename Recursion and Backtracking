@@ -2,77 +2,6 @@ RECURSION AND BACKTRACKING
 
 ##################
 RECURSION
--> stoping condition, return type imp
-
--> printing from N to 1
-public class player {
-    public static void func(int n){
-        if(n == 0){
-            return;
-        }
-        System.out.println(n);
-        func(n-1);
-    }
-
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        func(5);
-    }
-}
-
-
--> printing from 1 to N
-public class player {
-    public static void func(int n){
-        if(n == 0){
-            return;
-        }
-        func(n-1);
-        System.out.println(n);
-
-    }
-
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        func(5);
-    }
-}
-
-
--> printing N to 1 and 1 to N together
-public class player {
-    public static void func(int n){
-        if(n == 0){
-            return;
-        }
-	System.out.println(n);
-        func(n-1);
-        System.out.println(n);
-
-    }
-
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        func(5);
-    }
-}
-
-
-
-->factorial of a number
-public class kannu {
-    public static int pro(int n){
-        if(n == 1){
-            return 1;
-        }
-        int res = n;
-        return res*pro(n-1);
-    }
-
-    public static void main(String[] args){
-        System.out.println(pro(5));
-    }
-}
 
 
 -> sum of n numbers....same as factorial but just + instead of +
@@ -1167,4 +1096,137 @@ public class NKnights {
     }
 }
 
+
+
+
+
+#########################################################################
+
+
+=> PRINT DECREASING ORDER OF NUMBERS
+
+// void rakhna hai function 
+// if number == 0 not 1
+
+public class practise {
+   public static void main(String[] args){
+      decrease(5);
+   }
+
+   public static void decrease(int num){
+      if(num == 0){
+         return;
+      }
+      System.out.println(num);
+      decrease(num-1);
+   }
+}
+
+
+=> PRINT INCREASING 1 to N
+
+//expectation aur faith wala sochkr logic sochna hai
+
+public class practise {
+   public static void main(String[] args){
+      increase(5);
+   }
+
+   public static void increase(int num){
+      if(num == 0){
+         return;
+      }
+      increase(num-1);
+      System.out.println(num);
+   }  
+}
+
+
+=> PRINT INCREASING DECREASING
+public class practise {
+   public static void main(String[] args){
+      increase(5);
+   }
+
+   public static void increase(int num){
+      if(num == 0){
+         return;
+      }
+      System.out.println(num);
+      increase(num-1);
+      System.out.println(num);
+   }  
+}
+
+
+=> FACTORIAL OF A NUMBER
+
+public class practise {
+   public static void main(String[] args){
+      System.out.println(fact(5));
+   }
+
+   public static int fact(int num){
+      if(num == 1){
+         return 1;
+      }
+      return fact(num-1)*num;
+      
+   }  
+}
+
+
+=> POWER OF X^N
+
+// x^n = x*x^(n-1)
+public class practise {
+   public static void main(String[] args){
+      System.out.println(power(5,3));
+   }
+
+   public static int power(int num1,int num2){
+      if(num2 == 0){
+         return 1;
+      }
+     int ans = num1*(power(num1,num2-1));
+     return ans;
+   }  
+}
+
+// x^n = x^(n/2)*x^(n/2) if x is even ......x^(n/2)*x^(n/2)*x if x is odd
+// this logic is better than the previous approach
+
+public class practise {
+   public static void main(String[] args){
+      System.out.println(power(5,4));
+   }
+
+   public static int power(int x,int n){
+      if(n == 0){
+         return 1;
+      }
+      int ans=  power(x,n/2) * power(x,n/2);
+      if(n % 2 == 1){
+         ans = ans*x;
+      }
+      return ans;
+   }  
+}
+
+
+=> PRINT ZIG ZAG
+
+
+
+=> DISPLAY ARRAY ELEMENTS USING RECURSION
+
+=> TOWER OF HANOI
+
+=> DISPLAY AN ARRAY
+
+=> DISPLAY AN ARRAY IN REVERSE
+
+=> MAXIMUM OF AN ARRAY
+
+=> FIRST INDEX OF OCCURENCE
 
