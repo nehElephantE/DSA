@@ -73,5 +73,34 @@ RMB = number & 2's complement of number
 1. You are given a number n.
 2. You have to count the number of set bits in the given number.
 
+set bits matlab kitne bits 1 hai
+x = 10010010010
+toh x mein se rmb ko ek ke baad ek minus karte jaao...jitne baar subtract kar rahe toh utna counter badha do
+
+   public static void main(String[] args){
+      int counter = 0;
+
+      // jab tak number 0 ni ho jaata
+      while(n != 0){
+         int rbm = n & ~n;
+         n -= rbm;
+         counter++
+      }
+      System.out.println(counter);
+   }
+
+
+->
+1. You are given an integer N which represents the total number of soldiers standing in a circle having position marked from 1 to N.
+2. A cruel king wants to execute them but in a different way.
+3. He starts executing soldiers from 1st position and proceeds around the circle in clockwise direction.
+4. In each step, every second soldier is executed.
+5. The elimination proceeds around the circle (which is becoming smaller and smaller as the executed soldiers are removed), until only the last soldier remains, 
+who is given freedom.
+6. You have to find the position of that lucky soldier.
+
+
+n = 2^x + l ...9 = 2^3+1
+toh the last remaining would be (2l+1)
 
 
