@@ -103,4 +103,17 @@ who is given freedom.
 n = 2^x + l ...9 = 2^3+1
 toh the last remaining would be (2l+1)
 
+   public static int poweroftwo(int n){
+      int i = 1;
+
+      while(i * 2 <= n){
+         i = i*2;
+      }
+      return i;
+   }
+   public static void main(String[] args){
+      int closestpower = poweroftwo(n);
+      int l = n - closestpower;
+      System.out.println(2l+1);
+   }
 
