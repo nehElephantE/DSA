@@ -1,0 +1,77 @@
+-> RAM ke andar sirf binary store hota hai
+
+-> Firt bit decides the if the number is +ve or -ve ...0 hua toh positive....1 hua toh negative
+0111 since its beginning with 0 toh baaki ke binary digits ko simply integer mein convert kar lo which makes it 7
+if the number is 1000...since the starting bit is 1 so its negative then we take the 2's complement .....1's complement + 0001 ....toggle the bits then add 1 in binary
+1000 .....1's complement = 0111...then add 1= 0001....0111+0001 = 1000....which is 8 but it will be -8
+1001 ...0110+0001 = 0111 = -7
+
+-> FOr 4 bits the range of numbers that can be stored is -8 to 7 so if we wanna store 12 whose binary is 1100 but -4 will be stored cause MSB is 1
+
+-> For decimal to binary conversion of -ve numbers
+ex = -7
+7 ka binary is 0111 phir uska 2's complement store kardo...1000+0001 = 1001
+
+-> OR operator - switch bits on
+AND operator - switch bits off
+XOR operator - toggle bits
+LEFT shift << - left side shift hone ke baad right side ke spaces mein 0 add hota hai
+RIGHT shift >> - right side shift hone ke baad left side ke spaces mein 1 add hota hai
+TRIPLE RIGHT shift >>> - right side shift hone ke baad left side ke spaces mein 0 add hota hai
+TILT - toggle kar dega
+
+->
+A | B | A XOR B
+--|---|--------
+0 | 0 | 0
+0 | 1 | 1
+1 | 0 | 1
+1 | 1 | 0
+
+-> 1. You are given a number n.
+2. Print the number produced on setting its i-th bit.
+3. Print the number produced on unsetting its j-th bit.
+4. Print the number produced on toggling its k-th bit.
+5. Also, Check if its m-th bit is on or off. Print 'true' if it is on, otherwise print 'false'.
+
+   public static void main(String[] args){
+      // on karne ke liye or operator aur mask hoga left shift jahan ke bits ko check karna hai
+      int onmask = (1 << i);
+      System.out.println(n | onmask);
+
+      // off karne ke liye and operator aur mask hoga left shift jahan ke bits ko check karna hai and then uska
+      // 1's complement
+      int offmask = ~(1 << j);
+      System.out.println(n & offmask);
+
+      // toggle ke XOR operator aur mask hoga left shift jahan ke bits ko check karna hai
+      int togglemask = (1 << k);
+      System.out.println(n ^ togglemask);
+
+      // check mask bhi and operator ke saath left shift jahan ke bits ko check karna hai
+      int checkmask = (1 << m);
+      System.out.println((n & checkmask) == 0 ? false : true)
+   }
+
+
+->
+1. You are given a number n.
+2. You have to print the right-most set bit mask.
+
+Right most set bit ka matlab hai ki uss "1" bit ke baad aage ke right side wale saare 0 hai
+ex - 76 ka binary is 1001100 toh RMB will be 1001"1"00
+iska mask hoga - 0000100...matlab uss RMB tak ke left side wale saare 0
+RMB = number & 2's complement of number
+
+   public static void main(String[] args){
+      int rmb = n & -n;
+      System.out.println(Integer.toBinaryString(rmb));
+   }
+
+
+->Kernighan's Algorithm 
+1. You are given a number n.
+2. You have to count the number of set bits in the given number.
+
+
+
