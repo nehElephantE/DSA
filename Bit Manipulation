@@ -117,3 +117,121 @@ toh the last remaining would be (2l+1)
       System.out.println(2l+1);
    }
 
+
+-> GRAY CODES
+1. The gray code is a binary numeral system where two successive numbers differ in only one bit.
+2. Given a non-negative integer n representing the total number of bits in the code, print the 
+sequence of gray code. A gray code sequence must begin with 0.
+
+ Input: 2
+ Output: [0,1,3,2]
+ Explanation:
+ 00 - 0
+ 01 - 1
+ 11 - 3
+ 10 - 2
+ [0,2,3,1] is also a valid gray code sequence.
+ 00 - 0
+ 10 - 2
+ 11 - 3
+ 01 - 1 
+
+
+1 bit = 0 1
+2 bits = 00 01 10 11
+3 bits = 000 001 010 011 100 101 110 111
+
+as u can see ki 2 bits is ki 1 bit wale ke aage 0 aur 1 laga diya
+3 bits is 2 bits values ke aage 0 aur 1 laga diya
+
+public static ArrayList<String> solution(int n){
+
+      // yeh function se answer aayega toh humne n-1 ke liye recursion ke through answer nikala
+      if(n == 1){
+         ArrayList<String> bres = new ArrayList<>();
+         // 1 bit wale mein 0 aur 1 hi hota hai
+         bres.add("0");
+         bres.add("1");
+         return bres;
+      }
+
+      // agar n = 3 toh woh 2 ko call lagayega aur 2 ..1 ko call lagayega
+      
+      ArrayList<String> rres = solution(n-1);
+      // 1 ka hai 0 aur 1 toh inn dono ke aage 0 aur 1 lagane se ... 00 01 10 11...toh yeh 2 bits ka bann gaya
+      // abh yeh 2 bits wale mein 0 aur 1 lagane se 3 ka bann jayega
+      // 000 001 010 011 100 101 110 111
+      ArrayList<String> myresult = new ArrayList<>();
+      for(int i = 0; i< rres.size();i++){
+         String rstr = rres.get(i);
+         myresult.add("0"+rstr);
+      }
+
+      for(int i = rres.size(); i >= 0 ;i--){
+         String rstr = rres.get(i);
+         myresult.add("1"+rstr);
+      }
+   }
+
+
+->
+1. You are given N strings which represents N different skills related to I.T field.
+2. You are working on a project and you want to hire a team of software developers for that project.
+3. There are N applicants. Every applicant has mentioned his/her skills in resume.
+4. You have to select the minimum number of developers such that for every required skill, there is
+at least one person in the team who has that skill.
+5. It is guaranteed that you can form a team which covers all the required skills.
+
+
+Suppose i got developers 0,1,2,3 with skills ranging from a,b,c,d,e
+0 - a,c
+1 - b,d
+2 - a,b,c,d
+3 - e
+
+now i need to map these developers with skills ...joh joh inka skill hai wahan pe 1 laga do aur joh ni hai 0 laga do
+     
+     a  b  c  d  e
+0    1  0  1  0  0
+1    0  1  0  1  0
+2    1  1  1  1  0
+3    0  0  0  0  0
+
+
+Abh isko aisa socho ki har ek developer ke aane ke 2 choices hi hai ki ya toh woh aa sakta hai ya ni aa sakta
+00000 se start karke har ek developer ke saath OR karenge ...karte rahenge jabh tak sabh 11111 ni aa jaata
+
+00000 | 10100 (0 wala developer bole ke yes main aaunga) = 10100 .....10100 | 01010 (1 wala developer bole ke yes main aaunga) = 11110
+00000 | 00000 (0 wala developer bole ke no main ni aunga) = 00000
+
+toh aise karke har ek ka yes aur no combination nikalkr dekho last mein 11111 kiska aata hai
+
+
+
+->
+
+1. You are given an array of numbers.
+2. All numbers occur thrice in the array except one.
+3. You have to find the element that occurs once.
+
+Suppose the array contains the numbers - 51,57,51,57,63,38,57,63,63,51
+38 is the number appearing only once
+
+51 1 1 0 0 1 1
+57 1 1 1 0 0 1
+51 1 1 0 0 1 1
+57 1 1 1 0 0 1
+63 1 1 1 1 1 1
+38 1 0 0 1 1 0 
+57 1 1 1 0 0 1
+63 1 1 1 1 1 1
+63 1 1 1 1 1 1
+51 1 1 0 0 1 1
+   10 9 6 4 7 9
+
+10 9 6 4 7 9 this represents ki uss position pe kitne bits set hai matlab ki 1 hai
+1 0 0 1 1 0
+
+as you can see ki 1 multiple of 3 mein hi ho raha 3n, 3n+1
+
+
