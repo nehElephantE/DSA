@@ -154,6 +154,419 @@ root ke children pe recursion lagakr uska height nikalna hai ...uspr + 1 karne s
 
 -> traversal of trees
 
+    public static void traversals(Node node){
+
+        // Pre Area will come before calling the recurssion
+        System.out.println("Node Pre " + node.data)
+
+        for(Node child : node.children){
+            // edge pre
+            System.out.println("Edge Pre " + node.data + "--" + child.data)
+            traversals(child);
+            // edge post
+            System.out.println("Edge Post " + node.data + "--" + child.data)
+        }
+
+        // Post Area will come after calling the recurssion
+        System.out.println("Node Post " + node.data)
+    }
+
+
+-> level order traversal
+level by level traverse karna hai
+
+remove.... print.... add
+Ek queue lena hai...usmein root add karo...phir remove karo ...root ko print karo...phir uske children add karo
+pehla child remove karo....print karo child ko....uss child ke children add karo queue mein
+aise har ek level ke print ho jayenge
+
+    public static void level_traversals(Node node){
+        Queue<Node> q = new ArrayDeque<>();
+        q.add(node);
+
+        while(q.size() > 0){
+            node = q.remove();
+            System.out.println(node.data + " ");
+
+            for(Node child:node.children){
+                q.add(child);
+            }
+        }
+
+        System.out.println(".");
+    }
+
+
+-> level order linewise
+
+left to right line by line print karo tree ko
+10
+20 30
+40 50 60 
+
+aise line by line space ke saath print hona chahiye
+
+Remove...print...add wala i concept lagega
+
+consider 2 queues ...main and child
+add the root in the main queue and its children in the child queue
+from the main queue remove the element...print it ....then add all the elements of the child queue in main queue and empty the child queue ...then print enter like next
+line
+
+main queue - 10
+child queue - 20 30
+
+main queue - 20 30
+child queue - 40 50 60
+
+like this the procedure follows
+
+
+    public static void level_traversals(Node node){
+        Queue<Node> mq = new ArrayDeque<>()
+        q.add(node);
+
+        Queue<Node> cq = new ArrayDeque<>();
+
+        while(mq.size() > 0){
+            node = mq.remove();
+            System.out.println(node.data + " ");
+
+            for(Node child:node.children){
+                cq.add(child);
+            }
+
+            if(mq.size() > 0){
+                mq = cq;
+                cq = new ArrayDeque<>();
+                System.out.println();
+            }
+        }
+    }
+
+
+-> level order zigzag
+
+root se start karo...then come 1 level down...right to left print..then 1 level down ...print left to right and so on
+
+2 stacks ..main and child...add the root in the main stack...we need to do RPA...remove..print..add
+
+since we need to print right to left in the 2nd level so for the roots add its child in the left-right manner in the child stack
+then transfer the child stack components into the main stack and empty the child stack
+
+then remove the child element from the main stack but since the 3rd layer has to be printed left to right so its children will be added right-left
+
+   public static void level_traversals(Node node){
+        Stack<Node> ms = new Stack<>;
+        Stack<Node> cs = new Stack<>;
+
+        ms.push(node);
+        int level = 1;
+
+        while(ms.size() > 0){
+            node = ms.pop();
+            System.out.println(node.data + " ");
+
+            if(level % 2 == 1){
+                for(int i = 0;i<node.children.size();i++){
+                    Node child = node.children.get(i);
+                    cs.push(child);
+                }
+            }
+            else{
+                for(int i = node.children.size()-1;i>=0;i--){
+                    Node child = node.children.get(i);
+                    cs.push(child);
+                }
+            }
+
+            if(ms.size() == 0){
+                ms = cs;
+                cs = new Stack<>();
+                level++;
+                System.out.println;
+            }
+        }
+    }
+
+
+-> level traversal more approaches
+
+consider a single queue...add root and null...use RPA..remove root ...add its children...then comes null...when u remove null u also add null
+then u remove the 1st child...add its children...then other child's children ...until u come across a null...if null is there..add a null
+
+
+// hume aise mq.add(null) ni karne deta hai java so we need to add appropriate constructors
+
+class Node{
+    int data;
+    ArrayList<Node> children = new ArrayList<>();
+
+    Node(){
+        
+    }
+
+    Node(int data){
+        this.data = data;
+    }
+}
+
+public static void level_traversals(Node node){
+        Queue<Node> mq = new ArrayDeque<>();
+        q.add(node);
+        q.add(new Node(-1));
+
+
+        while(mq.size() > 0){
+            node = mq.remove();
+
+            if(node.data != -1){
+                System.out.println(node.data + " ");
+
+                for(Node child:node.children){
+                    mq.add(child);
+                }
+            }
+            else{
+                // yeh check isiliye imp hai ki agar aur elements hi ni
+                // hue add karne ko toh null add karke faida ni
+                if(mq.size() > 0){
+                    mq.add(new Node(-1));
+                    System.out.println();
+                }
+            }
+        }
+    }
+
+
+-> another traversal approach
+
+    public static void level_traversals(Node node){
+
+       // Humlog queue mein root daale 
+        //    phir queue ka size pata lagaya ...in this case its 1
+        //    matlab 1 baar loop chalega ...aur loop mein apne ko karna hai RPA
+        //    matlab remove print and add its children
+        //    suppose root ke 3 children hai...humne teeno ko add kiya 
+        //    phirse size pata lagaya ...in this case its 3...then we do RPA 3 times
+        //    and like this we proceed
+
+        Queue<Node> mq = new ArrayDeque<>();
+        mq.add(root);
+
+        while(mq.size() > 0){
+            int cicl = mq.size();
+
+            for(int i = 0; i < cicl; i++){
+                node = mq.remove();
+                System.out.println(node.data + " ");
+
+                for(Node child : node.children){
+                    mq.add(child);
+                }
+            }
+            System.out.println();
+        }
+    }
+
+
+-> more approach for level traversal
+
+// humlog 1 queue mein Node aur uska level add karenge
+
+class Pair{
+    Node node;
+    int level;
+
+    Pair(Node node, int level){
+        this.node = node;
+        this.level = level;
+    }
+}
+
+    public static void leveltraversal(Node node){
+        Queue<Pair> mq = new ArrayDeque<>();
+        mq.add(new Pair(node,1));
+
+        int level = 1;
+        while(mq.size() > 0){
+            Pair p = mq.remove();
+            if(p.level > level){
+                level = p.level;
+                System.out.println();
+            }
+
+            System.out.println(p.node.data + " ");
+            for(Node child: p.node.children){
+                Pair cp = new Pair(child,p.level+1);
+                mq.add(cp);
+            }
+        }
+    }
+
+
+
+-> mirror a generic tree
+
+uska mirror image banana hai...matlab joh left side tha woh right pe aana chahiye
+maan ke chalo ki har ek node apne children ka mirror image banana jaanta hai
+
+phir root ko bhi karna hai
+
+    public static void mirror(Node node){
+        for(Node child:node.children){
+            mirror(child);
+        }
+
+        Collections.reverse(node.children);
+    }
+
+
+
+-> remove leaves from generic tree
+
+maan ke chalo ki ek node apne wale leaf node ko nikal dega
+
+public static void removeleaf(Node node){
+        for(int i = node.children.size() - 1 ; i >= 0; i--){
+            Node child = node.children.get(i);
+            if(child.children.size() == 0){
+                node.children.remove(child);
+            }
+        }
+        
+        for(Node child:node.children){
+            removeleaf(child);
+        }
+
+        // abh humlog last koi node pe aa gaye honge..abh humko leaf remove karna hai
+
+        // yeh loop chalega hi aise because ek concurrent error aata hai
+        // for(Node child:node.children){
+        //     if(child.children.size() == 0){
+        //         node.children.remove(child);
+        //     }
+        // }
+
+        // arraylist mein agar humlog ek element remove karte hai toh baaki elements aage khisak jaata hai
+        // array mein jaise 0 index ka element remove karne pe baaki elements shift ni hote but arraylist mein hote hai
+
+        // for(int i = 0;i < node.children.size(); i ++){
+        //     Node child = node.children.get(i);
+        //     if(child.children.size() == 0){
+        //         node.children.remove(child);
+        //     }
+        // }
+
+        // toh apne ko upar wala loop ulta chalana hai
+        // lekin post recursion mein remove karne se joh nodes leaf ni the woh bhi udd jayenge..toh apne ko pre call karna padega
+
+        // for(int i = node.children.size() - 1 ; i >= 0; i--){
+        //     Node child = node.children.get(i);
+        //     if(child.children.size() == 0){
+        //         node.children.remove(child);
+        //     }
+        // }
+    }
+
+
+
+-> Linearize a Generic Tree
+
+10 -> 20,30
+20 -> 40 , 50
+40 -> 60
+
+so output should be such  = 10 - 20 - 40 - 60 - 50 - 30...means for every node should only have 1 child
+
+public static Node getTail(Node node){
+        // check karte raho kiska children hai hi ni woh tail hoga
+        while(node.children.size() == 1){
+            node = node.children.get(0);
+        }
+
+        return node;
+    }
+
+    public static void linearize(Node node){
+        // humlog maan lete hai ki yeh node apne neeche wale ko linearize kar dega
+        for(Node child: node.children){
+            linearize(child);
+        }
+
+        // last mein root ke children ko tailwise jodna hai...last child ko second ke usse jodna hai...phir usko first ke usse
+
+        while(node.children.size() > 1){
+            Node lastchild = node.children.remove(node.children.size() - 1);
+            // element remove karne ke baad array list khisak jaati hai ..isiliye get (size - 1) kiya
+            Node secondlast = node.children.get(node.children.size() - 1);
+            Node secondlasttail = getTail(secondlast);
+            secondlasttail.children.add(lastchild);
+        }
+    }
+
+
+-> efficient approach for linearising
+upar wale ka time complexity O(N^2) hai kyuki recurison ke baad likha ek loop hai matlab right side se nikalne par hi execute hoga woh after recursion likha hua
+function...uske baad getTail function mein bhi loop hai
+maan ke chalenge ki node linearise ke saath saath tail bhi batayega 
+
+    public static void linearize(Node node){
+
+        if(node.children.size() == 0){
+            return node;
+        }
+        
+       Node lasttail = linearize(node.children.get(node.children.size() - 1)); 
+       while(node.children.size() > 1){
+        Node last = node.children.remove(node.children.size() - 1);
+        Node secondlast = node.children.get(node.children.size() - 1);
+        Node secondlasttail = linearize(secondlast);
+        secondlasttail.children.add(last);
+       }
+
+       return lasttail;
+    }
+
+
+-> Find an element in Generic Tree 
+    public static boolean find(Node node, int data){
+        // maan ke chalo ke woh node apne neeche search karke batayega
+        // pehle check karo root hi toh ni then check others
+
+        if(node.data == data){
+            return true;
+        }
+
+        for(Node child : node.children){
+            boolean fic = find(child,data);
+            if(fic){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+-> Node to Root Path
+
+    public static ArrayList<Integer> nodetopath(Node node, int data){
+        if(node.data == data){
+            ArrayList<Integer> list = new ArrayList<>();
+            list.add(node.data);
+            return list;
+        }
+
+        for(Node child: node.children){
+            ArrayList<Integer> ptc = nodetopath(child, data);
+            if(ptc.size() > 0){
+                ptc.add(node.data);
+            }
+        }
+
+        return new ArrayList<>();
+    }
+
 
 
 #######################
