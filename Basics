@@ -1,3 +1,222 @@
+########################
+COLLECTIONS AND ITS METHODS
+
+-> PriorityQueue (Heap)
+is a min-heap by default 
+PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a); .....now its sprted decreasing order
+
+| Method                              | Description                  | Time Complexity     |
+|-------------------------------------|------------------------------|----------------------|
+| `boolean add(E e)` / `offer(E e)`   | Inserts element              | O(log n)             |
+| `E poll()`                          | Removes and returns head     | O(log n)             |
+| `E peek()`                          | Returns head (no removal)    | O(1)                 |
+| `boolean remove(Object o)`          | Removes element              | O(n)                 |
+| `boolean contains(Object o)`        | Checks if exists             | O(n)                 |
+| `int size()`                        | Returns size                 | O(1)                 |
+| `void clear()`                      | Clears queue                 | O(1)                 |
+| `Iterator<E> iterator()`            | Returns iterator             | O(1) per element     |
+
+
+-> ArrayDeque
+
+| Method                                         | Description                       | Time Complexity     |
+|------------------------------------------------|-----------------------------------|----------------------|
+| `void addFirst(E e)`                           | Inserts at front                  | O(1)                 |
+| `void addLast(E e)`                            | Inserts at end                    | O(1)                 |
+| `E removeFirst()`                              | Removes from front                | O(1)                 |
+| `E removeLast()`                               | Removes from end                  | O(1)                 |
+| `E getFirst()`                                 | Returns front element             | O(1)                 |
+| `E getLast()`                                  | Returns last element              | O(1)                 |
+| `boolean offerFirst(E e)`                      | Inserts at front                  | O(1)                 |
+| `boolean offerLast(E e)`                       | Inserts at end                    | O(1)                 |
+| `E pollFirst()`                                | Removes front (or null)           | O(1)                 |
+| `E pollLast()`                                 | Removes last (or null)            | O(1)                 |
+| `E peekFirst()`                                | Returns front (no removal)        | O(1)                 |
+| `E peekLast()`                                 | Returns last (no removal)         | O(1)                 |
+| `boolean removeFirstOccurrence(Object o)`      | Removes first occurrence of `o`   | O(n)                 |
+| `boolean removeLastOccurrence(Object o)`       | Removes last occurrence of `o`    | O(n)                 |
+
+
+-> HashSet (Unordered Unique Elements), LinkedHashSet,TreeSet
+stores unique elements with no duplicates and no guaranteed order.
+
+| Method                                | Description                          | Time Complexity       |
+|---------------------------------------|--------------------------------------|------------------------|
+| `boolean add(E e)`                    | Adds element if not present          | O(1) average           |
+| `boolean remove(Object o)`           | Removes element if present           | O(1) average           |
+| `boolean contains(Object o)`         | Checks if element exists             | O(1) average           |
+| `int size()`                         | Returns number of elements           | O(1)                   |
+| `boolean isEmpty()`                 | Checks if set is empty               | O(1)                   |
+| `void clear()`                       | Removes all elements                 | O(1)                   |
+| `Iterator<E> iterator()`             | Returns iterator                     | O(1) per element       |
+| `Object[] toArray()`                 | Converts to array                    | O(n)                   |
+| `<T> T[] toArray(T[] a)`             | Converts to typed array              | O(n)                   |
+| `boolean addAll(Collection<? extends E> c)` | Adds all from collection        | O(m) (m = size of c)   |
+| `boolean removeAll(Collection<?> c)` | Removes all in collection            | O(m * n) worst case    |
+| `boolean retainAll(Collection<?> c)` | Keeps only elements in collection    | O(n * m) worst case    |
+| `boolean containsAll(Collection<?> c)`| Checks if all elements exist        | O(m)                   |
+
+
+
+
+-> HashMap (Key-Value Pairs)
+stores key-value pairs and allows fast lookup by key.
+
+| Method                                           | Description                        | Time Complexity      |
+|--------------------------------------------------|------------------------------------|-----------------------|
+| `V put(K key, V value)`                          | Inserts/updates key-value          | O(1) average          |
+| `V get(Object key)`                              | Returns value for key              | O(1) average          |
+| `V remove(Object key)`                           | Removes key-value pair             | O(1) average          |
+| `boolean containsKey(Object key)`                | Checks if key exists               | O(1) average          |
+| `boolean containsValue(Object value)`            | Checks if value exists             | O(n)                  |
+| `int size()`                                     | Returns number of entries          | O(1)                  |
+| `boolean isEmpty()`                              | Checks if empty                    | O(1)                  |
+| `void clear()`                                   | Removes all entries                | O(1)                  |
+| `Set<K> keySet()`                                | Returns set of keys                | O(1)                  |
+| `Collection<V> values()`                         | Returns collection of values       | O(1)                  |
+| `Set<Map.Entry<K,V>> entrySet()`                 | Returns set of entries             | O(1)                  |
+| `V getOrDefault(Object key, V defaultValue)`     | Returns value or default           | O(1) average          |
+| `V putIfAbsent(K key, V value)`                  | Inserts if key absent              | O(1) average          |
+| `boolean replace(K key, V oldVal, V newVal)`     | Replaces if oldVal matches         | O(1) average          |
+| `V replace(K key, V value)`                      | Replaces value for key             | O(1) average          |
+
+
+-> LinkedHashMap
+
+| Method                                             | Description                            | Time Complexity     |
+|----------------------------------------------------|----------------------------------------|----------------------|
+| `V get(Object key)`                                | Returns value for key                  | O(1) average         |
+| `V getOrDefault(Object key, V defaultValue)`       | Returns value or default               | O(1) average         |
+| `boolean removeEldestEntry(Map.Entry<K,V> eldest)` | Override for LRU cache behavior        | O(1)                 |
+| `Set<K> keySet()`                                  | Returns keys in insertion order        | O(1)                 |
+| `Collection<V> values()`                           | Returns values in insertion order      | O(1)                 |
+| `Set<Map.Entry<K,V>> entrySet()`                   | Returns entries in insertion order     | O(1)                 |
+
+
+-> HashTable
+| Method                      | Description                    | Time Complexity       |
+|-----------------------------|--------------------------------|------------------------|
+| `V put(K k, V v)`           | Inserts/updates key-value      | O(1) average           |
+| `V get(Object k)`           | Returns value for key          | O(1) average           |
+| `V remove(Object k)`        | Removes key-value              | O(1) average           |
+| `Enumeration<K> keys()`     | Returns keys                  | O(1) per element       |
+| `Enumeration<V> elements()` | Returns values                | O(1) per element       |
+| `void rehash()`             | Increases capacity             | O(n)                   |
+
+
+-> TreeSet
+
+| Method                                  | Description                      | Time Complexity     |
+|-----------------------------------------|----------------------------------|----------------------|
+| `boolean add(E e)`                      | Adds element                     | O(log n)             |
+| `boolean remove(Object o)`              | Removes element                  | O(log n)             |
+| `boolean contains(Object o)`            | Checks if exists                 | O(log n)             |
+| `E first()`                             | Returns smallest element         | O(log n)             |
+| `E last()`                              | Returns largest element          | O(log n)             |
+| `E ceiling(E e)`                        | Returns smallest ≥ e             | O(log n)             |
+| `E floor(E e)`                          | Returns largest ≤ e             | O(log n)             |
+| `E higher(E e)`                         | Returns smallest > e             | O(log n)             |
+| `E lower(E e)`                          | Returns largest < e              | O(log n)             |
+| `Iterator<E> iterator()`                | Returns iterator (ascending)     | O(1) per element     |
+| `Iterator<E> descendingIterator()`      | Returns descending iterator      | O(1) per element     |
+| `int size()`                            | Returns size                     | O(1)                 |
+| `void clear()`                          | Clears set                       | O(1)                 |
+
+
+-> TreeMap
+
+| Method                                      | Description                        | Time Complexity     |
+|---------------------------------------------|------------------------------------|----------------------|
+| `V put(K key, V value)`                     | Inserts/updates key-value          | O(log n)             |
+| `V get(Object key)`                         | Returns value for key              | O(log n)             |
+| `V remove(Object key)`                      | Removes key-value                  | O(log n)             |
+| `boolean containsKey(Object key)`           | Checks if key exists               | O(log n)             |
+| `boolean containsValue(Object value)`       | Checks if value exists             | O(n)                 |
+| `K firstKey()`                              | Returns smallest key               | O(log n)             |
+| `K lastKey()`                               | Returns largest key                | O(log n)             |
+| `Map.Entry<K,V> firstEntry()`               | Returns smallest entry             | O(log n)             |
+| `Map.Entry<K,V> lastEntry()`                | Returns largest entry              | O(log n)             |
+| `K ceilingKey(K key)`                       | Returns smallest key ≥ key         | O(log n)             |
+| `K floorKey(K key)`                         | Returns largest key ≤ key          | O(log n)             |
+| `Set<K> keySet()`                           | Returns set of keys                | O(1)                  |
+| `Collection<V> values()`                    | Returns collection of values       | O(1)                  |
+| `Set<Map.Entry<K,V>> entrySet()`            | Returns set of entries             | O(1)                  |
+
+
+
+-> ArrayList (Dynamic Array)
+
+| Method                             | Description                       | Time Complexity     |
+|------------------------------------|-----------------------------------|----------------------|
+| `void addFirst(E e)`               | Inserts at front                  | O(1)                 |
+| `void addLast(E e)`                | Inserts at end                    | O(1)                 |
+| `E removeFirst()`                  | Removes from front                | O(1)                 |
+| `E removeLast()`                   | Removes from end                  | O(1)                 |
+| `E getFirst()`                     | Returns front element             | O(1)                 |
+| `E getLast()`                      | Returns last element              | O(1)                 |
+| `boolean offer(E e)`              | Adds to end                       | O(1)                 |
+| `E poll()`                         | Removes from front                | O(1)                 |
+| `E peek()`                         | Returns front (no removal)        | O(1)                 |
+| `void push(E e)`                  | Adds to front (stack behavior)    | O(1)                 |
+| `E pop()`                          | Removes from front (stack)        | O(1)                 |
+| `boolean remove(Object o)`        | Removes first occurrence          | O(n)                 |
+| `boolean contains(Object o)`      | Checks if exists                  | O(n)                 |
+
+
+
+-> LinkedList (Doubly-Linked List)
+
+| Method                               | Description                    | Time Complexity       |
+|-------------------------------------|--------------------------------|------------------------|
+| `boolean add(E e)`                  | Appends element                | O(1) amortized         |
+| `void add(int i, E e)`              | Inserts at index              | O(n)                   |
+| `E get(int i)`                      | Returns element at index      | O(1)                   |
+| `E set(int i, E e)`                 | Replaces element at index     | O(1)                   |
+| `E remove(int i)`                   | Removes element at index      | O(n)                   |
+| `boolean remove(Object o)`          | Removes first occurrence of o | O(n)                   |
+| `void clear()`                     | Removes all elements          | O(1)                   |
+| `Object[] toArray()`                | Converts to array             | O(n)                   |
+| `<T> T[] toArray(T[] a)`            | Converts to typed array       | O(n)                   |
+
+
+
+-> Stack
+| Method                      | Description                  | Time Complexity     |
+|-----------------------------|------------------------------|----------------------|
+| `E push(E e)`               | Pushes element onto stack    | O(1)                 |
+| `E pop()`                   | Removes and returns top      | O(1)                 |
+| `E peek()`                  | Returns top (no removal)     | O(1)                 |
+| `boolean empty()`           | Checks if empty              | O(1)                 |
+| `int search(Object o)`      | Returns position from top    | O(n)                 |
+
+
+-> Vector
+
+| Method                              | Description                      | Time Complexity       |
+|-------------------------------------|----------------------------------|------------------------|
+| `void addElement(E e)`              | Adds element                     | O(1) amortized         |
+| `E elementAt(int i)`                | Returns element at index         | O(1)                   |
+| `E firstElement()`                  | Returns first element            | O(1)                   |
+| `E lastElement()`                   | Returns last element             | O(1)                   |
+| `void removeElementAt(int i)`       | Removes at index                 | O(n)                   |
+| `boolean removeElement(Object o)`   | Removes first occurrence of `o`  | O(n)                   |
+| `Enumeration<E> elements()`         | Returns enumeration              | O(1) per element       |
+
+
+-> Collections
+| Method                                                | Description                      | Time Complexity     |
+|-------------------------------------------------------|---------------------------------|----------------------|
+| `void sort(List<T> list)`                            | Sorts list                      | O(n log n)           |
+| `int binarySearch(List<T> list, T key)`              | Searches sorted list            | O(log n)             |
+| `void reverse(List<?> list)`                          | Reverses list                  | O(n)                 |
+| `void shuffle(List<?> list)`                          | Randomizes list                | O(n)                 |
+| `T min(Collection<? extends T> coll)`                 | Finds minimum                  | O(n)                 |
+| `T max(Collection<? extends T> coll)`                 | Finds maximum                  | O(n)                 |
+| `void copy(List<? super T> dest, List<? extends T> src)` | Copies list                    | O(n)                 |
+| `boolean replaceAll(List<T> list, T oldVal, T newVal)` | Replaces all occurrences       | O(n)                 |
+| `Collection<T> synchronizedCollection(Collection<T> c)` | Makes thread-safe              | O(1)                 |
+
+
 BASICS
 
 ###################
