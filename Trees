@@ -589,205 +589,92 @@ BINARY TREES
 -> degree of tree can be 0,1,2
 
 
--> array ya linked list twale format mein implement kar sakte hai
-public class champ {
+-> Given an Array - [50,25,12,n,n,37,30,n,n,n,75,62,n,70,n,n,87,n,n]
+This is the pre order traversal of the binary tree
+50 is the root node...left side pe 25...25 ke left side pe 12...12 ke right side pe kuch ni hence null...25 ke right side pe kuch ni hence null and so on
 
-    static class Node{
+
+Consider a stack where the node and integer is pushed...where the integer value can be 1 or 2.or 3..1 means left child and 2 means right child and 3 means pop
+Insert the node root with 1 <50-1> into the stack then check the next digit insert it to the left <25,1> and change the previous node to <50,2> indicating that
+left has been filled...then when null is encountered just change it from 1 to 2 but dont push anything
+
+
+public class binary {
+        public static class Node{
         Node left;
         Node right;
         int data;
 
-        public Node(int value){
+        public Node(int data,Node left,Node right){
             this.data = value;
-        }
-    }
+            this.left = left;
+            this.right = right;
 
-    Node root;
-
-    public void insert(Scanner scanner){
-        System.out.println("Enter the root Node");
-        int value = scanner.nextInt();
-        root = new Node(value);
-        populate(scanner,root);
-    }
-
-    public void populate(Scanner scanner , Node node){
-        System.out.println("Do you want to enter a left node of "+ node.data);
-        boolean left = scanner.nextBoolean();
-        if(left){
-            System.out.println("enter the value");
-            int value = scanner.nextInt();
-            node.left = new Node(value);
-            populate(scanner,node.left);
         }
 
-        System.out.println("Do you want to enter a right node of "+ node.data);
-        boolean right = scanner.nextBoolean();
-        if(right){
-            System.out.println("enter the value");
-            int value = scanner.nextInt();
-            node.right = new Node(value);
-            populate(scanner,node.right);
-        }
-    }
+        public static class Pair{
+            Node node;
+            int state;
 
-    public void display(){
-        display(root,"");
-    }
-
-    public void display(Node node, String indent){
-        if(node == null){
-            return;
-        }
-        System.out.println(indent+node.data);
-        display(node.left,indent+"\t");
-        display(node.right,indent+"\t");
-
-    }
-
-public void pretty_display(Node node, int level){
-        if(node == null){
-            return;
-        }
-
-        pretty_display(node.right,level+1);
-        // poora extreame right tak jaao aur wahan se level 1 increase kar do
-
-        if(level != 0){
-            for(int i = 0;i<level-1;i++){
-                System.out.print("|\t\t");
+            Pair(Node node, int state){
+                this.node = node;
+                this.state = state;
             }
-            System.out.println("|---------->"+ node.value);
         }
-        else{
-            System.out.println(node.data);
-        }
-        pretty_display(node.left,level+1);
-    }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        champ tree = new champ();
-        tree.insert(scanner);
-        tree.display();
-        tree.pretty_display(root,0);
+        public static void main(String[] args) {
+            Integer[] arr = {50,25,12,null,null,37,30,null,null,null,75,62,null,70,null,null,87,null,null};
+            Stack<Pair> st = new Stack<>();
+
+            Node root = new Node(arr[0],null,null);
+            Pair rp = new Pair(root,1);
+
+            st.push(rp);
+            int ind = 0;
+            //array ka index hai
+
+            while(st.size() > 0){
+                Pair top = st.peek();
+                //agar unka 1 hua toh left mein insert
+                if(top.state == 1){
+                    ind++;
+                    if(arr[ind] != null){ // check kiya ki uss ind mein array ka element null toh ni
+                        Node leftnode = new Node(arr[ind],null,null);
+                        top.node.left = leftnode;
+
+                        Pair leftpair = new Pair(leftnode,1);
+                        st.push(leftpair); 
+                    }
+                    else{
+                        // agar woh element null hua array mein then push ni karna stack mein
+                        top.node.left = null;
+                    }
+                    top.state++;
+                }
+                else if(top.state == 2){
+                    ind++;
+                    if(arr[ind] != null){ // check kiya ki uss ind mein array ka element null toh ni
+                        Node rightnode = new Node(arr[ind],null,null);
+                        top.node.right = rightnode;
+
+                        Pair rightpair = new Pair(rightnode,1);
+                        st.push(rightpair); 
+                    }
+                    else{
+                        // agar woh element null hua array mein then push ni karna stack mein
+                        top.node.right = null;
+                    }
+                    top.state++;
+                }
+                else{
+                    // 3 hoga toh pop
+                    st.pop()
+                }
+            }
+        }
     }
 }
 
-
--> binary search tree...insertion/deletion = O(logn)
-public class champ {
-
-    static class Node{
-        Node left;
-        Node right;
-        int value;
-        int height;
-
-        public Node(int value){
-            this.value = value;
-        }
-
-        public int getValue(){
-            return value;
-        }
-    }
-
-    Node root;
-
-    public int height(Node node){
-        if(node == null){
-            return -1;
-        }
-        return node.height;
-    }
-
-    public boolean isEmpty(){
-        return root == null;
-    }
-
-    public void insert(int value){
-        root = insert(value,root);
-    }
-
-    public Node insert(int value, Node node){
-        if(node == null){
-            node = new Node(value);
-            return node;
-        }
-
-        if(value < node.value){
-            node.left = insert(value,node.left);
-        }
-
-        if(value > node.value){
-            node.right = insert(value,node.right);
-        }
-
-        node.height = Math.max(height(node.left),height(node.right) + 1);
-
-        return node;
-    }
-
-    public void populate(int[] nums){
-        for(int i = 0;i<nums.length;i++){
-            this.insert(nums[i]);
-        }
-    }
-
-public static void populateSorted(int[] nums, int start, int end){
-        if(start >= end){
-            return;
-        }
-        int mid =(start+end)/2;
-
-        insert(nums[mid]);
-        //pehle middle element insert karo uske baad left aur right
-
-        populateSorted(nums,start,mid);//left
-        populateSorted(nums,mid+1,end);//right
-    }
-
-    public boolean balanced(){
-        return balanced(root);
-    }
-
-    public boolean balanced(Node node){
-        if(node == null){
-            return true;
-        }
-        return Math.abs(height(node.left)-height(node.right)) <= 1 && balanced(node.left) && balanced(node.right);
-    }
-
-    public void display(){
-        display(root,"Root Node: ");
-    }
-
-    public void display(Node node,String details){
-        if(node == null){
-            return;
-        }
-        System.out.println(details+node.getValue());
-
-        display(node.left,"Left child of " + node.getValue()+" : ");
-        display(node.right,"Right child of " + node.getValue()+" : ");
-    }
-
-
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        champ tree = new champ();
-        int[] nums = { 5,2,7,1,4,5,6,7,8};
-        tree.populate(nums);
-        tree.display();
-    }
-}
-
-
--> traversals
-pre order...node-left-right...used to copy binary tree or for evaluating maths expressions...string to binary tree
-in order....left-node-right.....in bST inorder helps to traverse in sorted manner
-post-order ...left-right-node.....delete a binary tree....calculating height
 
 
 
