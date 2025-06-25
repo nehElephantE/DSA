@@ -619,6 +619,87 @@ we just have to add the indices
 
 -> Are Trees Similar in Shape
 
+no of children should be same between 2 nodes and childs should also be same
+
+    public static boolean TreeSimilar(Node n1, Node n2){
+        if(n1.children.size() != n2.children.size()){
+            return false;
+        }
+
+        for(int i = 0; i < n1.children.size(); i++){
+            Node child1 = n1.children.get(i);
+            Node child2 = n2.children.get(i);
+
+            if(TreeSimilar(c1, c2) == false){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+-> Are Trees Mirror in Shape
+
+no of children of the root nodes must be same...the first child must be the last child of the other root...mirror image
+
+    public static boolean TreeMirror(Node n1, Node n2){
+        if(n1.children.size() != n2.children.size()){
+            return false;
+        }
+
+        for(int i =0;i<n1.children.size();i++){
+            int j = n1.children.size() - 1 - i;
+            Node child1 = n1.children.get(i);
+            Node child2 = n2.children.get(j);
+
+            if(TreeMirror(child1, child22) == false){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+-> Is Generic Tree Symmetric
+
+    public static boolean SymTree(Node node){
+        return TreeMirror(node, node);
+    }
+
+mirror image hai toh sym hai
+
+
+-> Predecessor and Successor of an element
+
+start with traversing in pre order....joh data se equal aa gaya uska state 1 ho jayega...next element ka 2 toh pre would be last node jiska state = 0
+
+
+    static Node pre;
+    static Node suc;
+    static int state = 0;
+
+
+    public static void presuc(Node node, int data){
+
+        if(state == 0){
+            if(node.data == data){
+                state = 1;
+            }
+            else{
+                pre = node;
+            }
+        }
+        else if(state == 1){
+            suc = node;
+            state = 2;
+        }
+        // pre order mein pehle kon and baad mein kon
+        for(Node node : node.children){
+            presuc(child, data);
+        }
+    }
 
 
 
@@ -704,6 +785,7 @@ every node is a subtree
     // but calculating something else
 
 
+
 -> Diameter of Generic Tree 
 
 Distance between 2 nodes is defined as the number of edges btw the 2
@@ -714,8 +796,179 @@ root node ke saare child mein se sabse deep and 2nd deepest node child ka dekho 
 
 This can also happen that one child node may have depth in its own sub childs so we need to check this also
 
+so har node pe deepest child and second deepest child + 2
 
 
+    static int dia = 0;
+
+    public static int diameter(Node node){
+        int dht = -1; // deepest height
+        int sdh = -1; // second deepest height
+
+        for(Node node: node.children){
+            int childheight = diameter(child);
+
+            if(childheight > dht){
+                // agar child deepest se bada hai toh 
+                // second deepest deepest ban jayega
+                // deepest childheight bann jayega
+                sdh = dht;
+                dht = childheight;
+            }
+            else if(childheight > sdh){
+                sdch = ch;
+            }
+        }
+
+        if(dht + sdh + 2 > dia){
+            dia = dht + sdh + 2;
+        }
+
+        dht += 1;
+
+        return dht;
+    }
+
+
+-> Iterative Pre-order and Post-order Traversal 
+
+Humlog ek stack mein root aur ek state dalenge start mein <root,-1>...-1 means preorder
+pre order mein phir usko daal do aur state change kardo to 0...0 means 0th child...add the 0th child with -1 state
+state can be 0 to children.size()-1...then push the child and then increase the state
+if state = children.size() then add in post order and pop()
+
+
+class Pair{
+    Node node;
+    int level;
+
+    Pair(Node node, int state){
+        this.node = node;
+        this.state = state;
+    }
+}
+
+    public static void iterativetraversal(Node node){
+        Stack<Pair> st = new Stack<>();
+        st.push(new Pair(node, -1));
+
+        String pre = "";
+        String post = "";
+
+        while(st.size() > 0){
+            Pair top = st.peek();
+            if(top.state == -1){
+                pre += top.node.data + " ";
+                top.state++;
+            }
+            else if(top.state == top.node.children.size()){
+                post += top.node.data + " ";
+                st.pop();
+
+            }
+            else{
+                Pair cp = new Pair(top.node.children.get(top.state),-1);
+                st.push(cp);
+                top.state++;
+            }
+        }
+        System.out.println(pre);
+        System.out.println(post);
+    }
+
+
+
+
+-> Iterable and Iterator
+
+Inteface mein sirf methods defined hote hai without body...jabh hum koi class ko implement karte hai with interface ...mandatorily we need to define the 
+body of all those methods present in interface
+
+In java there's an interface called as Interable which contains only 1 method of type Iterator and function name is also iterator()
+
+class Pair{
+    Node node;
+    int level;
+
+    Pair(Node node, int level){
+        this.node = node;
+        this.level = level;
+    }
+}
+
+public static class GenericTree implemets Iterable<Integer>{
+        Node root;
+
+        GenericTree(Node root){
+            this.root = root;
+        }
+
+        public Iterator<Integer> iterator(){
+            Iterator<Integer> obj = new GTPreorderIterator(root);
+            return obj;
+
+            // we cannot create objects for interface
+            // but we may create objects of class which implements that interface
+        }
+    }
+
+    public static class GTPreorderIterator implements Iterator<Integer>{
+        // Iterator has got 2 functions ..hasNext() and next()
+
+        Integer nextvalue; // null hota hai 
+        Stack<Pair> st;
+
+        public GTPreorderIterator(Node root){
+            st = new Stack<>();
+            st.push(new Pair(root, -1));
+            next();
+        }
+        
+        public boolean hasNext(){
+            if(nextvalue == null){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+
+        public boolean next(){
+            Integer fr = nextvalue;
+
+            nextvalue = null; // PreOrder mein net value ni hoga toh
+
+            while(st.size() > 0){
+                Pair top = st.peek();
+                if(top.state == -1){
+                    nextvalue = top.node.data;
+                    top.state++;
+                    break;
+                }
+                else if(top.state >= 0 && top.state < top.node.children.size()){
+                    Pair cp = new Pair(top.node.children.get(top.state), -1);
+                    st.push(cp);
+
+                    top.state++;
+                }
+                else{
+                    postOrder += top.node.data + " ";
+                    st.pop();
+                }
+            }
+            return fr;
+        }
+    }
+
+    GenericTree gt = new GenericTree(root);
+    for(int val : gt){
+        System.out.println(val);
+    }
+
+    Iterator<Integer> gt1 = gt.iterator();
+    while(gt1.hasNext() == true){
+        System.out.println(gt1.next());
+    }
 
 
 
