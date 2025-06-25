@@ -1,6 +1,3 @@
-TREES
-
-
 #####################################
 GENERIC TREE
 
@@ -599,18 +596,21 @@ Insert the node root with 1 <50-1> into the stack then check the next digit inse
 left has been filled...then when null is encountered just change it from 1 to 2 but dont push anything
 
 
+import java.util.*;
+
 public class binary {
-        public static class Node{
+    public static class Node{
         Node left;
         Node right;
         int data;
 
         public Node(int data,Node left,Node right){
-            this.data = value;
+            this.data = data;
             this.left = left;
             this.right = right;
 
         }
+    }
 
         public static class Pair{
             Node node;
@@ -621,6 +621,7 @@ public class binary {
                 this.state = state;
             }
         }
+
 
         public static void main(String[] args) {
             Integer[] arr = {50,25,12,null,null,37,30,null,null,null,75,62,null,70,null,null,87,null,null};
@@ -668,12 +669,261 @@ public class binary {
                 }
                 else{
                     // 3 hoga toh pop
-                    st.pop()
+                    st.pop();
+                }
+            }
+
+            display(root);
+        }
+}
+
+
+
+
+
+-> Display a Binary Tree
+
+        public static void display(Node node){ 
+
+
+            // apne ko print aise karna hai ki node ke left ka data <- node ka data -> node ke right ka data
+
+            String str = "";
+
+            if(node == null){
+                return;
+            }
+
+            str += node.left == null? "." : node.left.data + "";
+            // str pe left ka data agar null hua toh . warna left ka data
+
+            str += "<-" + node.data + "->";
+
+            str += node.right == null? "." : node.right.data + "";
+
+            System.out.println(str);
+
+
+            // will keep faith that  a node knows how to print its family
+            display(node.left);
+            display(node.right);
+        }
+
+
+-> Size, Sum, Max and Height of a Binary Tree
+
+
+        public static int size(Node node){
+
+            // maan ke chal rahe ki ek node apna size bata dega
+
+            if(node == null){
+                return 0;
+            }
+                
+            int leftside = size(node.left);
+            int rightside = size(node.right);
+            int totalsize = leftside + rightside + 1;
+            return totalsize;
+        }
+
+        public static int sum(Node node){
+
+            if(node == null){
+                return 0;
+            }
+
+            int leftside = sum(node.left);
+            int rightside = sum(node.right);
+            int totalsum = leftside + rightside + node.data;
+            return totalsum;
+        }
+
+        public static int max(Node node){
+
+            // Koi bhi number ka min -> infinity ke saath nikalo...wohin number aa jaata hai
+            // Koi bhi number ka max -> -inf ke saath nikalo...wojin number aa jaata hai
+
+            if(node == null){
+                return Integer.MIN_VALUE;
+            }
+
+            int leftside = max(node.left);
+            int rightside = max(node.right);
+            int overall_max = Math.max(Math.max(node.data,leftside),rightside);
+            return overall_max;
+        }
+
+        public static int height(Node node){
+            // height = depth of the deepest node
+
+            if(node == null){
+                return -1; // -1 for edges, 0 for nodes
+            }
+
+            int leftside = height(node.left);
+            int rightside = height(node.right);
+            int totalheight = Math.max(leftside,rightside)+1;
+            return totalheight;
+        }
+
+
+-> Traversals in a Binary Tree
+
+pre - before going deep into recursiom...root is first...NODE-LEFT-RIGHT
+post - after recursion...root is last....LEFT-RIGHT-NODE
+in - LEFT-NODE-RIGHT
+
+        public static void traversals(Node node){
+            if(node == null){
+                return;
+            }
+
+            // recursion se pehle call - pre
+            System.out.println(node.data + " in preorder");
+            traversals(node.left);
+            // recursion ke beech mein call - in
+            System.out.println(node.data + "in inorder");
+            traversals(node.right);
+            // recursion ke baad mein call - post
+            System.out.println(node.data + "in postorder");
+        }
+
+
+-> Level Order Traversal in a Binary Tree
+generic tree wala hi
+Do the RPA --- remove print add
+
+        public static void levelOrder(Node node){
+            Queue<Node> mq = new ArrayDeque<>();
+            mq.add(node);
+
+            while(mq.size() > 0){
+                int count = mq.size();
+                for(int i = 0;i<count;i++){
+                    node = mq.remove();
+                    System.out.println(node.data + " ");
+
+                    if(node.left != null){
+                        mq.add(node.left);
+                    }
+                    if(node.right != null){
+                        mq.add(node.right);
+                    }
                 }
             }
         }
-    }
-}
+
+
+-> Iterative Pre, Post and In-Order Traversal in Binary Tree
+
+bina recursion ke saath karna hai
+
+Humlog ek stack mein node aur uska state push karenge ...start mein root node aur 1 push hoga...<root,1>..
+1 means first time hence print it in pre ...change the state to 2 and push the left child with state 1
+Agar null encounter hua toh sirf state badhao
+2 matlab in...in mein print karo ...state change to 3...uska right child stack mein with state 1 push karo
+and 3 matlab post and then pop()
+
+
+        public static void IterativeTraversal(Node node){
+            Stack<Pair> st = new Stack<>();
+            Pair newpair = new Pair(node,1);
+
+            st.push(newpair);
+            String pre = "";
+            String in = "";
+            String post = "";
+
+            while (st.size() > 0) {
+                Pair top = st.peek();
+                if(top.state == 1){
+                    // pre, s++,left
+                    pre += top.node.data + " ";
+                    top.state++;
+
+                    if(top.node.left != null){
+                        Pair leftpair = new Pair(top.node.left, 1);
+                        st.push(leftpair);
+                    }
+
+
+                }else if(top.state == 2){
+                    // in,s++,right
+
+                    in += top.node.data + " ";
+                    top.state++;
+                    
+                    if(top.node.right != null){
+                        Pair rightPair = new Pair(top.node.right, 1);
+                        st.push(rightPair);
+                    }
+                }else{
+                    // post,pop
+                    post += top.node.data + " ";
+                    st.pop;
+                }
+            }
+            System.out.println(pre);
+            System.out.println(in);
+            System.out.println(post);
+        }
+
+
+-> Node to Root Path
+
+static ArrayList<Integer> path;
+
+        public static boolean find(Node node int data){
+            if(node == null){
+                return false;
+            }
+
+            if(node.data == data){
+                path.add(node.data);
+                return true;
+            }
+
+            // found in left child
+
+            boolean filc = find(node.left, data);
+            if(filc){
+                path.add(node.data);
+                return true;
+            }
+
+            // found in right child
+            boolean firc = find(node.right,data);
+            if(firc){
+                path.add(node.data);
+                return true;
+            }
+
+            return false;
+            
+        }
+
+
+-> Print K Levels Down
+
+print all nodes at level k
+
+
+        public static void levelk(Node node){
+
+            // recursion se pehle kyuki pre order mein karne bola hai
+
+            if(node == null || k < 0){
+                return;
+            }
+            if(k == 0){
+                System.out.println(node.data);
+            }
+
+            levelk(node.left,k-1);
+            levelk(node.right,k-1);
+        }
+
 
 
 
