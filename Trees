@@ -829,6 +829,8 @@ so har node pe deepest child and second deepest child + 2
         return dht;
     }
 
+System.out.println(dia);
+
 
 -> Iterative Pre-order and Post-order Traversal 
 
