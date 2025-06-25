@@ -619,9 +619,14 @@ we just have to add the indices
 
 -> Are Trees Similar in Shape
 
+
+
+
 -> Ceil and Floor 
-Ceil means thoda sa apse bada....smallest among largest
-floow...largest among smaller
+Ceil means thoda sa apse bada....smallest among largest...toh joh node given hoga ..usse thodi si badi value joh koi node ki ho
+floor...largest among smaller.....usse thoda sa chota
+koi node given hai jiski value saare nodes ke value se bhi chota hai toh floor = -inf and ceil = just usse badi value
+koi node given hai jiski value saare nodes ke value se bhi bada hai toh floor =  the largest value in the tree and ceil = inf
 
 kisi bhi cheez ka min inf ke saath nikalo wohi cheez aayegi
 kisi bhi cheez ka max -inf ke saath nikalo wohin cheez aayegi
@@ -653,9 +658,61 @@ kisi bhi cheez ka max -inf ke saath nikalo wohin cheez aayegi
 -> Kth Largest Element
 
 
+largest mein inf ka floor dekhenge matlab uss tree ka largest value aayega...phir uss largest value ka floor lenge toh 2nd largest aayega
+toh kth joh mentioned hoga uska utna floor lenge
+
+    public static int kthlargest(Node node, int k){
+        floor = Integer.MIN_VALUE; // floor mein apne se just chotta number chahiye...largest among the smaller
+        int factor = Integer.MAX_VALUE; // this is to signify inf
+
+        for(int i = 0;i < k;i++){
+            ceilandfloor(node, factor); // yahan se return hoga floor ki value
+            factor = floor;
+            floor = Integer.MIN_VALUE;
+        }
+
+        return factor;
+    }
 
 
 
+-> Node with Maximum Subtree Sum 
+
+every node is a subtree
+
+    static int msn = 0; // max sum node
+    static int ms = Integer.MIN_VALUE; // maxsum
+
+    public static int maxsubtree(Node node){
+        int sum = 0;
+
+        for(Node node: node.children){
+            int childsum = maxsubtree(child);
+        }
+        sum+= node.data;
+
+        if(sum > ms){
+            msn = node.data;
+            ms = sum;
+        }
+        return sum;
+    }
+
+    System.out.println(ms + " " + msn);
+
+    // this is called as travel and change where we are returning something else
+    // but calculating something else
+
+
+-> Diameter of Generic Tree 
+
+Distance between 2 nodes is defined as the number of edges btw the 2
+diameter means max distance
+
+root node ke saare child mein se sabse deep and 2nd deepest node child ka dekho usko add karo aur 2 add kardo
+2 aaya ki 1 edge deepest node wale ka root se connection and 1 edge 2nd deepest node wale ka root se connection
+
+This can also happen that one child node may have depth in its own sub childs so we need to check this also
 
 
 
