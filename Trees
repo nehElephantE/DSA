@@ -565,6 +565,106 @@ maan ke chalenge ki node linearise ke saath saath tail bhi batayega
     }
 
 
+-> Lowest Common Ancestor 
+
+Given 2 numbers which is the lowest node that connects ...lowest doesn't mean value wise...it means height mein sabse paas konsa hai
+If 80 is the parent node for 100 and lowest ancestor between 80 and 100 will be 80
+
+
+Node to root path nikalo dono ka...upar node se reverse loop lagao dekho first occurence mein not-equal nodes konse hai..uska pehla wala node is lowest ancestor
+
+    public static void ancestor(Node node, int d1, int d2){
+        ArrayList<Integer> p1 = nodetopath(node, d1);
+        ArrayList<Integer> p2 = nodetopath(node, d2);
+
+        int i = p1.size() - 1;
+        int j = p2.size() - 1;
+
+        while(i >= 0 && j >= 0 && p1.get(i) == p2.get(j)){
+            i--;
+            j--;
+        }
+        i++;
+        j++;
+
+        return p1.get(i);
+    }
+
+
+-> Distance between Nodes in Generic Tree 
+
+number of edges between 2 nodes
+
+dono nodes ka node to root path nikale
+then as previous question take the lowest ancestor...woh lowest ancestor ka ek index value hoga in both the paths which indicates ki woh kitne edges uss node se dur hai
+we just have to add the indices
+
+    public static void distancebetweennodes(Node node, int d1, int d2){
+        ArrayList<Integer> p1 = nodetopath(node, d1);
+        ArrayList<Integer> p2 = nodetopath(node, d2);
+
+        int i = p1.size() - 1;
+        int j = p2.size() - 1;
+
+        while(i >= 0 && j >= 0 && p1.get(i) == p2.get(j)){
+            i--;
+            j--;
+        }
+        i++;
+        j++;
+
+        return i+j;
+    }
+
+
+-> Are Trees Similar in Shape
+
+-> Ceil and Floor 
+Ceil means thoda sa apse bada....smallest among largest
+floow...largest among smaller
+
+kisi bhi cheez ka min inf ke saath nikalo wohi cheez aayegi
+kisi bhi cheez ka max -inf ke saath nikalo wohin cheez aayegi
+
+    public static void ceilandfloor(Node node, int data){
+        // joh joh data apne given data se bada hai usmein check ki smallest konsa hai
+        ceil = Integer.MAX_VALUE;
+        floor = Integer.MIN_VALUE;         
+        if(node.data > data){
+            if(node.data < ceil){
+                ceil = node.data;
+            }
+        }
+
+        // joh joh data apne given points se chotte hai unko lena hai...usmein se sabse bada will be floor
+
+        if(node.data < data){
+            if(node.data > floor){
+                floor = node.data;
+            }
+        }
+        
+        for(Node child: node.children){
+            ceilandfloor(child, data);
+        }
+    }
+
+
+-> Kth Largest Element
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #######################
 BINARY TREES
