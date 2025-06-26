@@ -1321,7 +1321,7 @@ static ArrayList<Integer> path;
 print all nodes at level k
 
 
-        public static void levelk(Node node){
+        public static void levelk(Node node, int k){
 
             // recursion se pehle kyuki pre order mein karne bola hai
 
@@ -1337,7 +1337,162 @@ print all nodes at level k
         }
 
 
+-> Print Nodes K Level Far
 
+SO from a single node k indicates that k edges door konsa node hai....toh we need to print all the nodes which are k levels door
+JOh node given hai wahan se node to root path print karo...suppose path is 9-e-g-a...if k is 3
+toh 9 se phir k node down wala lagao 9,3 then e pe 2 down ...g pe 1 down and a pe 0 down
+
+
+        static ArrayList<Node> path;
+
+        public static boolean find(Node node int data){
+            if(node == null){
+                return false;
+            }
+
+            if(node.data == data){
+                path.add(node);
+                return true;
+            }
+
+            // found in left child
+
+            boolean filc = find(node.left, data);
+            if(filc){
+                path.add(node);
+                return true;
+            }
+
+            // found in right child
+            boolean firc = find(node.right,data);
+            if(firc){
+                path.add(node);
+                return true;
+            }
+
+            return false;
+            
+        }
+
+// yeh block daalna imp isiliye hai ki agar path hai suppose ...9...e..a..b toh e wale mein 9 wala node ke through paas ni hona chahiye
+a ko e wale node ke through routes paas ni hone chahiye and so on kyuki agar aisa ni karte toh phir woh k level far proper aayega ni
+
+        public static void levelk(Node node, int k, Node block){
+
+            // recursion se pehle kyuki pre order mein karne bola hai
+
+            if(node == null || k < 0 || node == block){
+                return;
+            }
+            if(k == 0){
+                System.out.println(node.data);
+            }
+
+            levelk(node.left,k-1,block);
+            levelk(node.right,k-1,block);
+        }
+
+        public static void printknodesfar(Node node, int k, Node block ){
+            path = new ArrayList<>();
+            find(node,data);
+
+            for(int i = 0; i < path.size(); i++){
+                levelk(path.get(i), k-1, i == 0? null : path.get(i-1));
+            }
+
+            // i represents ki woh node target node se kitne doori pe hai
+        }
+
+
+
+-> Path to Leaf from Root 
+2 values given hongi min and max
+leaf se lekr root tak ka woh path print karo jiska sum min se zyada aur max se kam ho
+
+        public static void pathtoroot(Node node, String path, int sum, int low, int high){
+
+            if(node.left == null || node.right == null){ // leaf nodes
+                sum+= node.data;
+                if(sum>= lo && sum <= hi){
+                    // last mein pehle sum dekho ki leaf ke add karne se sum low aur high ke beech toh hai
+                    // afar hai then only leaf ko path mein add karo
+                    System.out.println(path + node.data);
+                }
+                return;
+            }
+
+            // root node se ek neeche aayenge to left and right ...path mein apne aap ko jod denge and sum mein bhi
+            // yeh recursion style har node ke saath hoga
+            // har node apne left aur right child ke path mein apne ko add kar dega
+            pathtoroot(node.left, path + node.data + " ", sum+node.data, low, high);
+            pathtoroot(node.right, path + node.data + " ", sum+node.data, low, high);
+        }
+
+        pathtoroot(root,"",0,lo,hi);
+
+
+
+-> Transform to Left Cloned Tree
+
+har node ki copy uske left side mein aa gayi
+humlog faith rakhte hai ki root ke dono child ko recursion se call kare toh woh apne under wale ka banakr de denge
+right child then root se jud jayega...lekin left child root ke copy se judegi
+
+        public static Node createLeftClone(Node node){
+
+            if(node == null){
+                return null;
+            }
+
+            Node leftclonedroot = createLeftClone(node.left);
+            Node rightclonedroot = createLeftClone(node.right);
+
+            node newleft = new Node(node.data,lcr,null);
+            node.left = newleft;
+            node.right = rightclonedroot;
+
+            return node;
+        }
+
+
+-> Transform Back from a Left Cloned Tree
+
+        public static backtransform(Node node){
+            // faith rakhenge ki woh node wapas transform ho jayega
+
+            if(node == null){
+                return null;
+            }
+
+            Node leftback = backtransform(node.left.left); // left ke left ko bolna padega
+            // left toh root ka hi copy hai
+            Node rightback = backtransform(node.right);
+
+            node.left = leftback;
+            node.right = rightback;
+
+            return node;
+        }
+
+
+
+-> Print Single Child Nodes
+
+aise nodes print karo jinke parents ke paas ek hi child hai
+
+        public static void printsinglechild(Node node, Node parent){
+            if(parent != null && parent.left == node && parent.right == null){
+                System.out.println(node.data);
+            }
+            else if(parent != null && parent.right == node && parent.left == null){
+                System.out.println(node.data);
+            }
+            
+            printsinglechild(node.left, node);
+            printsinglechild(node.right, node);
+        }
+        printsinglechild(root,null);
 
 
 ####################
