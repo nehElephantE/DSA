@@ -992,6 +992,7 @@ BINARY TREES
 -> total nodes in perfect binary tree = 2^(h+1)-1
 -> total no of leaf nodes in perfect binary tree = 2^h
 -> internal nodes = total nodes - leaf nodes = 2^h -1
+-> if nodes and its children are in order then parent node = n/2
 -> if u have n number of leaf then min no of levels = logn + 1 levels
 -> if u have n number of leaf then min no of levels = logn+1  levels
 -> strict binary tree....total leaf nodes = n....then internal nodes = n-1...hence in strict binary tree so leaf nodes = internal nodes+1
@@ -2044,3 +2045,9 @@ toh last mein System.out.println(comps); iski jagah System.out.println(comps.siz
 QUESTION6- COUNT NUMBER OF ISLANDS
 YOU ARE GIVEN A 2D ARRAY WHERE 0'S REPRESENT LAND AND 1'S REPRESENT WATER.ASSUME EVERY CELL IS LINKED TO ITS NORTH,EAST,WEST AND SOUTH CELL. YOU ARE REQUIRED TO
 FIND AND COUNT THE NUMBER OF ISLANDS
+
+
+
+
+
+
