@@ -246,6 +246,60 @@ octal ka base 8
 -> octal ko 10 mein karna hai toh 256 = 2*8^2 + 5*8^1 + 6*8^0
 -> 11101 ko with base 10 mein convert karna ho toh 1*2^4 + 1*2^3 + 1*2^2 + 0*2^1 + 1*2^0
 
+
+#######################
+DECIMAL TO ANY BASE CONVERTION
+
+number ko uss base se divide karte raho then joh reminder aa raha hai usko 10 ke powers se multiply karte raho
+
+    public static int dectobase(int n, int b){
+        int result = 0;
+        int po = 1; // yeh 10 ka power represent karta hai
+        // 10^0 = 1 hota hai 
+        while(n > 0){
+            int dig = n % b;
+            n = n / b;
+
+            result += dig * p;
+            p *= 10; // yahan pe power of 10 ko increase kar rahe hai
+        }
+        return result;
+    }
+
+
+#######################
+ANY BASE TO DECIMAL
+
+    public static int basetodec(int n, int b){
+        int result = 0;
+        int po = 1; // yeh 10 ka power represent karta hai
+        // 10^0 = 1 hota hai 
+        while(n > 0){
+            int dig = n % 10;
+            n = n / 10;
+
+            result += dig * p;
+            p *= b; 
+            // yahan pe power uss base ka increase hoga 
+            // octate to decmal toh power 8 ki increase karni hai
+            // binary to decimal toh 2 ki;
+        }
+        return result;
+    }
+
+
+#######################
+ANY BASE TO ANY BASE CONVERTION
+
+joh bhi given base hai usko decimal mein karo wahan se jis base mein karna hai usko kardo
+call the other 2 functions above
+
+
+
+
+
+
+
 BASICS
 
 ###################
