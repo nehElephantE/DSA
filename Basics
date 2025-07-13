@@ -217,6 +217,35 @@ stores key-value pairs and allows fast lookup by key.
 | `Collection<T> synchronizedCollection(Collection<T> c)` | Makes thread-safe              | O(1)                 |
 
 
+
+
+###############################
+You are given n and d . n is the number and d means which digit's freq i need to find
+    public static int freq(int n, int d){
+        int count = 0;
+        while(n > 0){
+            int r = n % 10;
+            n = n /10;
+            if(d == r){
+                count++;
+            }
+        }
+        return count;
+    }
+
+-> toh last digit se nikalte roh ..check karo ki woh last digit d ke = hai ya ni if yes increase the counter
+
+
+######################
+[9876] with base 10 means 9*10^3 + 8*10^2 + 7*10^1 + 6*10^0
+[1101] with base 2 means 1* 2^3 + 1*2^2  + 0 * 2^1 + 1*2^0
+octal ka base 8
+
+-> 57 with base 10 ko with base 2 karna ho toh 57 ko 2 se divide karo reminder ko woh inverted L shape mein joh aayega woh number hoga
+-> base 10 to octal mein 8 se divide krdo and then inverted L
+-> octal ko 10 mein karna hai toh 256 = 2*8^2 + 5*8^1 + 6*8^0
+-> 11101 ko with base 10 mein convert karna ho toh 1*2^4 + 1*2^3 + 1*2^2 + 0*2^1 + 1*2^0
+
 BASICS
 
 ###################
