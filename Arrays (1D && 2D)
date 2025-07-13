@@ -1,0 +1,123 @@
+########################
+BAR CHART
+
+given an array like 1 3 5
+toh vertically stars print karne hai 1 ke liye 1 , 3 ke liye 3 aur 5 ke liye 5
+
+    public static void display(){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(); // no of elements in an array
+
+        int[] arr = new int[n];
+        for(int i = 0;i<n;i++){
+            arr[i] = sc.nextInt();
+        }
+
+        int max = max[0];
+        for(int i = 0;i<arr.length;i++){
+            if(arr[i] > max){
+                max = arr[i];
+            }
+        }
+
+        // agar array ka max element is 7 toh 7,6,5,4,3,2,1 ke
+        // liye check hoga all the elements of the given array
+
+        // 2D array type bann jayega 
+
+        7       *
+        6       *
+        5       *
+        4       *
+        3 *     *
+        2 *     *
+        1 * *   *
+          3 1 0 7 // these are the elements of the array
+
+        for(int floor = max; floor >=1 ; floor --){
+            for(int i = 0;i<arr.length;i++){
+                if(arr[i] >= floor){
+                    System.out.println("*\t");
+                }
+                else{
+                    System.out.println("\t");
+                }
+            }
+            System.out.println("");
+        }
+    }
+
+
+#############################
+SUM OF 2 ARRAYS
+
+5 - 9 3 4 6 8
+4 - 1 9 8 8
+ek array banao when u add the digits  - 9 5 4 5 6
+
+array joh banega it will the size of the greater size of the 2 arrays
+
+if u got 999 and 28 
+array banega lekin 3 size ka hi
+lekin print pehle aise case mein carry hoga then the sum
+
+
+    public static void sumofarray(){
+        Scanner sc = new Scanner(System.in);
+        int n1 = sc.nextInt();
+
+        int[] a1 = new int[n1];
+        for(int i = 0;i<n1;i++){
+            a1[i] = sc.nextInt();
+        }
+
+        int n2 = sc.nextInt();
+
+        int[] a2 = new int[n2];
+        for(int i = 0;i<n2;i++){
+            a2[i] = sc.nextInt();
+        }
+
+        int[] sum = new int[n1 > n2 ? n1 : n2];
+
+        int i = a1.length - 1;
+        int j = a2.length - 1;
+        int k = sum.length - 1;
+
+        int carry = 0;
+
+        while(k >= 0){ // last se sum array ko fill kar rahe hai
+            int digit = carry;
+
+            if(i >= 0){ // jabh tak i index 0 ni ho jaata toh add karte raho
+                digit += a1[i];
+            }
+
+            if(j >= 0){ // jabh tak i index 0 ni ho jaata toh addkarte raho
+                digit += a2[j];
+            }
+
+            dcarry = digit / 10;
+            digit = digit % 10; // jaise agar add karke 18 aaya toh 8 store karna hai toh 1 carry
+
+            sum[k] = digit;
+
+            i--;
+            j--
+            k--;
+        }
+
+        if(carry > 0){
+            System.out.println(carry);
+        }
+
+        for(int val : sum){
+            System.out.println(val);
+        }
+    }
+
+
+
+##################################
+DIFFERENCE OF 2 ARRAYS
+
