@@ -545,3 +545,151 @@ class Solution {
 }
 
 
+
+
+###############################################################################################
+###############################################################################################
+
+
+#################
+STACKS
+-> Array fixed sized ka rehta hai...get and set function O(1) constant time mein ho jaata hai
+-> stack mein sirf upar wale element hi accesible hai...add - push, remove - pop, check - peek, size - size
+
+Duplicate Brackets
+You are given a string exp representing an exp. Assume that he exp is balanced i.e. the opening and closing brackets match with each other, but some of the pairs may be
+extra. You are required to print true if u detect extra brackets else false
+
+(a+b) + ((c+d)) - true
+((a+b)+(c+d)) - false
+
+Har character ko stack ke andar push karte raho jabh tak closing bracket na mil jaaye...closing bracket milte hi...start poping the characters till u reach an open bracket
+and then pop that open bracket also
+Agar pop karte time seedha hi usko open bracket mil jaata hai toh matlab ki woh duplicate brackets hai as they include the same thing as some other bracket
+
+public class stacks{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+
+        Stack <Character> st = new Stack<>();
+        for(int i = 0;i<str.length();i++){
+            char ch = str.charAt(i);
+            if(ch == ')'){
+                // agar closing bracket hai toh pop karte jaao
+                if(st.peek() == '('){
+                    System.out.println("true");
+                }
+                else{
+                    while(st.peek() == '('){
+                        st.pop();
+                    }
+                    st.pop();
+                }
+
+                // closing bracket ke aate hi check karo ki top most element 
+                // ) yeh toh ni ..if yes matlab duplicate so true
+                // agar i toh pop karte jaao jabh tak ( yeh ni milta
+                // milne ke baad isko bhi pop
+
+            }else{
+                st.push(ch);
+                //agar woh closing bracket ni hai toh stack mein push karte jayenge
+            }
+        }
+        System.out.println("false");
+
+    }
+}
+
+
+###############
+BALANCED BRACKETS
+You are given a string exp representing an expression. You are required to check if the exp is balanced i.e. opening and closing brackets match up well
+We need to check if same brackets opening and closing , there should be same number of brackets (), {} , []
+
+-> agar sabh 0 ho gaya last mein stack ka size...matlab saare brackets ke pairs the
+-> agar stack mein kuch bach gaya after pushing matlab ki opening brackets zyada hai
+-> agar stack pop karate waqt hi zero hai size matlab ki closing brackets are more than opening brackets
+
+-> stack mein sirf brackets ko push karna hai....opening brackets push hoga...closing bracket hua toh pop karna hai...peek karke dekho ki joh closing bracket hai
+-> uska hi opening bracket top pe hai ya ni..agar hai toh pop kardo...ni hai toh false return kardo
+
+public class stacks{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        String str = sc.next();
+
+        Stack<Character> st = new Stack<>();
+
+        for(int i = 0;i<str.length();i++){
+            char ch = str.charAt(i);
+            if(ch == '(' || ch == '[' || ch == '{'){
+                st.push(ch);
+            }
+            else if(ch == ')'){
+                if(st.size() == 0){
+                    System.out.println("false");
+                }
+                else if(st.peek() != '('){
+                    System.out.println("false");
+                }
+                else{
+                    st.pop();
+                }
+            }
+            else if(ch == '}'){
+                if(st.size() == 0){
+                    System.out.println("false");
+                }
+                else if(st.peek() != '}'){
+                    System.out.println("false");
+                }
+                else{
+                    st.pop();
+                }
+            }
+            else if(ch == ']'){
+                if(st.size() == 0){
+                    System.out.println("false");
+                }
+                else if(st.peek() != ']'){
+                    System.out.println("false");
+                }
+                else{
+                    st.pop();
+                }
+            }
+        }
+        if(st.size() == 0){
+            // sabh karne ke baad dekho stack ka size zero 
+            // matlab saare brackets are sorted
+            System.out.println("True");
+        }
+        else{
+            System.out.println("False");
+        }
+    }
+}
+
+
+#######################
+Next Greater Element on the Right
+
+Given an array with n numbers, print the next greater element for all numbers in that array
+
+-> ek approach hai ki double for loop lekr check kare but usmein O(n^2) Time COmplexity aa jayega which is not right
+
+
+#####################
+Stock Span 
+
+Given an array with n numbers representing the price of shares on n days. You are reuested to find the stock span for n days. Stock span is defined as the number of the days
+passed between the current day and the first day before today when price was higher than today
+
+####################
+Largest Area Histogram
+
+Given an array with n numbers which represents the heiht of bars. You are required to find and print the area of the largest rectangle in the histogram
+
+
