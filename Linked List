@@ -1,8 +1,176 @@
-#################################
-LINKED LIST
+##################
+ADD LAST IN A LINKED LIST
+
+    public static void main(String[] args){
+        public class Node{
+            int data;
+            Node next;
+        }
+
+        public class LinkedList{
+            Node head;
+            Node tail;
+            int size;
+        }
+
+        void addLast(int val){
+            // step1 - make a new node
+            // step2 - data add kardo
+            // step3 - uska next null
+            // step4 - present tail ke next pe iss new node ka add likhdo
+            // step5 - new node ko tail banado
+            // step6 - size++
+
+            if(size == 0){
+                Node temp = new Node();
+                temp.data = val;
+                temp.next = null;
+                head = tail = temp;
+                size++;
+            }
+
+            else{
+                Node temp = new Node();
+                temp.data = val;
+                temp.next = null;
+                tail.next = temp;
+                tail = temp;
+                size++;
+            }
+        }
+    }
+
+
+##################
+DISPLAY AND SIZE OF LINKED LIST
+
+        public int size(){
+            return size;
+        }
+
+        public void display(){
+            Node temp = head; // ek temp variable ko head pe rakho
+            // loop lagao jabh tak woh last node pe na pahunch jaaye
+            // last node matlab jabh tak null na aa jaaye
+            while(temp != null){
+                System.outprintln(temp.data + " ");
+                temp = temp.next;
+            }
+            System.outprintln();
+        }
+
+
+##################
+REMOVE FIRST FROM LINKED LIST
+
+        public void removeFirst(){
+            if(size == 0){
+                System.out.println("List is Empty");
+            }
+            else if(size == 1){
+                head = tail = null;
+                size = 0;
+            }
+            else{
+                head = head.next;
+                size--;
+            }
+        }
+
+##################
+GET VALUE IN LINKED LIST
+
+##################
+##################
+##################
+##################
+##################
+##################
+##################
+##################
+##################
+##################
+##################
+##################
+##################
+LINKED LIST TO QUEUE ADAPTER
+
+        public class LLToQueue {
+            LinkedList<Integer> list;
+
+            public LLToQueue(){
+                list = new LinkedList<>();
+            }
+
+            int size(){
+                list.size();
+            }
+
+            void add(int val){
+                list.addLast(val);
+            }
+
+            int remove(){
+                if(size() == 0){
+                    System.out.println("Queue Underflow");
+                    return -1;
+                }
+                else{
+                    return list.removeFirst();
+                }
+            }
+
+            int peek(){
+                if(size() == 0){
+                    System.out.println("Queue Underflow");
+                    return -1;
+                }
+                else{
+                    return list.getFirst();
+                }
+            }
+        }
 
 
 
+##################
+Kth ELEMENT FROM END IN LINKED LIST
+
+        public int kthNodeFromLast(int k){
+            // size - 1 karke bhi kar sakte hai last se print
+            Node slowpt = head;
+            Node fastpt = head;
+
+            for(int i = 0;i<k;i++){
+                // pehle fast pointer ko start se kth element pe le aao
+                fastpt = fastpt.next;
+            }
+
+            // fast pointer ko move karate raho jabh tak woh last element na pahunch jaaye
+            // saath saath slow pointer ko bhi move karate jaao 
+            // jabh woh fast pt last element pe hoga ...slow pt last ke kth element pe hoga
+            while(fastpt != tail){
+                slowpt = slowpt.next;
+                fastpt = fastpt.next;
+            }
+            return slowpt.data;
+        }
+
+
+
+##################
+MIDDLE OF LINKED LIST
+
+        public int mid(){
+            Node slowpt = head;
+            Node fastpt = head;
+
+            while(fastpt.next != null && fastpt.next.next != null){
+                slowpt = slowpt.next;
+                fastpt = fastpt.next.next;
+            }
+            return slowpt;
+        }
 
 
 #######################
