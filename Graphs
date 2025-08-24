@@ -1,3 +1,12 @@
+-> represent karne ke 2 tareeke - adjacency matrix and adjacency list
+-> Graph mein edges aur vertices rehte hai\
+-> Humlog ek arraylist banayenge which consists of arrays of edges (src-nbr-wt) for each vertice
+Suppose graph mein 3 vertex hai
+
+0 - 0-1-3,0-2-5
+1 - 1-0-3,1-2-9
+2 - 2-0-5,2-1-9
+
 ##########################
 YOU ARE GIVEN A GRAPH,A SRC VERTEX AND A DESTINATION VERTEX. YOU RAE REQUIRED TO FIND IF A PATH
 EXISTS BETWEEN SRC AND DEST. IF IT DOES PRINT IT ELSE RETURN FALSE
@@ -15,6 +24,67 @@ EXISTS BETWEEN SRC AND DEST. IF IT DOES PRINT IT ELSE RETURN FALSE
 0
 6
 
+static class Edge{
+        int src;
+        int nbr;
+        int wt;
+
+        Edge(int src, int nbr, int wt){
+            this.src = src;
+            this.nbr = nbr;
+            this.wt = wt;
+        }
+    }
+
+
+    public static boolean hasPath(ArrayList<Edge>[] graph, int src, int dest, boolean[] visited){
+        if(src == dest){
+            return true;
+        }
+
+        visited[src] = true;
+
+        for(ArrayList<Edge> edge : graph[src]){
+            if(visited[edge.nbr] == false){
+                boolean NeighHasPath = hasPath(graph, edge.nbr, dest,visited);
+                if(NeighHasPath == true){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    public static void main(String[] args){
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int vtces = Integer.parseInt(br.readLine());
+        ArrayList<Edge>[] graph = new ArrayList[vtces];
+        // suppose vtces = 3
+
+        // yahan tak graph = [ , , ] kuch aisa dikhega
+        for(int i = 0;i<vtces;i++){
+            graph[i] = new ArrayList<>();
+        }
+
+        // graph = [ [], [], [] ]
+
+        int edges = Integer.parseInt(br.readLine());
+        for(int i = 0;i<edges;i++){
+            String[] parts = br.readLine().split(" ");
+            int v1 = Integer.parseInt(parts[0]);
+            int v2 = Integer.parseInt(parts[1]);
+            int wt = Integer.parseInt(parts[2]);
+            graph[v1].add(new Edge(v1,v2,wt));
+            graph[v2].add(new Edge(v2,v1,wt));
+        }
+
+        int src = Integer.parseInt(br.readLine());
+        int dest = Integer.parseInt(br.readLine());
+
+        boolean[] visited = new boolean[vtces];
+        boolean path = hasPath(graph, src, dest,visited);
+
+    }
 
 
 ##########################
