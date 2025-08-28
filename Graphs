@@ -1,5 +1,5 @@
 -> represent karne ke 2 tareeke - adjacency matrix and adjacency list
--> Graph mein edges aur vertices rehte hai\
+-> Graph mein edges aur vertices rehte hai
 -> Humlog ek arraylist banayenge which consists of arrays of edges (src-nbr-wt) for each vertice
 Suppose graph mein 3 vertex hai
 
@@ -8,7 +8,7 @@ Suppose graph mein 3 vertex hai
 2 - 2-0-5,2-1-9
 
 ##########################
-YOU ARE GIVEN A GRAPH,A SRC VERTEX AND A DESTINATION VERTEX. YOU RAE REQUIRED TO FIND IF A PATH
+YOU ARE GIVEN A GRAPH,A SRC VERTEX AND A DESTINATION VERTEX. YOU ARE REQUIRED TO FIND IF A PATH
 EXISTS BETWEEN SRC AND DEST. IF IT DOES PRINT IT ELSE RETURN FALSE
 
 7
