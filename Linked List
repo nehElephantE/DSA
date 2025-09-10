@@ -2,6 +2,33 @@
 ADD LAST IN A LINKED LIST
 
     public static void main(String[] args){
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        LinkedList list = new LinkedList();
+
+        String str = br.readLine();
+        while(str.equals("quit") == false){
+            if(str.startsWith("addLast")){
+                int val = Integer.parseInt(str.split(" ")[1]);
+                list.addLAst(val);
+            }
+            str = br.readLine();
+        }
+
+        testList(list);
+
+        public static void testList(LinkedList list){
+            for(Node temp = list.head; temp != null; temp = temp.next){
+                System.out.println(temp.data);
+            }
+            System.out.println(list.size);
+
+            if(list.size > 0){
+                System.out.println(list.tail.data);
+            }
+        }
+
+
         public class Node{
             int data;
             Node next;
@@ -81,6 +108,28 @@ REMOVE FIRST FROM LINKED LIST
 
 ################################
 GET VALUE IN LINKED LIST
+
+public int getFirst(){
+            if(size == 0){
+                System.out.println("List is empty");
+                return -1;
+            }
+            else{
+                return head.data;
+            }
+
+
+        }
+
+        public int getLast(){
+            if(size == 0){
+                System.out.println("List is empty");
+                return -1;
+            }
+            else{
+                return tail.data;
+            }
+        }
 
         public int getAt(int idx){
             if(size == 0){
