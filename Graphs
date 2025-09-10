@@ -333,8 +333,168 @@ public static void main(String[] args){
 
 
 ##########################
+BREADTH FIRST TRAVERSAL (BFS)
+
+    class Pair{
+        int v;
+        String psf; //Path so far
+
+        Pair(int v, String psf){
+            this.v = v;
+            this.psf = psf
+        }
+    }
+
+    
+    // Tree mein level order mein queue use hota hai...BFS is level order only hence ismein bhi queue use hoga
+    // pehle queue mein source aur source tak ka part daalkr rakhna hai (2_2)
+    // Use this - R M* W A* - Remove...Mark * (visit ho gaya...agar already * hai toh continue)....
+    // Work (Print kar do paths)...Add * ( Add the nbr jiske star ni marked hai)
+    // 
+
+    public static void main(String[] args){
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int vtces = Integer.parseInt(br.readLine());
+        ArrayList<Edge>[] graph = new ArrayList[vtces];
+        // suppose vtces = 3
+
+        // yahan tak graph = [ , , ] kuch aisa dikhega
+        for(int i = 0;i<vtces;i++){
+            graph[i] = new ArrayList<>();
+        }
+
+        // graph = [ [], [], [] ]
+
+        int edges = Integer.parseInt(br.readLine());
+        for(int i = 0;i<edges;i++){
+            String[] parts = br.readLine().split(" ");
+            int v1 = Integer.parseInt(parts[0]);
+            int v2 = Integer.parseInt(parts[1]);
+            int wt = Integer.parseInt(parts[2]);
+            graph[v1].add(new Edge(v1,v2,wt));
+            graph[v2].add(new Edge(v2,v1,wt));
+        }
+
+        int src = Integer.parseInt(br.readLine());
+        int dest = Integer.parseInt(br.readLine());
+        int criteria = Integer.parseInt(br.readLine());
+        int k = Integer.parseInt(br.readLine());
+
+
+        ArrayDeque<Pair> queue = new ArrayDeque<>();
+        queue.add(new Pair(src, src+"")); // queue mein src aur uske utne tak ka path add kiya
+        boolean[] visited = new boolean[vtces];
+
+        while(queue.size() > 0){
+            //R M* W A*
+            Pair rem = queue.removeFirst();
+
+            if(visited[rem.v] == true){
+                continue;
+            }
+            visited[rem.v] = true;
+            System.out.println(rem.v + "@" + rem.psf);
+
+            for(Edge e : graph[rem.v]){
+                if(visited[e.nbr] == false){
+                    queue.add(new Pair(e.nbr, rem.psf + e.nbr)); // path hoga remove wale ke path mein nbr ko add
+                }
+            }
+        }
+
+
+
 ##########################
+IS A GRAPH CYCLIC
+
+// har vertex se check karna hai bfs use karke ...ki agar we come across a verex joh already marked hai matlab humlog pehle idhar aaye hai hence cyclic
+
+    class Pair{
+        int v;
+        String psf; //Path so far
+
+        Pair(int v, String psf){
+            this.v = v;
+            this.psf = psf
+        }
+    }
+
+public static boolean IsCyclic(ArrayList<Edge>[] graph, int src, boolean[] visited){
+        ArrayDeque<Pair> queue = new ArrayDeque<>();
+        queue.add(new Pair(src, src+"")); // queue mein src aur uske utne tak ka path add kiya
+        boolean[] visited = new boolean[vtces];
+
+        while(queue.size() > 0){
+            //R M* W A*
+            Pair rem = queue.removeFirst();
+
+            if(visited[rem.v] == true){
+                return true;
+            }
+            visited[rem.v] = true;
+
+            for(Edge e : graph[rem.v]){
+                if(visited[e.nbr] == false){
+                    queue.add(new Pair(e.nbr, rem.psf + e.nbr)); // path hoga remove wale ke path mein nbr ko add
+                }
+            }
+        }
+
+        return false;
+    }
+    
+
+public static void main(String[] args){
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int vtces = Integer.parseInt(br.readLine());
+        ArrayList<Edge>[] graph = new ArrayList[vtces];
+        // suppose vtces = 3
+
+        // yahan tak graph = [ , , ] kuch aisa dikhega
+        for(int i = 0;i<vtces;i++){
+            graph[i] = new ArrayList<>();
+        }
+
+        // graph = [ [], [], [] ]
+
+        int edges = Integer.parseInt(br.readLine());
+        for(int i = 0;i<edges;i++){
+            String[] parts = br.readLine().split(" ");
+            int v1 = Integer.parseInt(parts[0]);
+            int v2 = Integer.parseInt(parts[1]);
+            int wt = Integer.parseInt(parts[2]);
+            graph[v1].add(new Edge(v1,v2,wt));
+            graph[v2].add(new Edge(v2,v1,wt));
+        }
+
+        int src = Integer.parseInt(br.readLine());
+        int dest = Integer.parseInt(br.readLine());
+        int criteria = Integer.parseInt(br.readLine());
+        int k = Integer.parseInt(br.readLine());
+
+      
+        boolean[] visited = new boolean[];
+        for(int v =0;v<vtces;v++){
+            if(visited[v] == false){
+                boolean cyclic = IsCyclic(graph, v, visited);
+                if(cyclic){
+                    System.out.println("Graph is Cyclic");
+                }
+            }
+        }
+    }
+
+
+
 ##########################
+IS A GRAPH BIPARTITE
+
+// bipartite means its possible to divide the vertex into 2 grps of mutually exhaustive and exclusive grps so that edges are across sets
+// every non cyclic graph is bipartite
+// odd size cyclic - non bipartite....even size cyclic- bipartite
+
+
+
 ##########################
 ##########################
 ##########################
