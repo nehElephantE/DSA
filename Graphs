@@ -308,17 +308,21 @@ public static void main(String[] args){
 
         int src = Integer.parseInt(br.readLine());
         int dest = Integer.parseInt(br.readLine());
-
+        ArrayList<ArrayList<Integer>> comps = new ArrayList<>();
         boolean[] visited = new boolean[vtces];
 
         for(int v = 0;v<vtces;v++){
             if(visited[v] == false){
                 ArrayList<Integer> comp = new ArrayList<>();
                 drawTree(graph, v,comp, visited);
-                comp.add(comp);
+                comps.add(comp);
             }
         }
+
+        System.out.println(comps);
     }
+
+// tree ussi ka banega joh unvisited hoga...aur neighbours bhi wohin joh unvisited honge
 
     public static void drawTree(ArrayList<Edge>[] graph, int src, ArrayList<Integer> comp, boolean[] visited){
         visited[src] = true;
@@ -329,6 +333,23 @@ public static void main(String[] args){
             }
         }
     }
+
+
+##########################
+IS GRAPH CONNECTED
+
+// a graph is connected if har vertex se har vertex pe jaa sakte hai
+// toh get connected components wale code mein humara outer array list ka size 1 hona chahiye tabhi graph connected hoga
+
+if(comps.size() == 1){
+        System.out.println(" graph connected");
+}
+
+
+##########################
+COUNT NUMBER OF ISLANDS - GIVEN A 2D ARRAY OF 0s and 1s WHERE 0 REPRESENTS LAND AND 1 REPRESENTS WATER. EACH ONE IS CONNECTED IN 4 DIRECTIONS ...(NEWS)
+
+// every cell is a vertex...toh get connected components jaise hi har ek vertex se tree banate hai...joh banega utna woh component
 
 
 
