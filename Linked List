@@ -293,6 +293,52 @@ REMOVE AT INDEX
         }
 
 
+################################
+LINKED LIST TO STACK ADAPTER
+
+// ya toh add first ...remove first...get first .........ya ya toh add last ...remove last...get last.....first wala se karna better hoga because...O(1) se last wala
+// ni hai...first wala hi hai...last wale mein second last node tak loop chalakr aana hota hai...
+// linked list as stack will look like...arrow neeche ke taraf point karenge
+N3
+|.
+N2
+|.
+N1
+
+public class LLToStack {
+            LinkedList<Integer> list;
+
+            public LLToStack(){
+                list = new LinkedList<>();
+            }
+
+            int size(){
+                return list.size();
+            }
+
+            void push(int val){
+                list.addFirst(val);
+            }
+
+            int pop(){
+                if(size() == 0){
+                    System.out.println("Stack Underflow");
+                    return -1;
+                }else{
+                    return list.removeFirst();
+                }
+            }
+
+            int top(){
+                if(size() == 0){
+                    System.out.println("Stack Underflow");
+                    return -1;
+                }
+                else{
+                    return list.getFirst();
+                }
+            }
+        }
 
 ################################
 LINKED LIST TO QUEUE ADAPTER
@@ -372,4 +418,79 @@ MIDDLE OF LINKED LIST
             }
             return slowpt;
         }
+
+
+
+################################
+MERGE 2 LINKED LIST
+
+// 2 pointer ek ek dono linked list ke head pe rakhte...compare karte konsa chota woh add then pointer uss chotte wale ka aage badha dete...then again compare...
+// chotta toh add ...chotte wale ka pointer aage
+
+public static LinkedList mergeList(LinkedList l1, LinkedList l2){
+        Node one = l1.head;
+        Node two = l2.head;
+
+        LinkedList newlist = new LinkedList();
+
+        while(one != null && two != null){
+            if(one.data < two.data){
+                newlist.addLast(one.data);
+                one = one.next;
+            }else{
+                newlist.addLast(two.data);
+                two = two.next;
+            }
+        }
+
+        while(one != null){
+            newlist.addLast(one.data);
+            one = one.next;
+        }
+
+        while(two != null){
+            newlist.addLast(two.data);
+            two = two.next;
+        }
+
+        return newlist;
+    }
+
+
+
+################################
+MERGE SORT A LINKED LIST
+
+// pass the head and tail of a linked list
+// mid pt nikala and linked list ko 2 parts mein divide kar liya
+// phir recusrsion call lagayenge humlog inn dono parts mein ...head and tail....middle pt...again dividing it to 2 sets
+// toh woh end tak aisa kuch hoga ki linked list ke saare elements sirf ek node bankr reh jayenge ...matlab ek linked list jismein sirf 1 node hai
+// then we use the merge 2 linked list wala code to sort all the linked list
+
+    public static Node midNode(Node head, Node tail){
+        Node f = head;
+        Node s = head;
+
+        while(f  != tail && f.next != tail){
+            f = f.next.next;
+            s = s.next;
+        }
+
+        return s;
+    }
+
+    public static LinkedList mergeSort(Node head, Node tail){
+        if(head == tail){
+            // jabh recursion mein divide hote hote last tak pahunch jaaye toh
+            LinkedList br = new LinkedList();
+            br.addLast(head.data);
+            return br;
+        }
+
+        Node mid = midNode(head, tail);
+        LinkedList l1 = mergeSort(head, mid);
+        LinkedList l2 = mergeSort(mid, tail);
+        LinkedList finalList = mergeList(l1, l2);
+        return finalList;
+    }
 
