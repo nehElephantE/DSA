@@ -494,3 +494,8 @@ MERGE SORT A LINKED LIST
         return finalList;
     }
 
+
+
+################################
+REMOVE DUPLICATES IN A SORTED LINKED LIST
+
