@@ -302,6 +302,99 @@ ON GETTING 1 TAKE A 90 DEGREE RIGHT TURN. YOU ARE REQUIRED TO PRINT THE INDICES 
 #################################
 #################################
 #################################
+SADDLE POINT
+
+SADDLE POINT IS DEFINED AS A POINT THAT IS SMALLEST IN ITS ROW AND LARGEST IN ITS COLUMN
+
+-> every matrix will have only 1 saddle point
+
+public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int r = s.nextInt();
+        int c = s.nextInt();
+        int[][] arr = new int[r][c];
+        for(int i = 0;i<arr.length;i++){
+            for(int j = 0;j<arr[0].length;j++){
+                arr1[i][j] = s.nextInt();
+            }
+        }
+
+        // rows pe loop lagaya
+
+        for(int i = 0;i<arr.length;i++){
+
+            int lcj = 0; // maan lete hai ki uss row mein least col
+            // jahan saddle pt pada hua hai woh 0 index pe hai
+            for(int j = 0;j<arr[0].length;j++){
+                if(arr[i][j] < arr[i][lcj]){
+                    lcj = j;
+                }
+            }
+
+            boolean flag = true;
+
+            // abh joh column mein chotta element mila 
+            // uss column ke rows mein travel kiye to find if its
+            // the largest in that col
+
+            for(int k = 0; k < arr.length;k++){
+                if(arr[k][lcj] > arr[i][lcj]){
+                    flag = false;
+                    break;
+                }
+            }
+
+            if(flag == true){
+                System.out.println(arr[i][lcj]);
+                return;
+            }
+        }
+
+        System.out.println("Invalid Input");
+    }
+
+
+
+
 #################################
+SEARCH IN SORTED 2-D ARRAY
+
+-> ek 2D array rows and cols wise sorted diya hai...toh humlog ko joh element dhoondhna hai usko 1st row ke last col pe rakhte...arr[0][n]
+-> iss position ke neeche wale numbers will be greater than arr[0][n] and peeche waale will bhi small
+
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        int r = s.nextInt();
+        int c = s.nextInt();
+        int[][] arr = new int[r][c];
+        for(int i = 0;i<arr.length;i++){
+            for(int j = 0;j<arr[0].length;j++){
+                arr1[i][j] = s.nextInt();
+            }
+        }
+
+        int x = sc.nextInt();
+
+        int i = 0;
+        int j = arr[0].length - 1;
+
+        // jabh tak saare rows ni cover hue hai columns humlog 0 tak ni pahunche
+        while(i < arr.length && j >= 0){
+            if(x == arr[i][j]){
+                System.out.println(i);
+                System.out.println(j);
+                return;
+            }
+            else if(x < arr[i][j]){
+                j--;
+            }
+            else{
+                i++;
+            }
+        }
+    }
+
+
+
 #################################
 
