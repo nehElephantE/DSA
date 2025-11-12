@@ -121,6 +121,99 @@ lekin print pehle aise case mein carry hoga then the sum
 ##################################
 DIFFERENCE OF 2 ARRAYS
 
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[] arr1 = new int[n];
+        int[] arr2 = new int[m];
+        
+
+        for(int i = 0;i<n;i++){
+            arr1[i] = sc.nextInt();
+        }
+
+        for(int i = 0;i<n;i++){
+            arr2[i] = sc.nextInt();
+        }
+
+        int[] diff = new int[m]; // considering m > n
+
+        int c = 0; // denotes carry
+        int i = arr1.length - 1;
+        int j = arr2.length - 1;
+        int k = diff.length - 1;
+
+        while(k >= 0){
+            //arr2-arr1
+
+            int d = 0;
+            int a1v = i >= 0 ? arr1[i] : 0;
+            // agar arr1 khali hua toh 0 daal de wahan
+
+            if(arr2[j] + c >= a1v){
+                d = arr2[j]  + c - a1v;
+                c = 0;
+            }
+            else{
+                d = arr2[j] + c + 10 - a1v;
+                c = -1;
+            }
+
+            diff[k] = d;
+            i--;
+            j--;
+            k--;
+        }
+
+        // preceding 0 ni print karna
+
+        int idx = 0;
+        while(idx < diff.length){
+            if(diff[idx] == 0){
+                idx++;
+            }
+            else{
+                break;
+            }
+        }
+
+        while(idx < diff.length){
+            System.out.println(diff[idx]);
+            idx++;
+        }
+
+
+
+#################################
+REVERSE AN ARRAY
+
+
+        int i = 0;
+        int j  = arr.length - 1;
+        while(i < j){
+            int temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+
+            i++;
+            j--;
+
+
+
+
+#################################
+ROTATE AN ARRAY
+ROTATE THE ARRAY K TIMES TO THE RIGHT(FOR +VE VALUES OF K) OR LEFT (FOR -VE VALUES OF K)
+
+
+
+
+
+#################################
+#################################
+#################################
+#################################
+
 
 
 #################################
