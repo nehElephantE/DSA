@@ -28,6 +28,39 @@ public class player {
 }
 
 the time complexity is directly proportional to 2^n
+For fib(n), it makes 2 recursive calls: fib(n-1) and fib(n-2)
+Each of those makes 2 more recursive calls, and so on
+This creates a binary recursion tree where each node has 2 children
+
+                fib(5)
+               /      \
+          fib(4)      fib(3)
+         /      \     /      \
+     fib(3)  fib(2) fib(2)  fib(1)
+    /    \    /   \   /  \
+ fib(2) fib(1) ... and so on
+
+
+-> Binet's formula
+F(n) = (φⁿ - ψⁿ) / √5
+φ (phi) = (1 + √5) / 2 ≈ 1.61803 (golden ratio)
+ψ (psi) = (1 - √5) / 2 ≈ -0.61803
+
+public static int fibBinet(int n) {
+    if (n == 0 || n == 1) {
+        return n;
+    }
+    
+    double sqrt5 = Math.sqrt(5);
+    double phi = (1 + sqrt5) / 2;
+    double psi = (1 - sqrt5) / 2;
+    
+    // Using rounding to handle floating-point precision
+    return (int) Math.round((Math.pow(phi, n) - Math.pow(psi, n)) / sqrt5);
+}
+
+-> O(1) time complexity
+
 
 
 -> optimised code
@@ -71,8 +104,11 @@ You are on the 0th step and are required to climb to the top
 in 1 move you are allowed to climb 1,2 or 3 stairs
 you are required to print the number of different paths via which you can climb to the top
 
+
+// source se destination jaane ke liye humlog 1..2..3 steps jaa sakte ...abh wahan se let say x,y,z aage aur paths hai ...so total paths = x+y+z
 // 0 to 0 bhi ek path count hoga
 // 0 to n mein (n-1), (n-2), (n-3) se jitne paths hai unko add karna hai matlab
+
 
 -> this code solves the same thing again
 public class player {
@@ -129,6 +165,9 @@ step3 : travel and solve
 
 cell
 
+arr[0] pe stored hoga 0 to 0 jaane ka raasta kitna hai....arr[3] pe store hoga 4 to 0 jaane ke raaste kitne hai - step 1 (storage and meaning)
+0 se 0 jaana chotti problem hai toh left 2 right hoga traversal
+
 | 0 | 1 | 2 | 3 | 4 | 5 | 6 |
   1   1    2   4   7  13  24
 ek cell se jaane ke teen raste n-1,n-2 aur n-3 toh chote ko solve karo aur bade ki taraf badho
@@ -166,16 +205,18 @@ CLIMB STAIRS WITH VARIABLE JUMPS
 question : every step has a number associated with it which decides how many jumps can one take from that step
 
 -> using tabulation
- 
+
+
+arr[0] pe store hoga 0 to 6 jaane ka raasta ....arr[6] pe store hoga 6 se 6 jaane ka raasta hence traversal - right -> left
+
+array showing how many jumps allowed per stair
+| 0 | 1 | 2 | 3 | 4 | 5 | 6 |
+   3  3   0   2   2   3
 
 | 0 | 1 | 2 | 3 | 4 | 5 | 6 |
   8   5   0   3   2   1   1
 direction of filling right se left hogi kyuki 6 to 6 jaane ka 1 hi possibility
 baaki ka dusre array se dekhkr bata sakte
-
-array to store how many jumps at each step
-| 0 | 1 | 2 | 3 | 4 | 5 | 6 |
-   3  3   0   2   2   3
 
 
 public class player {
@@ -214,6 +255,7 @@ ques : you are given a number 'n' representing the number of stairs in a stairca
        you are required to print the minimum moves in which you can reach the top of staircase
 
 -> Integer[] arr null as default store karega aur int[] 0 as default
+-> arr[0] se arr[0] pe 1 path hai but 0 moves toh humlog moves sore kar rahe hai in the dp array
 -> min(x,y,z)+1....
 public class kannu {
     public static void main(String[] args){
@@ -226,7 +268,7 @@ public class kannu {
         }
 
         Integer[] dp = new Integer[n+1];
-        dp[n] = 0;
+        dp[n] = 0; // moves are 0 ...paths are 1
         for(int i =n-1;i>=0;i--){
             if(arr[i]>0){
                 int min = Integer.MAX_VALUE;
